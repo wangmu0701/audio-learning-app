@@ -1,3 +1,9 @@
+## Requirement (Critical Always remember)
+
+1: Always reply in Chinese.
+
+2: Don't write code unless I ask you to, only show ideas and ask for approval to start coding.
+
 ## Product Vision
 
 A pure audio-based Japanese learning app for absolute beginners (N5 level) designed for commute-time learning. The app generates fresh, interesting daily content that teaches Japanese through natural exposure and repetition, similar to how babies learn language.

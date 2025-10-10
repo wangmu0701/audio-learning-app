@@ -62,7 +62,7 @@ Please format your response according to the provided JSON schema.
             logger.info("Querying Gemini for story ideas with JSON schema...")
             
             generation_config = GenerationConfig(
-                model_name="gemini-2.5-flash",
+                model_name=self.llm_model_name,
                 temperature=0.8,
                 max_tokens=20000,
                 top_p=1.0,
@@ -70,20 +70,8 @@ Please format your response according to the provided JSON schema.
             )
             response = self.llm_provider.generate_response(prompt, generation_config)
             
-            text = response.strip()
-            
-            # The response should be a JSON object now, so markdown stripping might not be needed,
-            # but it's kept here as a safeguard.
-            if text.startswith('```json'):
-                text = text[7:]
-            if text.startswith('```'):
-                text = text[3:]
-            if text.endswith('```'):
-                text = text[:-3]
-            text = text.strip()
-            
             # Parse the JSON object and extract the list of story ideas
-            story_ideas = json.loads(text)["story_ideas"]
+            story_ideas = json.loads(response.strip())["story_ideas"]
             
             logger.info(f"Successfully generated {len(story_ideas)} story ideas.")
             

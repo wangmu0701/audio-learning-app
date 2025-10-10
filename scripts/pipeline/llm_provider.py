@@ -49,7 +49,7 @@ class LLMProvider:
         try:
             api_key = os.getenv("OPENAI_API_KEY")
             if api_key:
-                self.openai_client = openai.OpenAI(proxies=None)
+                self.openai_client = openai.OpenAI()
                 self.logger.info("OpenAI client initialized successfully.")
             else:
                 self.logger.warning("OPENAI_API_KEY not found. OpenAI client not initialized.")
@@ -74,7 +74,6 @@ class LLMProvider:
             if api_key:
                 self.glm_client = openai.OpenAI(
                     base_url="https://open.bigmodel.cn/api/paas/v4/",
-                    proxies=None
                 )
                 self.logger.info("GLM client initialized successfully.")
             else:
