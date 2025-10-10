@@ -83,12 +83,12 @@ Please format your response according to the provided JSON schema.
             
         except json.JSONDecodeError as e:
             logger.error(f"Error parsing JSON response from LLM: {e}")
-            logger.error(f"Raw response text: {text}")
+            logger.error(f"Raw response text: {response}")
             raise
             
         except (KeyError, TypeError) as e:
             logger.error(f"Error extracting 'story_ideas' from LLM response: {e}")
-            logger.error(f"Parsed object: {text}")
+            logger.error(f"Parsed object: {response}")
             raise
 
         except Exception as e:

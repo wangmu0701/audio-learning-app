@@ -60,8 +60,11 @@ def main():
             breakdown = story.get('story_breakdown', [])
             if breakdown:
                 first_sentence = breakdown[0]
-                num_tokens = len(first_sentence.get('tokens_ja', []))
-                logger.info(f"  - '{title}': First sentence has {num_tokens} tokens.")
+                sentence_romaji = first_sentence.get('sentence_romaji', '')
+                words = first_sentence.get('words', [])
+                logger.info(f"  - '{title}': First sentence romaji: '{sentence_romaji}'")
+                if words:
+                    logger.info(f"    First word: {words[0]}")
     else:
         logger.warning("The stage did not return any stories.")
 

@@ -90,3 +90,6 @@ scripts/.venv/
 # Generated data
 scripts/output/
 scripts/output/audio/
+
+# tmp logs
+tmp*
