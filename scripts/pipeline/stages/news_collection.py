@@ -1,4 +1,3 @@
-import google.generativeai as genai
 from typing import List, Dict
 import sys
 import os
@@ -13,77 +12,68 @@ from pipeline.logger import get_logger
 logger = get_logger(__name__)
 
 class NewsCollectionStage(PipelineStage):
-    """Stage 1: Generate news items using Gemini (without search for now)"""
+    """Stage 1: Generate language-agnostic story ideas in English."""
     
-    def __init__(self, config: dict):
+    def __init__(self, config: Dict):
         super().__init__(config)
-        self.lang_config = {
-            'native': 'en',
-            'learning': 'ja',
-            'native_name': 'English',
-            'learning_name': 'Japanese',
-            'romanization': 'romaji',
-        }
         self.llm_provider = LLMProvider()
     
     def process(self, date: str) -> List[Dict]:
         """
-        Generate news-like items for the given date.
-        
-        Note: Currently generates content directly without real-time search.
-        Can be upgraded to use Google Search grounding later.
+        Generates diverse, language-agnostic story ideas for the given date.
+        The output (titles, summaries) is in English.
         """
-        logger.info(f"Generating news content for {date}...")
-        logger.info(f"Language pair: {self.lang_config['native_name']} -> {self.lang_config['learning_name']}")
-        logger.warning("Using direct generation (not real-time search)")
+        logger.info(f"Generating language-agnostic story ideas for {date}...")
         
-        native_lang = self.lang_config['native']
-        summary_lang = "English" if native_lang == "en" else "Chinese"
-        
+        story_ideas_schema = {
+            "type": "object",
+            "properties": {
+                "story_ideas": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "title": {
+                                "type": "string",
+                                "description": "A short, catchy title in English."
+                            },
+                            "summary": {
+                                "type": "string",
+                                "description": "A brief summary in English (2-3 sentences)."
+                            }
+                        },
+                        "required": ["title", "summary"]
+                    }
+                }
+            },
+            "required": ["story_ideas"]
+        }
+
         prompt = f"""
-You are creating educational content for Japanese language learners.
+You are creating educational content for language learners.
 
-Generate 5 interesting story ideas that would be good for Japanese language learners whose native language is {summary_lang}.
-These should be based on typical Japanese news topics and everyday scenarios.
-Cover diverse topics: technology, food, travel, culture, business, daily life, etc.
+Generate 5 interesting and diverse story ideas based on news, trends, or everyday scenarios.
+The ideas should be simple, easy to visualize, and suitable for beginners.
 
-For each story idea, provide:
-1. A catchy Japanese title (short, 5-10 characters)
-2. A brief summary in {summary_lang} (2-3 sentences)
-3. The main topic category (choose from: 科技 Technology, 食べ物 Food, 日常生活 Daily Life, 旅行 Travel, 文化 Culture, ビジネス Business)
-4. A plausible URL (can be example.com)
-
-Make the content realistic and educational. Stories should be appropriate for different JLPT levels.
-
-Format your response as a JSON array like this:
-[
-  {{
-    "title": "新しいロボット",
-    "summary": "A Japanese company developed a new robot assistant for elderly care. The robot can help with daily tasks and provide companionship.",
-    "topic": "科技 Technology",
-    "url": "https://example.com/tech-news"
-  }},
-  ...
-]
-
-Return ONLY the JSON array, no other text before or after.
+Please format your response according to the provided JSON schema.
 """
         
         try:
-            logger.info("Querying Gemini...")
+            logger.info("Querying Gemini for story ideas with JSON schema...")
             
             generation_config = GenerationConfig(
-                model_name=self.llm_model_name,
-                temperature=0.7,
-                max_tokens=2048,
+                model_name="gemini-2.5-flash",
+                temperature=0.8,
+                max_tokens=20000,
                 top_p=1.0,
+                json_schema=story_ideas_schema
             )
-            # Generate without search tools for now
             response = self.llm_provider.generate_response(prompt, generation_config)
             
             text = response.strip()
             
-            # Remove markdown code blocks if present
+            # The response should be a JSON object now, so markdown stripping might not be needed,
+            # but it's kept here as a safeguard.
             if text.startswith('```json'):
                 text = text[7:]
             if text.startswith('```'):
@@ -92,23 +82,29 @@ Return ONLY the JSON array, no other text before or after.
                 text = text[:-3]
             text = text.strip()
             
-            news_items = json.loads(text)
+            # Parse the JSON object and extract the list of story ideas
+            story_ideas = json.loads(text)["story_ideas"]
             
-            logger.info(f"Successfully generated {len(news_items)} story ideas.")
+            logger.info(f"Successfully generated {len(story_ideas)} story ideas.")
             
-            if news_items:
-                sample = news_items[0]
-                logger.debug(f"Sample story idea: Title='{sample['title']}', Topic='{sample['topic']}'")
+            if story_ideas:
+                sample = story_ideas[0]
+                logger.debug(f"Sample story idea: Title='{sample.get('title')}'")
 
-            return news_items
+            return story_ideas
             
         except json.JSONDecodeError as e:
-            logger.error(f"Error parsing JSON response: {e}")
+            logger.error(f"Error parsing JSON response from LLM: {e}")
             logger.error(f"Raw response text: {text}")
             raise
             
+        except (KeyError, TypeError) as e:
+            logger.error(f"Error extracting 'story_ideas' from LLM response: {e}")
+            logger.error(f"Parsed object: {text}")
+            raise
+
         except Exception as e:
-            logger.error(f"An unexpected error occurred during content generation: {e}")
+            logger.error(f"An unexpected error occurred during story idea generation: {e}")
             if 'response' in locals():
                 logger.error(f"LLM response object: {response}")
             raise

@@ -39,18 +39,9 @@ def main():
     logger.info(f"Results saved to: {output_file}")
     
     if news_items:
-        logger.info("Summary:")
-        logger.info(f"   Total news items: {len(news_items)}")
-        
-        # Count by topic
-        topics = {}
+        logger.info("News: ")
         for item in news_items:
-            topic = item.get('topic', 'Unknown')
-            topics[topic] = topics.get(topic, 0) + 1
-        
-        logger.info("   Topics distribution:")
-        for topic, count in topics.items():
-            logger.info(f"      {topic}: {count}")
+            logger.info(f"[{item['title']}]: {item['summary']}")
     else:
         logger.warning("No news items were generated.")
 
