@@ -1,5 +1,5 @@
 import google.generativeai as genai
-from typing import List
+from typing import List, Dict
 import sys
 import os
 import json
@@ -7,32 +7,35 @@ import json
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
 
 from pipeline.base import PipelineStage
-from config import get_language_config
+from pipeline.llm_provider import LLMProvider, GenerationConfig
+from pipeline.logger import get_logger
+
+logger = get_logger(__name__)
 
 class NewsCollectionStage(PipelineStage):
     """Stage 1: Generate news items using Gemini (without search for now)"""
     
     def __init__(self, config: dict):
         super().__init__(config)
-        
-        api_key = config['gemini']['api_key']
-        if not api_key:
-            raise ValueError("GEMINI_API_KEY not found in environment variables")
-        
-        genai.configure(api_key=api_key)
-        self.model = genai.GenerativeModel(config['gemini']['model'])
-        self.lang_config = get_language_config()
+        self.lang_config = {
+            'native': 'en',
+            'learning': 'ja',
+            'native_name': 'English',
+            'learning_name': 'Japanese',
+            'romanization': 'romaji',
+        }
+        self.llm_provider = LLMProvider()
     
-    def process(self, date: str) -> List[dict]:
+    def process(self, date: str) -> List[Dict]:
         """
         Generate news-like items for the given date.
         
         Note: Currently generates content directly without real-time search.
         Can be upgraded to use Google Search grounding later.
         """
-        print(f"\n🔍 Generating news content for {date}...")
-        print(f"📚 Language pair: {self.lang_config['native_name']} -> {self.lang_config['learning_name']}")
-        print(f"⚠️  Note: Using direct generation (not real-time search)")
+        logger.info(f"Generating news content for {date}...")
+        logger.info(f"Language pair: {self.lang_config['native_name']} -> {self.lang_config['learning_name']}")
+        logger.warning("Using direct generation (not real-time search)")
         
         native_lang = self.lang_config['native']
         summary_lang = "English" if native_lang == "en" else "Chinese"
@@ -40,7 +43,7 @@ class NewsCollectionStage(PipelineStage):
         prompt = f"""
 You are creating educational content for Japanese language learners.
 
-Generate 10 interesting story ideas that would be good for Japanese language learners whose native language is {summary_lang}.
+Generate 5 interesting story ideas that would be good for Japanese language learners whose native language is {summary_lang}.
 These should be based on typical Japanese news topics and everyday scenarios.
 Cover diverse topics: technology, food, travel, culture, business, daily life, etc.
 
@@ -67,12 +70,18 @@ Return ONLY the JSON array, no other text before or after.
 """
         
         try:
-            print("🤖 Querying Gemini...")
+            logger.info("Querying Gemini...")
             
+            generation_config = GenerationConfig(
+                model_name="gemini-2.5-flash",
+                temperature=0.7,
+                max_tokens=2048,
+                top_p=1.0,
+            )
             # Generate without search tools for now
-            response = self.model.generate_content(prompt)
+            response = self.llm_provider.generate_response(prompt, generation_config)
             
-            text = response.text.strip()
+            text = response.strip()
             
             # Remove markdown code blocks if present
             if text.startswith('```json'):
@@ -85,26 +94,21 @@ Return ONLY the JSON array, no other text before or after.
             
             news_items = json.loads(text)
             
-            print(f"✅ Generated {len(news_items)} story ideas")
+            logger.info(f"Successfully generated {len(news_items)} story ideas.")
             
             if news_items:
-                print(f"\n📰 Sample story idea:")
-                print(f"   Title: {news_items[0]['title']}")
-                print(f"   Topic: {news_items[0]['topic']}")
-                print(f"   Summary: {news_items[0]['summary'][:80]}...")
-            
+                sample = news_items[0]
+                logger.debug(f"Sample story idea: Title='{sample['title']}', Topic='{sample['topic']}'")
+
             return news_items
             
         except json.JSONDecodeError as e:
-            print(f"❌ Error parsing JSON response: {e}")
-            print(f"Raw response:\n{text}")
+            logger.error(f"Error parsing JSON response: {e}")
+            logger.error(f"Raw response text: {text}")
             raise
             
         except Exception as e:
-            print(f"❌ Error generating content: {e}")
+            logger.error(f"An unexpected error occurred during content generation: {e}")
             if 'response' in locals():
-                try:
-                    print(f"Response text: {response.text}")
-                except:
-                    print(f"Response: {response}")
+                logger.error(f"LLM response object: {response}")
             raise
