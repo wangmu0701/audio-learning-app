@@ -106,33 +106,52 @@ class StoryGenerationStage(PipelineStage):
         # 3. Construct the new, more robust prompt
         grammar_list_str = "\n".join([f"- {p.name}" for p in self.grammar_points])
         prompt = f"""
-        You are a creative writer and translator for Japanese language learning content.
-        Your task is to take a story idea, translate its title to Japanese, write a simple story, and then provide a sentence-by-sentence breakdown with translations.
+            You are a creative writer and translator for Japanese language learning content.
+            Your task is to take a story idea, translate its title to Japanese, write a simple story, and then provide a sentence-by-sentence breakdown with translations.
 
-        **Story Idea:**
-        - Title: {story_idea.get('title')}
-        - Summary: {story_idea.get('summary')}
+            **Story Idea:**
+            - Title: {story_idea.get('title')}
+            - Summary: {story_idea.get('summary')}
 
-        **Available N5 Grammar Points (Group {self.grammar_group}):**
-        {grammar_list_str}
+            **Available {self.level} Grammar Points (Group {self.grammar_group}):**
+            {grammar_list_str}
 
-        **Instructions:**
-        1.  First, translate the English story idea **Title** into a suitable Japanese title.
-        2.  Write a short story in Japanese (6-10 sentences) based on the story idea.
-        3.  For each sentence you write, you **must** try to use one or two grammar points from the **Available N5 Grammar Points** list.
-        4.  Break the story into individual sentences.
-        5.  For each sentence, create a JSON object containing:
-            a. The Japanese sentence (`sentence_ja`).
-            b. A natural, fluent English translation of the sentence (`sentence_en`).
-            c. A list of the exact names of the grammar points you used in that sentence (`grammar_points`).
-        6.  Your entire output must be a single JSON object that strictly follows the provided schema, containing the translated Japanese title (`title_ja`) and the sentence breakdown (`story_breakdown`).
+            **Instructions:**
+            1.  First, translate the English story idea **Title** into a suitable Japanese title.
+            2.  Write a short story in Japanese (6-10 sentences) based on the story idea.
+            3.  For each sentence you write, you **must** use at least one grammar point from the **Available N5 Grammar Points** list.
+            4.  Break the story into individual sentences.
+            5.  For each sentence, create a JSON object containing:
+                a. The Japanese sentence (`sentence_ja`).
+                b. A natural, fluent English translation of the sentence (`sentence_en`).
+                c. A list of the grammar points used (`grammar_points`). **Crucially, the name for each grammar point MUST strictly match the format from the provided list, including the pronunciation in parentheses.** For example, it must be `Particle は (wa)`, not just `Particle は`.
+
+            6.  Your entire output must be a single JSON object that strictly follows the provided schema and example below.
+
+            **Output Schema and Example:**
+            Your output must be a valid JSON object. Do not include any text or explanations outside of the JSON structure.
+
+            {{
+            "title_ja": "Example Japanese Title",
+            "story_breakdown": [
+                {{
+                "sentence_ja": "ケンさんはバスで学校に行きます。",
+                "sentence_en": "Ken goes to school by bus.",
+                "grammar_points": [
+                    "Particle は (wa)",
+                    "Particle で (de)",
+                    "Verb form 〜ます (~masu)"
+                ]
+                }}
+            ]
+            }}
         """
 
         # 4. Call the LLM
         generation_config = GenerationConfig(
             model_name=self.llm_model_name,
             temperature=0.7,
-            max_tokens=4096,
+            max_tokens=30000,
             top_p=1.0,
             json_schema=story_schema
         )
