@@ -7,6 +7,10 @@ class PipelineStage(ABC):
     def __init__(self, config: dict):
         self.config = config
     
+    @property
+    def llm_model_name(self) -> str:
+        return self.config.get('llm_model_name', None)
+    
     @abstractmethod
     def process(self, input_data: Any) -> Any:
         """

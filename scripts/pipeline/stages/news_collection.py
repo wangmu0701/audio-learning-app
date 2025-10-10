@@ -73,7 +73,7 @@ Return ONLY the JSON array, no other text before or after.
             logger.info("Querying Gemini...")
             
             generation_config = GenerationConfig(
-                model_name="gemini-2.5-flash",
+                model_name=self.llm_model_name,
                 temperature=0.7,
                 max_tokens=2048,
                 top_p=1.0,

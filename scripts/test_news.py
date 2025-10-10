@@ -20,7 +20,9 @@ def main():
     
     # Test Stage 1: News Collection
     # The stage is now self-contained and doesn't need a config object.
-    config = {}
+    config = {
+        "llm_model_name": "gemini-2.5-flash-lite"
+    }
     stage = NewsCollectionStage(config)
     news_items = stage.process(date)
     
