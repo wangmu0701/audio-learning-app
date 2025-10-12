@@ -3,8 +3,8 @@
 import json
 import os
 
-from pipeline.stages.content_pedagogy import ContentPedagogyStage
-from pipeline.llm_provider import LLMProvider
+from pipeline.stages.audio_generation import AudioGenerationStage
+from pipeline.tts_provider import TTSProvider
 from pipeline.logger import setup_advanced_logging, get_logger
 
 def main():
@@ -12,11 +12,11 @@ def main():
     logger = get_logger(__name__)
     
     logger.info("=" * 60)
-    logger.info("Testing Content Pedagogy Stage")
+    logger.info("Testing Audio Generation Stage")
     logger.info("=" * 60)
 
-    input_file = 'output/word_segmentation_test.json'
-    output_file = 'output/content_pedagogy_test.json'
+    input_file = 'output/content_pedagogy_test.json'
+    output_file = 'output/audio_generation_test.json'
 
     # Read input
     try:
@@ -36,9 +36,12 @@ def main():
         return
 
     # Instantiate and run stage
-    config = {"llm_model_name": "gemini-2.5-flash"}
-    llm_provider = LLMProvider()
-    stage = ContentPedagogyStage(config=config, llm_provider=llm_provider)
+    config = {
+        "llm_model_name": "gemini-2.5-flash",
+        "output_audio_dir": "output/audio"
+    }
+    tts_provider = TTSProvider()
+    stage = AudioGenerationStage(config=config, tts_provider=tts_provider)
     processed_stories = stage.process(stories)
     
     # Save output
@@ -51,16 +54,9 @@ def main():
     
     if processed_stories:
         logger.info(f"Processed {len(processed_stories)} stories.")
-        for story in processed_stories:
-            title = story.get('title', '[No Title]')
-            breakdown = story.get('story_breakdown', [])
-            if breakdown and breakdown[0].get('words'):
-                first_word = breakdown[0]['words'][0]
-                word_en = first_word.get('word_en', '')
-                explanation = first_word.get('explanation', '')
-                logger.info(f"  - '{title}': First word has pedagogy.")
-                logger.info(f"    - EN: {word_en}")
-                logger.info(f"    - Explanation: {explanation[:60]}...")
+        first_story = processed_stories[0]
+        logger.info(f"Example audio path for story '{first_story.get('title')}':")
+        logger.info(f"  -> {first_story.get('audio_full_story_slow_path')}")
     else:
         logger.warning("The stage did not return any stories.")
 

@@ -66,7 +66,11 @@ def load_grammar(lang: str, level: str, group: Optional[int] = None) -> List[Gra
         return []
 
     if group is not None:
-        return _N5_GRAMMAR_JA.get(group, [])
+        gramma = []
+        for g in sorted(_N5_GRAMMAR_JA.keys()):
+            if g <= group:
+                gramma.extend(_N5_GRAMMAR_JA[g])
+        return gramma
     
     # If group is None, return all grammar points for the level
     all_grammar = []

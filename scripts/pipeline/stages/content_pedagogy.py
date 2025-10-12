@@ -18,11 +18,13 @@ class ContentPedagogyStage(PipelineStage):
     Generates translations and explanations for each word in a story.
     """
 
-    def __init__(self, config: Dict):
+    def __init__(self, config: Dict, llm_provider: LLMProvider):
         """Initializes the ContentPedagogyStage."""
         super().__init__(config)
         logger.info("ContentPedagogyStage initialized.")
-        self.llm_provider = LLMProvider()
+        if not llm_provider:
+            raise ValueError("LLMProvider is required.")
+        self.llm_provider = llm_provider
 
     def process(self, stories: List[Dict]) -> List[Dict]:
         """
@@ -97,24 +99,58 @@ class ContentPedagogyStage(PipelineStage):
 
         # 3. Construct Prompt
         prompt = f"""
-        You are an expert Japanese teacher creating audio-first learning content for absolute beginners (N5 level).
-        Your task is to provide a contextual translation and a simple, conversational explanation for each word in a given sentence.
+            You are an expert Japanese language teacher designing an audio-first learning course for absolute beginners (JLPT N5 level).
+            Your task is to generate the pedagogical content (the English translation and a conversational explanation) for each word in a given Japanese sentence.
 
-        **Full Sentence Context:**
-        - Japanese: {sentence_ja}
-        - English: {sentence_en}
+            **Guiding Principles for Explanations:**
+            1.  **Audio-First & Conversational**: Use short, simple sentences. The tone should be friendly, patient, and encouraging, like a helpful guide.
+            2.  **Assume Zero Knowledge**: Explain every concept simply. Avoid jargon.
+            3.  **Context is King**: The explanation must relate to the word's function in the provided full sentence context.
+            4.  **CRITICAL RULE: No Direct Quoting**: To ensure high-quality audio, your explanation text must be **purely in English**. Do NOT quote the Japanese word (e.g., 'yasai') or its Romaji (e.g., 'yasai') directly in the prose. Instead, refer to it conceptually.
 
-        **Focus Grammar Points for this Sentence:**
-        {', '.join(grammar_points) if grammar_points else 'None'}
+            **Examples of "Conceptual Referencing" (Good vs. Bad):**
+            -   **Word to explain:** `野菜` (yasai)
+            -   **BAD (Direct Quote):** "The word 'yasai' means 'vegetables'."  <-- AVOID THIS.
+            -   **GOOD (Conceptual Reference):** "This word means 'vegetables'. It's the noun that appeared right before the 'and' particle in the sentence."
+            -   **GOOD (Conceptual Reference):** "The meaning of this word is 'vegetables.' In the story, this is one of the things everyone planted together."
 
-        **Words to Process:**
-        {json.dumps(words_ja, ensure_ascii=False)}
+            **Full Sentence Context:**
+            -   Japanese: {sentence_ja}
+            -   English: {sentence_en}
 
-        **Instructions:**
-        For each word in the "Words to Process" list, provide its English meaning and a pedagogical explanation.
-        1.  **word_en**: Provide the most accurate English meaning for the word *in the context of this specific sentence*.
-        2.  **explanation**: Provide a simple, conversational explanation suitable for an audio lesson. It should be friendly and easy to understand for someone with zero Japanese knowledge. If the word relates to one of the focus grammar points, mention it. Keep it concise (10-30 seconds of speaking time).
-        3.  Your output must be a single JSON object. The `word_pedagogy` array must have the exact same number of items as the input `Words to Process` list.
+            **Focus Grammar Points for this Sentence:**
+            {', '.join(grammar_points) if grammar_points else 'None'}
+
+            **Words to Process:**
+            {json.dumps(words_ja, ensure_ascii=False)} // This is an array of word objects, each with 'word_ja', 'word_romaji', 'position'
+
+            **Instructions:**
+            Your task is to add the 'word_en' and 'explanation' keys to each word object in the input array.
+            1.  For each word object, add a **`word_en`** key. Its value should be the most accurate, concise English meaning for the word *in the context of this specific sentence*.
+            2.  For each word object, add an **`explanation`** key. Its value should be a simple, conversational explanation following all the **Guiding Principles** above.
+            3.  If a word is one of the "Focus Grammar Points," be sure to mention this in its explanation.
+            4.  Your entire output must be a single JSON array of objects, strictly following the schema and example below. The output array must have the exact same number of items as the input "Words to Process" list.
+
+            **Example**
+            {{
+                "word_pedagogy":
+                    [
+                        {{
+                            "word_ja": "みんな",
+                            "word_romaji": "minna",
+                            "position": 0,
+                            "word_en": "everyone",
+                            "explanation": "This first word means 'everyone' or 'all'. It's a friendly way to talk about a group of people doing something together."
+                        }},
+                        {{
+                            "word_ja": "で",
+                            "word_romaji": "de",
+                            "position": 3,
+                            "word_en": "by / with",
+                            "explanation": "Next up is a particle. In our sentence, it tells us that the action is being done 'by everyone' together. While this particle can also mark a location, here it's about the group performing the action."
+                        }}
+                    ]
+            }}
         """
 
         # 4. Call LLM

@@ -4,6 +4,7 @@ import json
 import os
 
 from pipeline.stages.story_generation import StoryGenerationStage
+from pipeline.llm_provider import LLMProvider
 from pipeline.logger import setup_advanced_logging, get_logger
 
 def main():
@@ -41,7 +42,8 @@ def main():
         "llm_model_name": "gemini-2.5-flash",
         "grammar_group": 0
     }
-    stage = StoryGenerationStage(config=config)
+    llm_provider = LLMProvider()
+    stage = StoryGenerationStage(config=config, llm_provider=llm_provider)
     generated_stories = stage.process(story_ideas)
     
     # 3. Save the results

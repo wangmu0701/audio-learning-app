@@ -21,10 +21,12 @@ class StoryGenerationStage(PipelineStage):
     specific grammar points.
     """
 
-    def __init__(self, config: Dict):
+    def __init__(self, config: Dict, llm_provider: LLMProvider):
         """Initializes the StoryGenerationStage."""
         super().__init__(config)
-        self.llm_provider = LLMProvider()
+        if not llm_provider:
+            raise ValueError("LLMProvider is required.")
+        self.llm_provider = llm_provider
         self.grammar_points = load_grammar(self.language, self.level, self.grammar_group)
         if not self.grammar_points:
             raise ValueError(f"No grammar points loaded for {self.language}-{self.level}, group {self.grammar_group}")

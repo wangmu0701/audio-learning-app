@@ -4,6 +4,7 @@ import json
 import os
 
 from pipeline.stages.word_segmentation import WordSegmentationStage
+from pipeline.llm_provider import LLMProvider
 from pipeline.logger import setup_advanced_logging, get_logger
 
 def main():
@@ -39,7 +40,8 @@ def main():
     config = {
         "llm_model_name": "gemini-2.5-flash"
     }
-    stage = WordSegmentationStage(config=config)
+    llm_provider = LLMProvider()
+    stage = WordSegmentationStage(config=config, llm_provider=llm_provider)
     processed_stories = stage.process(stories)
     
     # 3. Save the results

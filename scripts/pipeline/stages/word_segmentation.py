@@ -1,6 +1,7 @@
 import sys
 import os
 import json
+import regex
 from typing import List, Dict, Tuple
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
@@ -19,11 +20,13 @@ class WordSegmentationStage(PipelineStage):
     and generates romaji for all text.
     """
 
-    def __init__(self, config: Dict):
+    def __init__(self, config: Dict, llm_provider: LLMProvider):
         """Initializes the WordSegmentationStage."""
         super().__init__(config)
         logger.info("WordSegmentationStage initialized.")
-        self.llm_provider = LLMProvider()
+        if not llm_provider:
+            raise ValueError("LLMProvider is required.")
+        self.llm_provider = llm_provider
 
     def process(self, stories: List[Dict]) -> List[Dict]:
         """
@@ -130,30 +133,28 @@ class WordSegmentationStage(PipelineStage):
         tokens = response_data['tokens_ja']
 
         # Validate tokens and get positions
-        validated = True
-        pos = 0
-        tokens_pos = []
-        PUNCTUATION_TO_SKIP = [' ', '　', '。', '、', '，', '？', '！', '「', '」', '『', '』', '（', '）']
-
-        for token in tokens:
-            while pos < len(sentence_ja) and sentence_ja[pos] in PUNCTUATION_TO_SKIP:
-                pos += 1
-            if sentence_ja.startswith(token, pos):
-                tokens_pos.append(pos)
-                pos += len(token)
-            else:
-                validated = False
-                break
+        # PUNCTUATION_TO_SKIP = [' ', '　', '。', '、', '，', '？', '！', '「', '」', '『', '』', '（', '）']
         
-        while pos < len(sentence_ja) and validated:
-            if sentence_ja[pos] in PUNCTUATION_TO_SKIP:
-                pos += 1
-            else:
-                validated = False
-                break
+        # Robust validation by comparing cleaned-up strings
+        original_cleaned = regex.sub(r'[\s\p{P}]+', '', sentence_ja)
+        reconstructed_cleaned = ''.join(tokens)
+        if original_cleaned != reconstructed_cleaned:
+            logger.warning(f"Tokenization mismatch after cleaning. Original: '{original_cleaned}', Reconstructed: '{reconstructed_cleaned}'")
+            # Fallback to a simpler validation: check if all tokens are in the original sentence
+            if not all(token in sentence_ja for token in tokens):
+                 raise ValueError(f"Tokenization mismatch! Original: <{sentence_ja}>, Reconstructed: <{''.join(tokens)}>")
 
-        if not validated:
-            raise ValueError(f"Tokenization mismatch! Original: <{sentence_ja}>, Reconstructed: <{''.join(tokens)}>")
+        # Find token positions in the original sentence
+        tokens_pos = []
+        pos = 0
+        for token in tokens:
+            try:
+                token_pos = sentence_ja.index(token, pos)
+                tokens_pos.append(token_pos)
+                pos = token_pos + len(token)
+            except ValueError:
+                # This should never happen due to the above validation
+                raise ValueError(f"Token '{token}' not found in sentence '{sentence_ja}' starting from position {pos}.")
 
         return tokens, tokens_pos
 

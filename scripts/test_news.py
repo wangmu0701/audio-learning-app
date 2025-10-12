@@ -5,6 +5,7 @@ import json
 import os
 
 from pipeline.stages.news_collection import NewsCollectionStage
+from pipeline.llm_provider import LLMProvider
 from pipeline.logger import setup_advanced_logging, get_logger
 
 def main():
@@ -23,7 +24,8 @@ def main():
     config = {
         "llm_model_name": "gemini-2.5-flash-lite"
     }
-    stage = NewsCollectionStage(config)
+    llm_provider = LLMProvider()
+    stage = NewsCollectionStage(config, llm_provider=llm_provider)
     news_items = stage.process(date)
     
     # Create output directory if it doesn't exist

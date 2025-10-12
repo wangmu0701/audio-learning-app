@@ -14,10 +14,16 @@ logger = get_logger(__name__)
 class NewsCollectionStage(PipelineStage):
     """Stage 1: Generate language-agnostic story ideas in English."""
     
-    def __init__(self, config: Dict):
+    def __init__(self, config: Dict, llm_provider: LLMProvider):
         super().__init__(config)
-        self.llm_provider = LLMProvider()
+        if not llm_provider:
+            raise ValueError("LLMProvider is required.")
+        self.llm_provider = llm_provider
     
+    @property
+    def number_of_stories(self) -> int:
+        return self.config.get('number_of_stories', 1)
+
     def process(self, date: str) -> List[Dict]:
         """
         Generates diverse, language-agnostic story ideas for the given date.
@@ -52,7 +58,7 @@ class NewsCollectionStage(PipelineStage):
         prompt = f"""
 You are creating educational content for language learners.
 
-Generate 5 interesting and diverse story ideas based on news, trends, or everyday scenarios.
+Generate {self.number_of_stories} interesting and diverse story ideas based on news, trends, or everyday scenarios.
 The ideas should be simple, easy to visualize, and suitable for beginners.
 
 Please format your response according to the provided JSON schema.
@@ -64,7 +70,7 @@ Please format your response according to the provided JSON schema.
             generation_config = GenerationConfig(
                 model_name=self.llm_model_name,
                 temperature=0.8,
-                max_tokens=20000,
+                max_tokens=60000,
                 top_p=1.0,
                 json_schema=story_ideas_schema
             )
@@ -73,6 +79,11 @@ Please format your response according to the provided JSON schema.
             # Parse the JSON object and extract the list of story ideas
             story_ideas = json.loads(response.strip())["story_ideas"]
             
+            # Add story_id to each story
+            story_id_prefix = self.config.get("story_id_prefix", "story")
+            for i, story in enumerate(story_ideas):
+                story["story_id"] = f"{story_id_prefix}-{i:02d}"
+
             logger.info(f"Successfully generated {len(story_ideas)} story ideas.")
             
             if story_ideas:

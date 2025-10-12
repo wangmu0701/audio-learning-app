@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Any
+from typing import List, Dict
 
 class PipelineStage(ABC):
     """Base class for all pipeline stages"""
@@ -12,7 +12,7 @@ class PipelineStage(ABC):
         return self.config.get('llm_model_name', None)
     
     @abstractmethod
-    def process(self, input_data: Any) -> Any:
+    def process(self, input_data: List[Dict]) -> List[Dict]:
         """
         Process input and return output.
         Each stage defines its own input/output types.
@@ -25,7 +25,7 @@ class PipelineStage(ABC):
         """
         pass
     
-    def validate_output(self, output: Any) -> bool:
+    def validate_output(self, output: Dict) -> bool:
         """
         Optional: validate output before passing to next stage
         
