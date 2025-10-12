@@ -1,6 +1,12 @@
 from abc import ABC, abstractmethod
 from typing import List, Dict
 
+import os
+import json
+from .logger import get_logger
+
+logger = get_logger(__name__)
+
 class PipelineStage(ABC):
     """Base class for all pipeline stages"""
     
@@ -12,27 +18,39 @@ class PipelineStage(ABC):
         return self.config.get('llm_model_name', None)
     
     @abstractmethod
-    def process(self, input_data: List[Dict]) -> List[Dict]:
+    def process(self, input_story: Dict) -> Dict:
         """
-        Process input and return output.
+        Process input story and return augmented output.
         Each stage defines its own input/output types.
-        
-        Args:
-            input_data: Input data for this stage
-            
-        Returns:
-            Processed output data
         """
         pass
     
-    def validate_output(self, output: Dict) -> bool:
+    def process_all(self, input_stories: List[Dict]) -> List[Dict]:
         """
-        Optional: validate output before passing to next stage
-        
-        Args:
-            output: The output to validate
-            
-        Returns:
-            True if valid, False otherwise
+        Wrapper to process input data and handle any common pre/post processing.
         """
-        return True
+        output_stories = []
+        for input_story in input_stories:
+            try:
+                output_story = self.process(input_story)
+                output_story["status"][self.stage_name] = True
+                output_stories.append(output_story)
+                self.save_output(output_story)
+            except Exception as e:
+                # Log the error and continue with next story
+                logger.error(f"Error processing story {input_story.get('id', 'unknown')}: {e}")
+                continue
+        return output_stories
+    
+    @property
+    def stage_name(self) -> str:
+        """Returns the name of the stage"""
+        pass
+
+    def save_output(self, story: Dict):
+        """
+        Saves the output of each story to its own output.json file.
+        """
+        output_file = os.path.join(story["output_path"], "output.json")
+        with open(output_file, 'w', encoding='utf-8') as f:
+            json.dump(story, f, ensure_ascii=False, indent=2)

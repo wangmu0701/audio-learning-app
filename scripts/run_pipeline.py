@@ -22,12 +22,12 @@ def get_run_output_dir():
     
     os.makedirs(today_dir, exist_ok=True)
     
-    existing_runs = [d for d in os.listdir(today_dir) if os.path.isdir(os.path.join(today_dir, d)) and d.isdigit()]
+    existing_runs = [d for d in os.listdir(today_dir) if os.path.isdir(os.path.join(today_dir, d)) and d.startswith('R-')]
     next_run_id = 0
     if existing_runs:
-        next_run_id = max(int(run) for run in existing_runs) + 1
+        next_run_id = max(int(run[2:]) for run in existing_runs) + 1
         
-    run_id_str = f"{next_run_id:04d}"
+    run_id_str = f"R-{next_run_id:04d}"
     run_dir = os.path.join(today_dir, run_id_str)
     os.makedirs(run_dir)
     
@@ -48,7 +48,7 @@ def main():
     # Define configuration for each stage
     config = {
         "llm_model_name": "gemini-2.5-flash-lite",
-        "output_audio_dir": os.path.join(run_output_dir, "audio"),
+        "output_base_dir": run_output_dir,
         "language": "ja",
         "number_of_stories": 1,
         "level": "N5",
@@ -68,33 +68,16 @@ def main():
     audio_gen_stage = AudioGenerationStage(config=config, tts_provider=tts_provider)
 
     # Run the pipeline
+    pipeline_stages = [story_gen_stage, word_segment_stage, content_pedagogy_stage, audio_gen_stage]
     try:
         logger.info("--- Stage 1: News Collection ---")
         date = datetime.now().strftime('%Y-%m-%d')
-        news_data = news_stage.process(date)
-
-        logger.info("--- Stage 2: Story Generation ---")
-        stories = story_gen_stage.process(news_data)
-
-        logger.info("--- Stage 3: Word Segmentation ---")
-        stories_with_words = word_segment_stage.process(stories)
-
-        logger.info("--- Stage 4: Content Pedagogy ---")
-        stories_with_pedagogy = content_pedagogy_stage.process(stories_with_words)
-
-        logger.info("--- Stage 5: Audio Generation ---")
-        final_stories = audio_gen_stage.process(stories_with_pedagogy)
-
-        # Save the final output
-        output_file = os.path.join(run_output_dir, "final_pipeline_output.json")
-        with open(output_file, 'w', encoding='utf-8') as f:
-            json.dump(final_stories, f, ensure_ascii=False, indent=2)
-
-        logger.info("============================================================")
-        logger.info("Pipeline finished successfully!")
-        logger.info(f"Final output saved to {output_file}")
-        logger.info("============================================================")
-
+        stories = news_stage.process_all([])
+        for i, stage in enumerate(pipeline_stages):
+            logger.info(f"--- Stage {i+2}: {stage.stage_name.replace('_', ' ').title()} ---")
+            stories = stage.process_all(stories)
+            logger.info(f"Completed stage: {stage.stage_name} with {len(stories)} stories.")
+     
     except Exception as e:
         logger.error(f"An error occurred during the pipeline execution: {e}", exc_info=True)
 

@@ -32,6 +32,10 @@ class StoryGenerationStage(PipelineStage):
             raise ValueError(f"No grammar points loaded for {self.language}-{self.level}, group {self.grammar_group}")
 
     @property
+    def stage_name(self) -> str:
+        return "story_generation"
+    
+    @property
     def language(self) -> str:
         return self.config.get('language', 'ja')
     
@@ -42,28 +46,17 @@ class StoryGenerationStage(PipelineStage):
     @property
     def grammar_group(self) -> Optional[int]:
         return self.config.get('grammar_group', None)
-    
-    def process(self, story_ideas: List[Dict]) -> List[Dict]:
+
+    def process(self, story: Dict) -> Dict:
         """
         Processes a list of story ideas to generate stories.
         """
-        logger.info(f"StoryGenerationStage received {len(story_ideas)} ideas to process.")
-        
-        generated_stories = []
-        for idea in story_ideas:
-            try:
-                logger.info(f"Generating story for idea: '{idea.get('title')}'")
-                generated_story_data = self._generate_single_story(idea)
-                # Merge the original idea with the new data
-                idea.update(generated_story_data)
-                generated_stories.append(idea)
-            except Exception as e:
-                logger.error(f"Failed to generate story for idea '{idea.get('title')}'. Error: {e}")
-                # Optionally, skip this story and continue with the next
-                continue
-
-        logger.info(f"Successfully generated {len(generated_stories)} stories.")
-        return generated_stories
+        idea = story
+        logger.info(f"Generating story for idea: '{idea.get('title')}'")
+        generated_story_data = self._generate_single_story(idea)
+        # Merge the original idea with the new data
+        idea.update(generated_story_data)
+        return idea
 
     def _generate_single_story(self, story_idea: Dict) -> Dict:
         """Generates a single story, ensuring each sentence is tagged with grammar points from the full group list."""

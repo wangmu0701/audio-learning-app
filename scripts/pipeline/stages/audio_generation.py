@@ -46,49 +46,45 @@ class AudioGenerationStage(PipelineStage):
             speaking_rate=1.0
         )
 
-    def process(self, stories: List[Dict]) -> List[Dict]:
+    @property
+    def stage_name(self) -> str:
+        return "audio_generation"
+    
+    def process(self, story: Dict) -> Dict:
         """
         Processes stories to generate all audio files.
         """
-        logger.info(f"AudioGenerationStage received {len(stories)} stories to process.")
+        story_id = story.get("story_id", "unknown")
+        story_audio_dir = os.path.join(story["output_path"], "audio")
+        os.makedirs(story_audio_dir, exist_ok=True)
+        logger.info(f"Generating audio for story: {story_id}")
+
+        # This is the base path that all audio file paths in the JSON should be relative to.
+        relative_to_path = story["output_path"]
+
+        self._generate_story_level_audio(story, story_audio_dir, relative_to_path)
+        self._generate_sentence_level_audio(story, story_audio_dir, relative_to_path)
+        return story
         
-        base_audio_dir = self.config.get('output_audio_dir', 'output/audio')
-        os.makedirs(base_audio_dir, exist_ok=True)
-
-        for i, story in enumerate(stories):
-            story_id = self._sanitize_filename(story.get('title', f'story_{i+1}'))
-            story['id'] = story_id
-            story_dir = os.path.join(base_audio_dir, story_id)
-            os.makedirs(story_dir, exist_ok=True)
-            logger.info(f"Processing story: {story_id}")
-
-            try:
-                self._generate_story_level_audio(story, story_dir)
-                self._generate_sentence_level_audio(story, story_dir)
-            except Exception as e:
-                logger.error(f"Failed to process audio for story '{story_id}'. Error: {e}")
-                continue
-
-        return stories
-
-    def _generate_story_level_audio(self, story: Dict, story_dir: str):
+    def _generate_story_level_audio(self, story: Dict, story_dir: str, relative_to_path: str):
         """Generates audio for the full story text and translation."""
-        logger.debug(f"Generating story-level audio for {story['id']}")
         # Full Japanese story (slow and normal)
         full_story_ja = " ".join([s.get('sentence_ja', '') for s in story.get('story_breakdown', [])])
         self._synthesize_and_save(
             text=full_story_ja, 
             config=self.tts_config_ja_slow, 
             file_path=os.path.join(story_dir, "full_story_slow.mp3"),
-            story=story,
-            key="audio_full_story_slow_path"
+            target_dict=story,
+            key="audio_full_story_slow_path",
+            relative_to_path=relative_to_path
         )
         self._synthesize_and_save(
             text=full_story_ja, 
             config=self.tts_config_ja_normal, 
             file_path=os.path.join(story_dir, "full_story_normal.mp3"),
-            story=story,
-            key="audio_full_story_normal_path"
+            target_dict=story,
+            key="audio_full_story_normal_path",
+            relative_to_path=relative_to_path
         )
 
         # Full English translation
@@ -97,11 +93,12 @@ class AudioGenerationStage(PipelineStage):
             text=full_story_en, 
             config=self.tts_config_en, 
             file_path=os.path.join(story_dir, "full_story_translation.mp3"),
-            story=story,
-            key="audio_full_story_translation_path"
+            target_dict=story,
+            key="audio_full_story_translation_path",
+            relative_to_path=relative_to_path
         )
 
-    def _generate_sentence_level_audio(self, story: Dict, story_dir: str):
+    def _generate_sentence_level_audio(self, story: Dict, story_dir: str, relative_to_path: str):
         """Generates audio for each sentence and its components."""
         sentences_dir = os.path.join(story_dir, "sentences")
         os.makedirs(sentences_dir, exist_ok=True)
@@ -116,8 +113,9 @@ class AudioGenerationStage(PipelineStage):
                 text=sentence.get('sentence_ja', ''),
                 config=self.tts_config_ja_slow,
                 file_path=os.path.join(sentences_dir, f"{sentence_id}_ja.mp3"),
-                story=sentence,
-                key="sentence_ja_audio"
+                target_dict=sentence,
+                key="sentence_ja_audio",
+                relative_to_path=relative_to_path
             )
 
             # English sentence audio
@@ -125,8 +123,9 @@ class AudioGenerationStage(PipelineStage):
                 text=sentence.get('sentence_en', ''),
                 config=self.tts_config_en,
                 file_path=os.path.join(sentences_dir, f"{sentence_id}_en.mp3"),
-                story=sentence,
-                key="sentence_en_audio"
+                target_dict=sentence,
+                key="sentence_en_audio",
+                relative_to_path=relative_to_path
             )
 
             # Word-level audio
@@ -138,25 +137,29 @@ class AudioGenerationStage(PipelineStage):
                 self._synthesize_and_save(
                     text=word.get('word_ja', ''), config=self.tts_config_ja_slow, 
                     file_path=os.path.join(words_dir, f"{word_id}_ja.mp3"),
-                    story=word, key="audio_ja_path"
+                    target_dict=word, key="audio_ja_path",
+                    relative_to_path=relative_to_path
                 )
                 self._synthesize_and_save(
                     text=word.get('word_romaji', ''), config=self.tts_config_en, # Read romaji with English voice
                     file_path=os.path.join(words_dir, f"{word_id}_romaji.mp3"),
-                    story=word, key="audio_romaji_path"
+                    target_dict=word, key="audio_romaji_path",
+                    relative_to_path=relative_to_path
                 )
                 self._synthesize_and_save(
                     text=word.get('word_en', ''), config=self.tts_config_en, 
                     file_path=os.path.join(words_dir, f"{word_id}_en.mp3"),
-                    story=word, key="audio_en_path"
+                    target_dict=word, key="audio_en_path",
+                    relative_to_path=relative_to_path
                 )
                 self._synthesize_and_save(
                     text=word.get('explanation', ''), config=self.tts_config_en, 
                     file_path=os.path.join(words_dir, f"{word_id}_explanation.mp3"),
-                    story=word, key="audio_explanation_path"
+                    target_dict=word, key="audio_explanation_path",
+                    relative_to_path=relative_to_path
                 )
 
-    def _synthesize_and_save(self, text: str, config: TTSConfig, file_path: str, story: Dict, key: str):
+    def _synthesize_and_save(self, text: str, config: TTSConfig, file_path: str, target_dict: Dict, key: str, relative_to_path: str):
         """Helper to call TTS and save the audio file."""
         if not text:
             return
@@ -164,7 +167,7 @@ class AudioGenerationStage(PipelineStage):
         # If file already exists, skip generation
         if os.path.exists(file_path):
             logger.info(f"    Audio file already exists, skipping: {file_path}")
-            story[key] = os.path.relpath(file_path, self.config.get('output_audio_dir', 'output/audio'))
+            target_dict[key] = os.path.relpath(file_path, relative_to_path)
             return
         
         audio_content = self.tts_provider.synthesize_speech(text, config)
@@ -173,11 +176,11 @@ class AudioGenerationStage(PipelineStage):
             with open(file_path, "wb") as out:
                 out.write(audio_content)
             # Store relative path
-            story[key] = os.path.relpath(file_path, self.config.get('output_audio_dir', 'output/audio'))
+            target_dict[key] = os.path.relpath(file_path, relative_to_path)
             logger.debug(f"    Successfully saved audio to {file_path}")
         else:
             logger.warning(f"    Failed to generate audio for text: '{text[:30]}...' ")
-            story[key] = None
+            target_dict[key] = None
 
     def _sanitize_filename(self, name: str) -> str:
         """Sanitizes a string to be used as a valid filename."""

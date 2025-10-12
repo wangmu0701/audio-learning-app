@@ -28,33 +28,21 @@ class WordSegmentationStage(PipelineStage):
             raise ValueError("LLMProvider is required.")
         self.llm_provider = llm_provider
 
-    def process(self, stories: List[Dict]) -> List[Dict]:
+    @property
+    def stage_name(self) -> str:
+        return "word_segmentation"
+
+    def process(self, story: Dict) -> Dict:
         """
         Processes a list of stories to add word segmentation and romaji.
         """
-        logger.info(f"WordSegmentationStage received {len(stories)} stories to process.")
-        
-        processed_stories = []
-        for story in stories:
-            try:
-                if 'story_breakdown' not in story or not story['story_breakdown']:
-                    logger.warning(f"Story '{story.get('title')}' has no breakdown. Skipping.")
-                    continue
-
-                for sentence in story['story_breakdown']:
-                    words_with_romaji, sentence_romaji = self._process_sentence(sentence)
-                    sentence['words'] = words_with_romaji
-                    sentence['sentence_romaji'] = sentence_romaji
-                    sentence.pop('tokens_ja', None)
-                    sentence.pop('tokens_ja_pos', None)
-                
-                processed_stories.append(story)
-
-            except Exception as e:
-                logger.error(f"Dropping story '{story.get('title')}' due to processing error: {e}")
-                continue
-        
-        return processed_stories
+        for sentence in story['story_breakdown']:
+            words_with_romaji, sentence_romaji = self._process_sentence(sentence)
+            sentence['words'] = words_with_romaji
+            sentence['sentence_romaji'] = sentence_romaji
+            sentence.pop('tokens_ja', None)
+            sentence.pop('tokens_ja_pos', None)
+        return story
 
     def _process_sentence(self, sentence: Dict) -> Tuple[List[Dict], str]:
         """Orchestrates tokenization and romanization for a single sentence."""

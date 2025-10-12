@@ -26,37 +26,25 @@ class ContentPedagogyStage(PipelineStage):
             raise ValueError("LLMProvider is required.")
         self.llm_provider = llm_provider
 
-    def process(self, stories: List[Dict]) -> List[Dict]:
+    @property
+    def stage_name(self) -> str:
+        return "content_pedagogy"
+    
+    def process(self, story: Dict) -> Dict:
         """
         Processes stories to add word-level translations and explanations.
         """
-        logger.info(f"ContentPedagogyStage received {len(stories)} stories to process.")
+        for sentence in story['story_breakdown']:
+            pedagogy_data = self._get_pedagogy_for_sentence(sentence)
+            
+            # Merge pedagogy data back into the original words list
+            original_words = sentence.get('words', [])
+            if len(original_words) != len(pedagogy_data):
+                raise ValueError("Mismatch between original word count and pedagogy data count.")
 
-        for story in stories:
-            if 'story_breakdown' not in story or not story['story_breakdown']:
-                logger.warning(f"Story '{story.get('title')}' has no breakdown. Skipping.")
-                continue
-
-            for sentence in story['story_breakdown']:
-                try:
-                    pedagogy_data = self._get_pedagogy_for_sentence(sentence)
-                    
-                    # Merge pedagogy data back into the original words list
-                    original_words = sentence.get('words', [])
-                    if len(original_words) != len(pedagogy_data):
-                        raise ValueError("Mismatch between original word count and pedagogy data count.")
-
-                    for i, word_obj in enumerate(original_words):
-                        word_obj.update(pedagogy_data[i])
-
-                except Exception as e:
-                    logger.error(f"Failed to generate pedagogy for sentence: '{sentence.get('sentence_ja')}'. Error: {e}")
-                    # Mark words as unprocessed
-                    for word_obj in sentence.get('words', []):
-                        word_obj['word_en'] = ""
-                        word_obj['explanation'] = "ERROR: Generation failed."
-        
-        return stories
+            for i, word_obj in enumerate(original_words):
+                word_obj.update(pedagogy_data[i])
+        return story
 
     def _get_pedagogy_for_sentence(self, sentence: Dict) -> List[Dict]:
         """Generates translation and explanation for all words in a sentence."""
