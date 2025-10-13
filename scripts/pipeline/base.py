@@ -28,17 +28,26 @@ class PipelineStage(ABC):
     def process_all(self, input_stories: List[Dict]) -> List[Dict]:
         """
         Wrapper to process input data and handle any common pre/post processing.
+        Includes resume functionality: skips stories where this stage is already completed.
         """
         output_stories = []
         for input_story in input_stories:
             try:
+                # Check if this stage is already completed for this story
+                if input_story.get("status", {}).get(self.stage_name, False):
+                    logger.info(f"Stage '{self.stage_name}' already completed for story {input_story.get('story_id', 'unknown')}, skipping.")
+                    output_stories.append(input_story)
+                    continue
+                
+                # Stage not completed, process it
                 output_story = self.process(input_story)
                 output_story["status"][self.stage_name] = True
                 output_stories.append(output_story)
                 self.save_output(output_story)
             except Exception as e:
                 # Log the error and continue with next story
-                logger.error(f"Error processing story {input_story.get('id', 'unknown')}: {e}")
+                # Failed stories are not added to output, so they won't reach next stages
+                logger.error(f"Error processing story {input_story.get('story_id', 'unknown')} in stage '{self.stage_name}': {e}")
                 continue
         return output_stories
     
