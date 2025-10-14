@@ -7,9 +7,18 @@ from typing import Optional, Dict, Any, List, Tuple, Union
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from collections import defaultdict
-import openai
-import google.generativeai as genai
 from .logger import get_logger
+
+# Attempt to import provider-specific libraries
+try:
+    import openai
+except ImportError:
+    openai = None
+
+try:
+    import google.generativeai as genai
+except ImportError:
+    genai = None
 
 
 @dataclass
@@ -46,40 +55,49 @@ class LLMProvider:
         self.glm_client: Optional[openai.OpenAI] = None
 
         # Try to initialize OpenAI client
-        try:
-            api_key = os.getenv("OPENAI_API_KEY")
-            if api_key:
-                self.openai_client = openai.OpenAI()
-                self.logger.info("OpenAI client initialized successfully.")
-            else:
-                self.logger.warning("OPENAI_API_KEY not found. OpenAI client not initialized.")
-        except Exception as e:
-            self.logger.error(f"Failed to initialize OpenAI client: {e}")
+        if not openai:
+            self.logger.warning("openai library not installed. To use OpenAI models, run: pip install openai")
+        else:
+            try:
+                api_key = os.getenv("OPENAI_API_KEY")
+                if api_key:
+                    self.openai_client = openai.OpenAI()
+                    self.logger.info("OpenAI client initialized successfully.")
+                else:
+                    self.logger.warning("OPENAI_API_KEY not found. OpenAI client not initialized.")
+            except Exception as e:
+                self.logger.error(f"Failed to initialize OpenAI client: {e}")
 
         # Try to initialize Gemini client
-        try:
-            api_key = os.getenv("GEMINI_API_KEY")
-            if api_key:
-                genai.configure(api_key=api_key)
-                self.gemini_client = genai
-                self.logger.info("Gemini client initialized successfully.")
-            else:
-                self.logger.warning("GEMINI_API_KEY not found. Gemini client not initialized.")
-        except Exception as e:
-            self.logger.error(f"Failed to initialize Gemini client: {e}")
+        if not genai:
+            self.logger.warning("google-generativeai library not installed. To use Gemini models, run: pip install google-generativeai")
+        else:
+            try:
+                api_key = os.getenv("GEMINI_API_KEY")
+                if api_key:
+                    genai.configure(api_key=api_key)
+                    self.gemini_client = genai
+                    self.logger.info("Gemini client initialized successfully.")
+                else:
+                    self.logger.warning("GEMINI_API_KEY not found. Gemini client not initialized.")
+            except Exception as e:
+                self.logger.error(f"Failed to initialize Gemini client: {e}")
 
-        # Try to initialize GLM client
-        try:
-            api_key = os.getenv("GLM_API_KEY")
-            if api_key:
-                self.glm_client = openai.OpenAI(
-                    base_url="https://open.bigmodel.cn/api/paas/v4/",
-                )
-                self.logger.info("GLM client initialized successfully.")
-            else:
-                self.logger.warning("GLM_API_KEY not found. GLM client not initialized.")
-        except Exception as e:
-            self.logger.error(f"Failed to initialize GLM client: {e}")
+        # Try to initialize GLM client (which uses the openai library)
+        if not openai: # GLM client depends on the openai library structure
+            self.logger.warning("openai library not installed. GLM client cannot be initialized.")
+        else:
+            try:
+                api_key = os.getenv("GLM_API_KEY")
+                if api_key:
+                    self.glm_client = openai.OpenAI(
+                        base_url="https://open.bigmodel.cn/api/paas/v4/",
+                    )
+                    self.logger.info("GLM client initialized successfully.")
+                else:
+                    self.logger.warning("GLM_API_KEY not found. GLM client not initialized.")
+            except Exception as e:
+                self.logger.error(f"Failed to initialize GLM client: {e}")
 
     def __del__(self):
         """Logs the final token usage when the object is destroyed."""
@@ -122,15 +140,15 @@ class LLMProvider:
         model_name = config.model_name
         if model_name.startswith("gpt-"):
             if not self.openai_client:
-                raise ValueError("OpenAI client is not initialized. Check OPENAI_API_KEY.")
+                raise ValueError("OpenAI client is not initialized. Check OPENAI_API_KEY or install openai library.")
             return self._generate_openai_response(prompt, config)
         elif model_name.lower().startswith("glm-"):
             if not self.glm_client:
-                raise ValueError("GLM client is not initialized. Check GLM_API_KEY.")
+                raise ValueError("GLM client is not initialized. Check GLM_API_KEY or install openai library.")
             return self._generate_glm_response(prompt, config)
         elif model_name.startswith("gemini"):
             if not self.gemini_client:
-                raise ValueError("Gemini client is not initialized. Check GEMINI_API_KEY.")
+                raise ValueError("Gemini client is not initialized. Check GEMINI_API_KEY or install google-generativeai library.")
             return self._generate_gemini_response(prompt, config)
         else:
             raise ValueError(f"Unsupported or unknown model name: {model_name}")
@@ -150,13 +168,13 @@ class LLMProvider:
         model_name = config.model_name
         if model_name.startswith("gpt-"):
             if not self.openai_client:
-                raise ValueError("OpenAI client is not initialized. Check OPENAI_API_KEY.")
+                raise ValueError("OpenAI client is not initialized. Check OPENAI_API_KEY or install openai library.")
             return self._generate_openai_batch(prompts, config)
         elif model_name.lower().startswith("glm-"):
             raise NotImplementedError("Batch generation is not supported for GLM models yet.")
         elif model_name.startswith("gemini"):
             if not self.gemini_client:
-                raise ValueError("Gemini client is not initialized. Check GEMINI_API_KEY.")
+                raise ValueError("Gemini client is not initialized. Check GEMINI_API_KEY or install google-generativeai library.")
             return self._generate_gemini_batch(prompts, config)
         else:
             raise ValueError(f"Unsupported or unknown model name: {model_name}")

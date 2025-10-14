@@ -7,12 +7,14 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
 from pipeline.base import PipelineStage
 from pipeline.logger import get_logger
 
+logger = get_logger(__name__)
+
 try:
     from pydub import AudioSegment
+    PYDUB_AVAILABLE = True
 except ImportError:
-    raise ImportError("pydub is required. Install it with: pip install pydub")
-
-logger = get_logger(__name__)
+    PYDUB_AVAILABLE = False
+    AudioSegment = None
 
 class AudioPackageStage(PipelineStage):
     """
@@ -20,12 +22,18 @@ class AudioPackageStage(PipelineStage):
 
     Combines individual audio files into seamless packaged audio files
     with timeline metadata for precise highlighting control.
+    This stage is disabled if pydub is not installed.
     """
 
     def __init__(self, config: Dict):
         """Initializes the AudioPackageStage."""
         super().__init__(config)
+        self.enabled = PYDUB_AVAILABLE
         
+        if not self.enabled:
+            logger.error("pydub library not found. AudioPackageStage will be disabled. To enable, run: pip install pydub")
+            return
+
         # Audio gap configuration (in seconds)
         self.gap_major = config.get('audio_gap_major', 0.5)  # Major transitions
         self.gap_minor = config.get('audio_gap_minor', 0.3)  # Minor transitions
@@ -36,13 +44,21 @@ class AudioPackageStage(PipelineStage):
     def stage_name(self) -> str:
         return "audio_package"
     
+    def process_all(self, stories: List[Dict]) -> List[Dict]:
+        """Override process_all to handle the enabled/disabled state of the stage."""
+        if not self.enabled:
+            logger.warning("Skipping AudioPackageStage because pydub library is not installed.")
+            return stories
+        
+        return super().process_all(stories)
+
     def process(self, story: Dict) -> Dict:
         """
         Processes a story to create packaged audio files with timeline metadata.
         Only packages sentence-level audio (not full story).
         Raises exception if any critical step fails.
         """
-        story_id = story.get("story_id", "unknown")
+        story_id = story.get("id", "unknown")
         logger.info(f"Packaging audio for story: {story_id}")
         
         base_path = story["output_path"]
@@ -78,11 +94,14 @@ class AudioPackageStage(PipelineStage):
         if os.path.exists(output_file):
             logger.debug(f"    Packed audio already exists, skipping: {output_file}")
             # Still need to read duration for timeline
-            existing_audio = AudioSegment.from_mp3(output_file)
-            sentence['sentence_packed_audio'] = {
-                'url': os.path.relpath(output_file, base_path),
-                'duration': len(existing_audio) / 1000.0  # Convert to seconds
-            }
+            try:
+                existing_audio = AudioSegment.from_mp3(output_file)
+                sentence['sentence_packed_audio'] = {
+                    'url': os.path.relpath(output_file, base_path),
+                    'duration': len(existing_audio) / 1000.0  # Convert to seconds
+                }
+            except Exception as e:
+                logger.warning(f"Could not read existing packed audio {output_file}: {e}")
             return
 
         # Create silence segments

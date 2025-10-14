@@ -1,0 +1,31 @@
+{
+  "version": "1.0.0",
+  "stories": [
+    {
+      "id": "N5_G0_001",
+      "folder": "stories/N5_G0_001",
+      "title_ja": "迷子の猫の冒険 (Maigo no Neko no Bōken)",
+      "title": "The Lost Cat's Adventure",
+      "difficulty": "N5",
+      "grammar_group": 0,
+      "grammar_points": [
+        "います(imasu)",
+        "か(ka)",
+        "で(de)",
+        "です(desu)",
+        "ではありませんでした(dewa arimasen deshita)",
+        "に(ni)",
+        "の(no)",
+        "は(wa)",
+        "ました(mashita)",
+        "ます(masu)",
+        "を(o)"
+      ],
+      "topics": [],
+      "duration_seconds": 1161,
+      "sentence_count": 10
+    }
+  ],
+  "last_updated": "2025-10-14T06:59:52.756357Z",
+  "total_stories": 1
+}

@@ -10,6 +10,7 @@ from pipeline.stages.word_segmentation import WordSegmentationStage
 from pipeline.stages.content_pedagogy import ContentPedagogyStage
 from pipeline.stages.audio_generation import AudioGenerationStage
 from pipeline.stages.audio_package import AudioPackageStage
+from pipeline.stages.indexing_and_publish import IndexingAndPublishStage
 from pipeline.llm_provider import LLMProvider
 from pipeline.tts_provider import TTSProvider
 from pipeline.logger import get_logger
@@ -68,6 +69,7 @@ def load_existing_run(resume_id: str) -> Tuple[str, List[Dict]]:
     logger.info(f"Loaded {len(stories)} stories from {resume_id}")
     return run_output_dir, stories
 
+
 def main():
     """
     Main function to run the entire content generation pipeline.
@@ -87,12 +89,13 @@ def main():
     llm_provider = LLMProvider()
     tts_provider = TTSProvider()
     config = {
-        "llm_model_name": "gemini-2.5-flash-lite",
+        "llm_model_name": "gemini-2.5-flash-latest",
         "language": "ja",
         "level": "N5",
         "grammar_group": 0,
         "audio_gap_major": 1.0,  # Major transitions (word-to-word, sentence-to-word)
         "audio_gap_minor": 0.5,  # Minor transitions (within word explanation)
+        "publish_output_dir": "app_assets",
     }
     # Determine if this is a new run or resume
     if args.resume_id:
@@ -128,19 +131,21 @@ def main():
     content_pedagogy_stage = ContentPedagogyStage(config=config, llm_provider=llm_provider)
     audio_gen_stage = AudioGenerationStage(config=config, tts_provider=tts_provider)
     audio_package_stage = AudioPackageStage(config=config)
+    indexing_and_publish_stage = IndexingAndPublishStage(config=config)
 
     pipeline_stages = [
         story_gen_stage, 
         word_segment_stage, 
         content_pedagogy_stage, 
         audio_gen_stage,
-        audio_package_stage
+        audio_package_stage,
+        indexing_and_publish_stage
     ]
     
-    # Run the pipeline
+    # Run the main pipeline stages
     try:
         for i, stage in enumerate(pipeline_stages):
-            stage_num = i + 2  # Stages 2-6
+            stage_num = i + 2  # Stages 2-7
             logger.info(f"--- Stage {stage_num}: {stage.stage_name.replace('_', ' ').title()} ---")
             stories = stage.process_all(stories)
             logger.info(f"Completed stage: {stage.stage_name} with {len(stories)} stories.")
