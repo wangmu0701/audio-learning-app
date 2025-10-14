@@ -34,6 +34,30 @@ class NewsCollectionStage(PipelineStage):
     def output_base_dir(self) -> str:
         return self.config.get('output_base_dir', None)
 
+    def _load_existing_stories(self) -> List[Dict[str, str]]:
+        """Loads the published index.json and returns a list of existing story titles and summaries."""
+        publish_dir = self.config.get('publish_output_dir', 'app_assets')
+        index_path = os.path.join(publish_dir, 'index.json')
+        
+        if not os.path.exists(index_path):
+            logger.info("index.json not found, assuming no existing stories.")
+            return []
+
+        try:
+            with open(index_path, 'r', encoding='utf-8') as f:
+                index_data = json.load(f)
+            
+            stories = [
+                {'title': story.get('title'), 'summary': story.get('summary')}
+                for story in index_data.get('stories', [])
+                if story.get('title') and story.get('summary')
+            ]
+            logger.info(f"Found {len(stories)} existing stories in {index_path}.")
+            return stories
+        except (json.JSONDecodeError, FileNotFoundError):
+            logger.warning(f"Could not read or parse {index_path}. Assuming no existing stories.")
+            return []
+
     def process(self, input_story: Dict) -> Dict:
         raise NotImplementedError("This stage processes multiple stories at once. Use process_all instead.")
 
@@ -44,6 +68,8 @@ class NewsCollectionStage(PipelineStage):
         """
         logger.info(f"Generating language-agnostic story ideas.")
         
+        existing_stories = self._load_existing_stories()
+
         story_ideas_schema = {
             "type": "object",
             "properties": {
@@ -68,12 +94,23 @@ class NewsCollectionStage(PipelineStage):
             "required": ["story_ideas"]
         }
 
+        exclusion_prompt = ""
+        if existing_stories:
+            story_list_str = "\n".join(
+                f"- Title: \"{story['title']}\"\n  Summary: \"{story['summary']}\"" 
+                for story in existing_stories
+            )
+            exclusion_prompt = f"""
+To ensure diversity, please generate ideas that are substantially different from the following already existing stories:
+{story_list_str}
+"""
+
         prompt = f"""
 You are creating educational content for language learners.
 
 Generate {self.number_of_stories} interesting and diverse story ideas based on news, trends, or everyday scenarios.
 The ideas should be simple, easy to visualize, and suitable for beginners.
-
+{exclusion_prompt}
 Please format your response according to the provided JSON schema.
 """
         

@@ -146,6 +146,7 @@ class IndexingAndPublishStage(PipelineStage):
                 "folder": os.path.join('stories', app_story_id),
                 "title_ja": story.get('title_ja'),
                 "title": story.get('title'),
+                "summary": story.get('summary'),
                 "difficulty": self.difficulty,
                 "grammar_group": self.grammar_group,
                 "grammar_points": story.get('grammar_points'),
