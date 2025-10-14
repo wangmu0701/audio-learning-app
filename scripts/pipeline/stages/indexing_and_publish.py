@@ -151,7 +151,8 @@ class IndexingAndPublishStage(PipelineStage):
                 "grammar_points": story.get('grammar_points'),
                 "topics": story.get('topics', []),
                 "duration_seconds": story.get('duration_seconds'),
-                "sentence_count": story.get('sentence_count')
+                "sentence_count": story.get('sentence_count'),
+                "word_count": story.get('word_count')
             }
         except Exception as e:
             return e
