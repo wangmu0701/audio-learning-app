@@ -127,10 +127,7 @@ class WordSegmentationStage(PipelineStage):
         original_cleaned = regex.sub(r'[\s\p{P}]+', '', sentence_ja)
         reconstructed_cleaned = ''.join(tokens)
         if original_cleaned != reconstructed_cleaned:
-            logger.warning(f"Tokenization mismatch after cleaning. Original: '{original_cleaned}', Reconstructed: '{reconstructed_cleaned}'")
-            # Fallback to a simpler validation: check if all tokens are in the original sentence
-            if not all(token in sentence_ja for token in tokens):
-                 raise ValueError(f"Tokenization mismatch! Original: <{sentence_ja}>, Reconstructed: <{''.join(tokens)}>")
+            raise ValueError(f"Tokenization mismatch! Original: <{sentence_ja}>, Reconstructed: <{''.join(tokens)}>")
 
         # Find token positions in the original sentence
         tokens_pos = []
