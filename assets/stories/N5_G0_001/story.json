@@ -1,0 +1,1585 @@
+{
+  "title": "The Lost Cat's Adventure",
+  "summary": "A small, fluffy cat named Whiskers gets lost in the big city. He meets friendly people and other animals who help him find his way back home. This story uses simple vocabulary to describe places and actions.",
+  "story_id": "N5_G0_001",
+  "output_path": "output/2025-10-13/R-0002/S-00",
+  "title_ja": "迷子の猫の冒険 (Maigo no Neko no Bōken)",
+  "story_breakdown": [
+    {
+      "sentence_ja": "ふわふわの小さな猫がいました。",
+      "sentence_en": "There was a small, fluffy cat.",
+      "grammar_points": [
+        "Verb います (imasu)"
+      ],
+      "grammar_points_short": [
+        "います(imasu)"
+      ],
+      "words": [
+        {
+          "word_ja": "ふわふわ",
+          "word_romaji": "fuwafuwa",
+          "position": 0,
+          "word_en": "fluffy",
+          "explanation": "This word describes something as soft and light, like clouds or cotton. In our sentence, it's used to describe the cat's texture.",
+          "id": "w1",
+          "audio_ja_path": "audio/sentences/s1_words/w1_ja.mp3",
+          "audio_romaji_path": "audio/sentences/s1_words/w1_romaji.mp3",
+          "audio_en_path": "audio/sentences/s1_words/w1_en.mp3",
+          "audio_explanation_path": "audio/sentences/s1_words/w1_explanation.mp3"
+        },
+        {
+          "word_ja": "の",
+          "word_romaji": "no",
+          "position": 4,
+          "word_en": "of / 's",
+          "explanation": "This little word connects two nouns. Here, it links the description 'fluffy' to the noun that follows, indicating a characteristic of the cat.",
+          "id": "w2",
+          "audio_ja_path": "audio/sentences/s1_words/w2_ja.mp3",
+          "audio_romaji_path": "audio/sentences/s1_words/w2_romaji.mp3",
+          "audio_en_path": "audio/sentences/s1_words/w2_en.mp3",
+          "audio_explanation_path": "audio/sentences/s1_words/w2_explanation.mp3"
+        },
+        {
+          "word_ja": "小さな",
+          "word_romaji": "chiisana",
+          "position": 5,
+          "word_en": "small",
+          "explanation": "This word means 'small' in size. It's an adjective describing the cat.",
+          "id": "w3",
+          "audio_ja_path": "audio/sentences/s1_words/w3_ja.mp3",
+          "audio_romaji_path": "audio/sentences/s1_words/w3_romaji.mp3",
+          "audio_en_path": "audio/sentences/s1_words/w3_en.mp3",
+          "audio_explanation_path": "audio/sentences/s1_words/w3_explanation.mp3"
+        },
+        {
+          "word_ja": "猫",
+          "word_romaji": "neko",
+          "position": 8,
+          "word_en": "cat",
+          "explanation": "This is the noun for 'cat'. It's the main subject being described in the sentence.",
+          "id": "w4",
+          "audio_ja_path": "audio/sentences/s1_words/w4_ja.mp3",
+          "audio_romaji_path": "audio/sentences/s1_words/w4_romaji.mp3",
+          "audio_en_path": "audio/sentences/s1_words/w4_en.mp3",
+          "audio_explanation_path": "audio/sentences/s1_words/w4_explanation.mp3"
+        },
+        {
+          "word_ja": "が",
+          "word_romaji": "ga",
+          "position": 9,
+          "word_en": "subject marker",
+          "explanation": "This particle marks the noun that came before it as the subject of the sentence. It tells us who or what the sentence is about.",
+          "id": "w5",
+          "audio_ja_path": "audio/sentences/s1_words/w5_ja.mp3",
+          "audio_romaji_path": "audio/sentences/s1_words/w5_romaji.mp3",
+          "audio_en_path": "audio/sentences/s1_words/w5_en.mp3",
+          "audio_explanation_path": "audio/sentences/s1_words/w5_explanation.mp3"
+        },
+        {
+          "word_ja": "いました",
+          "word_romaji": "imashita",
+          "position": 10,
+          "word_en": "existed / was",
+          "explanation": "This is a very important verb! It means 'to exist' or 'to be'. For animate things like cats, dogs, or people, we use this verb to say they are present or that they existed. This is one of our focus grammar points.",
+          "id": "w6",
+          "audio_ja_path": "audio/sentences/s1_words/w6_ja.mp3",
+          "audio_romaji_path": "audio/sentences/s1_words/w6_romaji.mp3",
+          "audio_en_path": "audio/sentences/s1_words/w6_en.mp3",
+          "audio_explanation_path": "audio/sentences/s1_words/w6_explanation.mp3"
+        }
+      ],
+      "sentence_romaji": "Fuwafuwa no chiisana neko ga imashita.",
+      "id": "s1",
+      "sentence_ja_audio": "audio/sentences/s1_ja.mp3",
+      "sentence_en_audio": "audio/sentences/s1_en.mp3",
+      "sentence_packed_audio": {
+        "url": "audio/packed/s1.mp3",
+        "duration": 94.42800000000001,
+        "timeline": {
+          "sentence_ja": {
+            "start": 0.0,
+            "end": 3.168
+          },
+          "sentence_en": {
+            "start": 3.668,
+            "end": 5.732
+          },
+          "words": [
+            {
+              "word_index": 0,
+              "start": 6.732,
+              "end": 20.28
+            },
+            {
+              "word_index": 1,
+              "start": 21.28,
+              "end": 34.708
+            },
+            {
+              "word_index": 2,
+              "start": 35.708,
+              "end": 45.31999999999999
+            },
+            {
+              "word_index": 3,
+              "start": 46.31999999999999,
+              "end": 55.28399999999999
+            },
+            {
+              "word_index": 4,
+              "start": 56.28399999999999,
+              "end": 68.176
+            },
+            {
+              "word_index": 5,
+              "start": 69.176,
+              "end": 90.26
+            }
+          ],
+          "sentence_ja_repeat": {
+            "start": 91.26,
+            "end": 94.42800000000001
+          }
+        }
+      }
+    },
+    {
+      "sentence_ja": "名前はミトンです。",
+      "sentence_en": "Its name is Mitten.",
+      "grammar_points": [
+        "Particle は (wa)",
+        "Copula です (desu)"
+      ],
+      "grammar_points_short": [
+        "は(wa)",
+        "です(desu)"
+      ],
+      "words": [
+        {
+          "word_ja": "名前",
+          "word_romaji": "Namae",
+          "position": 0,
+          "word_en": "name",
+          "explanation": "This word means 'name'. It's the noun that tells us what we are talking about in this sentence.",
+          "id": "w1",
+          "audio_ja_path": "audio/sentences/s2_words/w1_ja.mp3",
+          "audio_romaji_path": "audio/sentences/s2_words/w1_romaji.mp3",
+          "audio_en_path": "audio/sentences/s2_words/w1_en.mp3",
+          "audio_explanation_path": "audio/sentences/s2_words/w1_explanation.mp3"
+        },
+        {
+          "word_ja": "は",
+          "word_romaji": "wa",
+          "position": 2,
+          "word_en": "topic marker",
+          "explanation": "This is a very important particle! It's called 'wa' and it marks the topic of the sentence. So, after this particle, we know what the sentence is going to be about. In this case, it's about the name.",
+          "id": "w2",
+          "audio_ja_path": "audio/sentences/s2_words/w2_ja.mp3",
+          "audio_romaji_path": "audio/sentences/s2_words/w2_romaji.mp3",
+          "audio_en_path": "audio/sentences/s2_words/w2_en.mp3",
+          "audio_explanation_path": "audio/sentences/s2_words/w2_explanation.mp3"
+        },
+        {
+          "word_ja": "ミトン",
+          "word_romaji": "Miton",
+          "position": 3,
+          "word_en": "Mitten",
+          "explanation": "This is a proper noun, the specific name being given. It functions as the predicate nominative, telling us what the topic is.",
+          "id": "w3",
+          "audio_ja_path": "audio/sentences/s2_words/w3_ja.mp3",
+          "audio_romaji_path": "audio/sentences/s2_words/w3_romaji.mp3",
+          "audio_en_path": "audio/sentences/s2_words/w3_en.mp3",
+          "audio_explanation_path": "audio/sentences/s2_words/w3_explanation.mp3"
+        },
+        {
+          "word_ja": "です",
+          "word_romaji": "desu",
+          "position": 6,
+          "word_en": "is",
+          "explanation": "This is the polite sentence-ending copula, similar to 'is' or 'am' in English. It makes the sentence polite and complete. It connects the topic (the name) to what it is (Mitten).",
+          "id": "w4",
+          "audio_ja_path": "audio/sentences/s2_words/w4_ja.mp3",
+          "audio_romaji_path": "audio/sentences/s2_words/w4_romaji.mp3",
+          "audio_en_path": "audio/sentences/s2_words/w4_en.mp3",
+          "audio_explanation_path": "audio/sentences/s2_words/w4_explanation.mp3"
+        }
+      ],
+      "sentence_romaji": "Namae wa Miton desu.",
+      "id": "s2",
+      "sentence_ja_audio": "audio/sentences/s2_ja.mp3",
+      "sentence_en_audio": "audio/sentences/s2_en.mp3",
+      "sentence_packed_audio": {
+        "url": "audio/packed/s2.mp3",
+        "duration": 66.412,
+        "timeline": {
+          "sentence_ja": {
+            "start": 0.0,
+            "end": 1.92
+          },
+          "sentence_en": {
+            "start": 2.42,
+            "end": 4.004
+          },
+          "words": [
+            {
+              "word_index": 0,
+              "start": 5.004,
+              "end": 15.36
+            },
+            {
+              "word_index": 1,
+              "start": 16.36,
+              "end": 32.644000000000005
+            },
+            {
+              "word_index": 2,
+              "start": 33.644000000000005,
+              "end": 45.752
+            },
+            {
+              "word_index": 3,
+              "start": 46.752,
+              "end": 63.492000000000004
+            }
+          ],
+          "sentence_ja_repeat": {
+            "start": 64.492,
+            "end": 66.412
+          }
+        }
+      }
+    },
+    {
+      "sentence_ja": "ミトンは町で迷子になりました。",
+      "sentence_en": "Mitten got lost in the town.",
+      "grammar_points": [
+        "Particle は (wa)",
+        "Particle で (de)",
+        "Verb form 〜ました (~mashita)"
+      ],
+      "grammar_points_short": [
+        "は(wa)",
+        "で(de)",
+        "ました(mashita)"
+      ],
+      "words": [
+        {
+          "word_ja": "ミトン",
+          "word_romaji": "miton",
+          "position": 0,
+          "word_en": "Mitten",
+          "explanation": "This is a name, like a character's name in our story. It's the subject of our sentence, the one who experienced something.",
+          "id": "w1",
+          "audio_ja_path": "audio/sentences/s3_words/w1_ja.mp3",
+          "audio_romaji_path": "audio/sentences/s3_words/w1_romaji.mp3",
+          "audio_en_path": "audio/sentences/s3_words/w1_en.mp3",
+          "audio_explanation_path": "audio/sentences/s3_words/w1_explanation.mp3"
+        },
+        {
+          "word_ja": "は",
+          "word_romaji": "wa",
+          "position": 3,
+          "word_en": "topic marker",
+          "explanation": "This little word is a topic marker particle. It tells us that 'Mitten' is the topic of the sentence, the main subject we're talking about. It's a key grammar point for beginners!",
+          "id": "w2",
+          "audio_ja_path": "audio/sentences/s3_words/w2_ja.mp3",
+          "audio_romaji_path": "audio/sentences/s3_words/w2_romaji.mp3",
+          "audio_en_path": "audio/sentences/s3_words/w2_en.mp3",
+          "audio_explanation_path": "audio/sentences/s3_words/w2_explanation.mp3"
+        },
+        {
+          "word_ja": "町",
+          "word_romaji": "machi",
+          "position": 4,
+          "word_en": "town",
+          "explanation": "This word means 'town'. It's the place where something happened in our sentence.",
+          "id": "w3",
+          "audio_ja_path": "audio/sentences/s3_words/w3_ja.mp3",
+          "audio_romaji_path": "audio/sentences/s3_words/w3_romaji.mp3",
+          "audio_en_path": "audio/sentences/s3_words/w3_en.mp3",
+          "audio_explanation_path": "audio/sentences/s3_words/w3_explanation.mp3"
+        },
+        {
+          "word_ja": "で",
+          "word_romaji": "de",
+          "position": 5,
+          "word_en": "in / at",
+          "explanation": "This particle marks the location where an action takes place. So, in our sentence, it tells us the action happened 'in the town'.",
+          "id": "w4",
+          "audio_ja_path": "audio/sentences/s3_words/w4_ja.mp3",
+          "audio_romaji_path": "audio/sentences/s3_words/w4_romaji.mp3",
+          "audio_en_path": "audio/sentences/s3_words/w4_en.mp3",
+          "audio_explanation_path": "audio/sentences/s3_words/w4_explanation.mp3"
+        },
+        {
+          "word_ja": "迷子",
+          "word_romaji": "maigo",
+          "position": 6,
+          "word_en": "lost",
+          "explanation": "This word describes a state of being unable to find one's way. It's part of a common phrase that means 'to become lost'.",
+          "id": "w5",
+          "audio_ja_path": "audio/sentences/s3_words/w5_ja.mp3",
+          "audio_romaji_path": "audio/sentences/s3_words/w5_romaji.mp3",
+          "audio_en_path": "audio/sentences/s3_words/w5_en.mp3",
+          "audio_explanation_path": "audio/sentences/s3_words/w5_explanation.mp3"
+        },
+        {
+          "word_ja": "に",
+          "word_romaji": "ni",
+          "position": 8,
+          "word_en": "to become",
+          "explanation": "This is a particle that often indicates a change of state or direction. Here, it works with the preceding word to mean 'became lost'.",
+          "id": "w6",
+          "audio_ja_path": "audio/sentences/s3_words/w6_ja.mp3",
+          "audio_romaji_path": "audio/sentences/s3_words/w6_romaji.mp3",
+          "audio_en_path": "audio/sentences/s3_words/w6_en.mp3",
+          "audio_explanation_path": "audio/sentences/s3_words/w6_explanation.mp3"
+        },
+        {
+          "word_ja": "なりました",
+          "word_romaji": "narimashita",
+          "position": 9,
+          "word_en": "became",
+          "explanation": "This is the past tense of a verb, indicating that something happened in the past. It's a very common verb ending you'll learn, showing a completed action. This is a key grammar point!",
+          "id": "w7",
+          "audio_ja_path": "audio/sentences/s3_words/w7_ja.mp3",
+          "audio_romaji_path": "audio/sentences/s3_words/w7_romaji.mp3",
+          "audio_en_path": "audio/sentences/s3_words/w7_en.mp3",
+          "audio_explanation_path": "audio/sentences/s3_words/w7_explanation.mp3"
+        }
+      ],
+      "sentence_romaji": "miton wa machi de maigo ni narimashita.",
+      "id": "s3",
+      "sentence_ja_audio": "audio/sentences/s3_ja.mp3",
+      "sentence_en_audio": "audio/sentences/s3_en.mp3",
+      "sentence_packed_audio": {
+        "url": "audio/packed/s3.mp3",
+        "duration": 103.88799999999998,
+        "timeline": {
+          "sentence_ja": {
+            "start": 0.0,
+            "end": 3.024
+          },
+          "sentence_en": {
+            "start": 3.524,
+            "end": 5.0600000000000005
+          },
+          "words": [
+            {
+              "word_index": 0,
+              "start": 6.0600000000000005,
+              "end": 17.184
+            },
+            {
+              "word_index": 1,
+              "start": 18.184,
+              "end": 33.484
+            },
+            {
+              "word_index": 2,
+              "start": 34.484,
+              "end": 43.111999999999995
+            },
+            {
+              "word_index": 3,
+              "start": 44.111999999999995,
+              "end": 56.291999999999994
+            },
+            {
+              "word_index": 4,
+              "start": 57.291999999999994,
+              "end": 69.63999999999999
+            },
+            {
+              "word_index": 5,
+              "start": 70.63999999999999,
+              "end": 83.46799999999998
+            },
+            {
+              "word_index": 6,
+              "start": 84.46799999999998,
+              "end": 99.86399999999998
+            }
+          ],
+          "sentence_ja_repeat": {
+            "start": 100.86399999999998,
+            "end": 103.88799999999998
+          }
+        }
+      }
+    },
+    {
+      "sentence_ja": "ミトンは家に帰りたいです。",
+      "sentence_en": "Mitten wants to go home.",
+      "grammar_points": [
+        "Particle は (wa)",
+        "Particle に (ni)",
+        "Verb form 〜ます (~masu)"
+      ],
+      "grammar_points_short": [
+        "は(wa)",
+        "に(ni)",
+        "ます(masu)"
+      ],
+      "words": [
+        {
+          "word_ja": "ミトン",
+          "word_romaji": "miton",
+          "position": 0,
+          "word_en": "Mitten",
+          "explanation": "This is a name, likely of a pet or a person. It's the subject of our sentence, the one who wants to do something.",
+          "id": "w1",
+          "audio_ja_path": "audio/sentences/s4_words/w1_ja.mp3",
+          "audio_romaji_path": "audio/sentences/s4_words/w1_romaji.mp3",
+          "audio_en_path": "audio/sentences/s4_words/w1_en.mp3",
+          "audio_explanation_path": "audio/sentences/s4_words/w1_explanation.mp3"
+        },
+        {
+          "word_ja": "は",
+          "word_romaji": "wa",
+          "position": 3,
+          "word_en": "topic marker",
+          "explanation": "This is a very important grammar particle. It comes after the subject of the sentence, which is the name we just talked about. It marks that name as the topic of the sentence. Think of it like saying 'As for Mitten...'.",
+          "id": "w2",
+          "audio_ja_path": "audio/sentences/s4_words/w2_ja.mp3",
+          "audio_romaji_path": "audio/sentences/s4_words/w2_romaji.mp3",
+          "audio_en_path": "audio/sentences/s4_words/w2_en.mp3",
+          "audio_explanation_path": "audio/sentences/s4_words/w2_explanation.mp3"
+        },
+        {
+          "word_ja": "家",
+          "word_romaji": "ie",
+          "position": 4,
+          "word_en": "home",
+          "explanation": "This word means 'home' or 'house'. In the sentence, it tells us where someone wants to go.",
+          "id": "w3",
+          "audio_ja_path": "audio/sentences/s4_words/w3_ja.mp3",
+          "audio_romaji_path": "audio/sentences/s4_words/w3_romaji.mp3",
+          "audio_en_path": "audio/sentences/s4_words/w3_en.mp3",
+          "audio_explanation_path": "audio/sentences/s4_words/w3_explanation.mp3"
+        },
+        {
+          "word_ja": "に",
+          "word_romaji": "ni",
+          "position": 5,
+          "word_en": "destination marker",
+          "explanation": "This little particle is used to show direction or destination. Here, it comes after the word for 'home' to tell us that 'home' is the place someone wants to go to.",
+          "id": "w4",
+          "audio_ja_path": "audio/sentences/s4_words/w4_ja.mp3",
+          "audio_romaji_path": "audio/sentences/s4_words/w4_romaji.mp3",
+          "audio_en_path": "audio/sentences/s4_words/w4_en.mp3",
+          "audio_explanation_path": "audio/sentences/s4_words/w4_explanation.mp3"
+        },
+        {
+          "word_ja": "帰り",
+          "word_romaji": "kaeri",
+          "position": 6,
+          "word_en": "go",
+          "explanation": "This is the stem of a verb meaning 'to go'. It's part of a larger expression that shows desire.",
+          "id": "w5",
+          "audio_ja_path": "audio/sentences/s4_words/w5_ja.mp3",
+          "audio_romaji_path": "audio/sentences/s4_words/w5_romaji.mp3",
+          "audio_en_path": "audio/sentences/s4_words/w5_en.mp3",
+          "audio_explanation_path": "audio/sentences/s4_words/w5_explanation.mp3"
+        },
+        {
+          "word_ja": "たい",
+          "word_romaji": "tai",
+          "position": 8,
+          "word_en": "want to",
+          "explanation": "This ending is attached to the verb stem we just saw. Together, they create a phrase that means 'want to go'. It expresses a desire or wish.",
+          "id": "w6",
+          "audio_ja_path": "audio/sentences/s4_words/w6_ja.mp3",
+          "audio_romaji_path": "audio/sentences/s4_words/w6_romaji.mp3",
+          "audio_en_path": "audio/sentences/s4_words/w6_en.mp3",
+          "audio_explanation_path": "audio/sentences/s4_words/w6_explanation.mp3"
+        },
+        {
+          "word_ja": "です",
+          "word_romaji": "desu",
+          "position": 10,
+          "word_en": "polite ending",
+          "explanation": "This is a polite ending for verbs. It makes the whole sentence sound more formal and polite. It's very common in everyday conversation.",
+          "id": "w7",
+          "audio_ja_path": "audio/sentences/s4_words/w7_ja.mp3",
+          "audio_romaji_path": "audio/sentences/s4_words/w7_romaji.mp3",
+          "audio_en_path": "audio/sentences/s4_words/w7_en.mp3",
+          "audio_explanation_path": "audio/sentences/s4_words/w7_explanation.mp3"
+        }
+      ],
+      "sentence_romaji": "miton wa ie ni kaeritai desu.",
+      "id": "s4",
+      "sentence_ja_audio": "audio/sentences/s4_ja.mp3",
+      "sentence_en_audio": "audio/sentences/s4_en.mp3",
+      "sentence_packed_audio": {
+        "url": "audio/packed/s4.mp3",
+        "duration": 107.36800000000001,
+        "timeline": {
+          "sentence_ja": {
+            "start": 0.0,
+            "end": 2.76
+          },
+          "sentence_en": {
+            "start": 3.26,
+            "end": 4.484
+          },
+          "words": [
+            {
+              "word_index": 0,
+              "start": 5.484,
+              "end": 16.704
+            },
+            {
+              "word_index": 1,
+              "start": 17.704,
+              "end": 34.924
+            },
+            {
+              "word_index": 2,
+              "start": 35.924,
+              "end": 46.78399999999999
+            },
+            {
+              "word_index": 3,
+              "start": 47.78399999999999,
+              "end": 63.63599999999999
+            },
+            {
+              "word_index": 4,
+              "start": 64.636,
+              "end": 74.2
+            },
+            {
+              "word_index": 5,
+              "start": 75.2,
+              "end": 89.78
+            },
+            {
+              "word_index": 6,
+              "start": 90.78,
+              "end": 103.608
+            }
+          ],
+          "sentence_ja_repeat": {
+            "start": 104.608,
+            "end": 107.36800000000001
+          }
+        }
+      }
+    },
+    {
+      "sentence_ja": "人がミトンを見ました。",
+      "sentence_en": "A person saw Mitten.",
+      "grammar_points": [
+        "Particle は (wa)",
+        "Particle を (o)",
+        "Verb form 〜ました (~mashita)"
+      ],
+      "grammar_points_short": [
+        "は(wa)",
+        "を(o)",
+        "ました(mashita)"
+      ],
+      "words": [
+        {
+          "word_ja": "人",
+          "word_romaji": "Hito",
+          "position": 0,
+          "word_en": "person",
+          "explanation": "This word means 'person'. It's the subject of our sentence, the one who is doing the action.",
+          "id": "w1",
+          "audio_ja_path": "audio/sentences/s5_words/w1_ja.mp3",
+          "audio_romaji_path": "audio/sentences/s5_words/w1_romaji.mp3",
+          "audio_en_path": "audio/sentences/s5_words/w1_en.mp3",
+          "audio_explanation_path": "audio/sentences/s5_words/w1_explanation.mp3"
+        },
+        {
+          "word_ja": "が",
+          "word_romaji": "ga",
+          "position": 1,
+          "word_en": "subject marker",
+          "explanation": "This is a particle, and it's one of our focus grammar points! It marks the noun right before it as the subject of the sentence. So, in this case, it tells us that 'a person' is the one performing the action.",
+          "id": "w2",
+          "audio_ja_path": "audio/sentences/s5_words/w2_ja.mp3",
+          "audio_romaji_path": "audio/sentences/s5_words/w2_romaji.mp3",
+          "audio_en_path": "audio/sentences/s5_words/w2_en.mp3",
+          "audio_explanation_path": "audio/sentences/s5_words/w2_explanation.mp3"
+        },
+        {
+          "word_ja": "ミトン",
+          "word_romaji": "miton",
+          "position": 2,
+          "word_en": "Mitten",
+          "explanation": "This is a name. In this sentence, it's the thing that was seen.",
+          "id": "w3",
+          "audio_ja_path": "audio/sentences/s5_words/w3_ja.mp3",
+          "audio_romaji_path": "audio/sentences/s5_words/w3_romaji.mp3",
+          "audio_en_path": "audio/sentences/s5_words/w3_en.mp3",
+          "audio_explanation_path": "audio/sentences/s5_words/w3_explanation.mp3"
+        },
+        {
+          "word_ja": "を",
+          "word_romaji": "o",
+          "position": 5,
+          "word_en": "direct object marker",
+          "explanation": "This particle is another focus grammar point! It comes after a noun and marks that noun as the direct object of the verb. It tells us what the verb is acting upon. Here, it shows that 'Mitten' is what was seen.",
+          "id": "w4",
+          "audio_ja_path": "audio/sentences/s5_words/w4_ja.mp3",
+          "audio_romaji_path": "audio/sentences/s5_words/w4_romaji.mp3",
+          "audio_en_path": "audio/sentences/s5_words/w4_en.mp3",
+          "audio_explanation_path": "audio/sentences/s5_words/w4_explanation.mp3"
+        },
+        {
+          "word_ja": "見ました",
+          "word_romaji": "mimashita",
+          "position": 6,
+          "word_en": "saw",
+          "explanation": "This is the past tense of the verb 'to see'. It's our second focus grammar point, showing an action that happened in the past. So, the person performed this action in the past.",
+          "id": "w5",
+          "audio_ja_path": "audio/sentences/s5_words/w5_ja.mp3",
+          "audio_romaji_path": "audio/sentences/s5_words/w5_romaji.mp3",
+          "audio_en_path": "audio/sentences/s5_words/w5_en.mp3",
+          "audio_explanation_path": "audio/sentences/s5_words/w5_explanation.mp3"
+        }
+      ],
+      "sentence_romaji": "Hito ga miton o mimashita.",
+      "id": "s5",
+      "sentence_ja_audio": "audio/sentences/s5_ja.mp3",
+      "sentence_en_audio": "audio/sentences/s5_en.mp3",
+      "sentence_packed_audio": {
+        "url": "audio/packed/s5.mp3",
+        "duration": 83.95999999999998,
+        "timeline": {
+          "sentence_ja": {
+            "start": 0.0,
+            "end": 2.28
+          },
+          "sentence_en": {
+            "start": 2.78,
+            "end": 3.9079999999999995
+          },
+          "words": [
+            {
+              "word_index": 0,
+              "start": 4.9079999999999995,
+              "end": 14.783999999999999
+            },
+            {
+              "word_index": 1,
+              "start": 15.783999999999999,
+              "end": 35.403999999999996
+            },
+            {
+              "word_index": 2,
+              "start": 36.403999999999996,
+              "end": 44.431999999999995
+            },
+            {
+              "word_index": 3,
+              "start": 45.431999999999995,
+              "end": 63.947999999999986
+            },
+            {
+              "word_index": 4,
+              "start": 64.94799999999998,
+              "end": 80.67999999999998
+            }
+          ],
+          "sentence_ja_repeat": {
+            "start": 81.67999999999998,
+            "end": 83.95999999999998
+          }
+        }
+      }
+    },
+    {
+      "sentence_ja": "「かわいい猫ですね」と言いました。",
+      "sentence_en": "They said, \"What a cute cat!\"",
+      "grammar_points": [
+        "Particle は (wa)",
+        "Copula です (desu)",
+        "Verb form 〜ました (~mashita)"
+      ],
+      "grammar_points_short": [
+        "は(wa)",
+        "です(desu)",
+        "ました(mashita)"
+      ],
+      "words": [
+        {
+          "word_ja": "かわいい",
+          "word_romaji": "kawaii",
+          "position": 1,
+          "word_en": "cute",
+          "explanation": "This word describes something as 'cute' or 'lovely'. It's an adjective that comes before the noun it's describing.",
+          "id": "w1",
+          "audio_ja_path": "audio/sentences/s6_words/w1_ja.mp3",
+          "audio_romaji_path": "audio/sentences/s6_words/w1_romaji.mp3",
+          "audio_en_path": "audio/sentences/s6_words/w1_en.mp3",
+          "audio_explanation_path": "audio/sentences/s6_words/w1_explanation.mp3"
+        },
+        {
+          "word_ja": "猫",
+          "word_romaji": "neko",
+          "position": 5,
+          "word_en": "cat",
+          "explanation": "This word means 'cat'. It's the noun that is being described as cute in this sentence.",
+          "id": "w2",
+          "audio_ja_path": "audio/sentences/s6_words/w2_ja.mp3",
+          "audio_romaji_path": "audio/sentences/s6_words/w2_romaji.mp3",
+          "audio_en_path": "audio/sentences/s6_words/w2_en.mp3",
+          "audio_explanation_path": "audio/sentences/s6_words/w2_explanation.mp3"
+        },
+        {
+          "word_ja": "です",
+          "word_romaji": "desu",
+          "position": 6,
+          "word_en": "is",
+          "explanation": "This is a very important word! It's the polite copula, similar to 'is' or 'am' in English. It connects the subject (the cat) to its description (cute). This is one of our focus grammar points.",
+          "id": "w3",
+          "audio_ja_path": "audio/sentences/s6_words/w3_ja.mp3",
+          "audio_romaji_path": "audio/sentences/s6_words/w3_romaji.mp3",
+          "audio_en_path": "audio/sentences/s6_words/w3_en.mp3",
+          "audio_explanation_path": "audio/sentences/s6_words/w3_explanation.mp3"
+        },
+        {
+          "word_ja": "ね",
+          "word_romaji": "ne",
+          "position": 8,
+          "word_en": "isn't it? / right?",
+          "explanation": "This little word is a sentence-ending particle. It's used to seek agreement or confirmation from the listener, like saying 'isn't it?' or 'right?' in English. It makes the statement sound softer and more conversational.",
+          "id": "w4",
+          "audio_ja_path": "audio/sentences/s6_words/w4_ja.mp3",
+          "audio_romaji_path": "audio/sentences/s6_words/w4_romaji.mp3",
+          "audio_en_path": "audio/sentences/s6_words/w4_en.mp3",
+          "audio_explanation_path": "audio/sentences/s6_words/w4_explanation.mp3"
+        },
+        {
+          "word_ja": "と",
+          "word_romaji": "to",
+          "position": 10,
+          "word_en": "quotation particle",
+          "explanation": "This particle is used to mark the end of a direct quote. Think of it like the closing quotation mark in English, but it comes *after* the quoted speech.",
+          "id": "w5",
+          "audio_ja_path": "audio/sentences/s6_words/w5_ja.mp3",
+          "audio_romaji_path": "audio/sentences/s6_words/w5_romaji.mp3",
+          "audio_en_path": "audio/sentences/s6_words/w5_en.mp3",
+          "audio_explanation_path": "audio/sentences/s6_words/w5_explanation.mp3"
+        },
+        {
+          "word_ja": "言い",
+          "word_romaji": "ii",
+          "position": 11,
+          "word_en": "say",
+          "explanation": "This is the stem of the verb 'to say'. It's part of the past tense form that comes next.",
+          "id": "w6",
+          "audio_ja_path": "audio/sentences/s6_words/w6_ja.mp3",
+          "audio_romaji_path": "audio/sentences/s6_words/w6_romaji.mp3",
+          "audio_en_path": "audio/sentences/s6_words/w6_en.mp3",
+          "audio_explanation_path": "audio/sentences/s6_words/w6_explanation.mp3"
+        },
+        {
+          "word_ja": "ました",
+          "word_romaji": "mashita",
+          "position": 13,
+          "word_en": "said",
+          "explanation": "This is the polite past tense of the verb 'to say'. It tells us that the action of speaking happened in the past. This is another one of our focus grammar points, showing how verbs change to indicate past actions.",
+          "id": "w7",
+          "audio_ja_path": "audio/sentences/s6_words/w7_ja.mp3",
+          "audio_romaji_path": "audio/sentences/s6_words/w7_romaji.mp3",
+          "audio_en_path": "audio/sentences/s6_words/w7_en.mp3",
+          "audio_explanation_path": "audio/sentences/s6_words/w7_explanation.mp3"
+        }
+      ],
+      "sentence_romaji": "kawaii neko desu ne to iimashita.",
+      "id": "s6",
+      "sentence_ja_audio": "audio/sentences/s6_ja.mp3",
+      "sentence_en_audio": "audio/sentences/s6_en.mp3",
+      "sentence_packed_audio": {
+        "url": "audio/packed/s6.mp3",
+        "duration": 116.68,
+        "timeline": {
+          "sentence_ja": {
+            "start": 0.0,
+            "end": 2.76
+          },
+          "sentence_en": {
+            "start": 3.26,
+            "end": 5.156
+          },
+          "words": [
+            {
+              "word_index": 0,
+              "start": 6.156,
+              "end": 18.264000000000003
+            },
+            {
+              "word_index": 1,
+              "start": 19.264000000000003,
+              "end": 27.988000000000003
+            },
+            {
+              "word_index": 2,
+              "start": 28.988000000000003,
+              "end": 47.024
+            },
+            {
+              "word_index": 3,
+              "start": 48.024,
+              "end": 69.108
+            },
+            {
+              "word_index": 4,
+              "start": 70.108,
+              "end": 84.328
+            },
+            {
+              "word_index": 5,
+              "start": 85.328,
+              "end": 94.076
+            },
+            {
+              "word_index": 6,
+              "start": 95.076,
+              "end": 112.92
+            }
+          ],
+          "sentence_ja_repeat": {
+            "start": 113.92,
+            "end": 116.68
+          }
+        }
+      }
+    },
+    {
+      "sentence_ja": "人はミトンに食べ物をあげました。",
+      "sentence_en": "The person gave Mitten some food.",
+      "grammar_points": [
+        "Particle は (wa)",
+        "Particle に (ni)",
+        "Particle を (o)",
+        "Verb form 〜ました (~mashita)"
+      ],
+      "grammar_points_short": [
+        "は(wa)",
+        "に(ni)",
+        "を(o)",
+        "ました(mashita)"
+      ],
+      "words": [
+        {
+          "word_ja": "人",
+          "word_romaji": "Hito",
+          "position": 0,
+          "word_en": "person",
+          "explanation": "This word means 'person'. It's the subject of our sentence, the one doing the action.",
+          "id": "w1",
+          "audio_ja_path": "audio/sentences/s7_words/w1_ja.mp3",
+          "audio_romaji_path": "audio/sentences/s7_words/w1_romaji.mp3",
+          "audio_en_path": "audio/sentences/s7_words/w1_en.mp3",
+          "audio_explanation_path": "audio/sentences/s7_words/w1_explanation.mp3"
+        },
+        {
+          "word_ja": "は",
+          "word_romaji": "wa",
+          "position": 1,
+          "word_en": "topic marker",
+          "explanation": "This is a very important particle! It marks the topic of the sentence. Think of it like saying 'As for the person...' or 'The person...'. It's one of our focus grammar points.",
+          "id": "w2",
+          "audio_ja_path": "audio/sentences/s7_words/w2_ja.mp3",
+          "audio_romaji_path": "audio/sentences/s7_words/w2_romaji.mp3",
+          "audio_en_path": "audio/sentences/s7_words/w2_en.mp3",
+          "audio_explanation_path": "audio/sentences/s7_words/w2_explanation.mp3"
+        },
+        {
+          "word_ja": "ミトン",
+          "word_romaji": "miton",
+          "position": 2,
+          "word_en": "Mitten",
+          "explanation": "This is a name, likely a pet's name in this context. It's the recipient of the action.",
+          "id": "w3",
+          "audio_ja_path": "audio/sentences/s7_words/w3_ja.mp3",
+          "audio_romaji_path": "audio/sentences/s7_words/w3_romaji.mp3",
+          "audio_en_path": "audio/sentences/s7_words/w3_en.mp3",
+          "audio_explanation_path": "audio/sentences/s7_words/w3_explanation.mp3"
+        },
+        {
+          "word_ja": "に",
+          "word_romaji": "ni",
+          "position": 5,
+          "word_en": "target marker",
+          "explanation": "This particle is another focus grammar point. Here, it indicates the indirect object, the recipient of the action. It's like saying 'to Mitten'.",
+          "id": "w4",
+          "audio_ja_path": "audio/sentences/s7_words/w4_ja.mp3",
+          "audio_romaji_path": "audio/sentences/s7_words/w4_romaji.mp3",
+          "audio_en_path": "audio/sentences/s7_words/w4_en.mp3",
+          "audio_explanation_path": "audio/sentences/s7_words/w4_explanation.mp3"
+        },
+        {
+          "word_ja": "食べ物",
+          "word_romaji": "tabemono",
+          "position": 6,
+          "word_en": "food",
+          "explanation": "This word means 'food'. It's the thing being given.",
+          "id": "w5",
+          "audio_ja_path": "audio/sentences/s7_words/w5_ja.mp3",
+          "audio_romaji_path": "audio/sentences/s7_words/w5_romaji.mp3",
+          "audio_en_path": "audio/sentences/s7_words/w5_en.mp3",
+          "audio_explanation_path": "audio/sentences/s7_words/w5_explanation.mp3"
+        },
+        {
+          "word_ja": "を",
+          "word_romaji": "o",
+          "position": 9,
+          "word_en": "direct object marker",
+          "explanation": "This particle marks the direct object of the verb. It tells us what is being acted upon. In this case, it's the food. This is another focus grammar point.",
+          "id": "w6",
+          "audio_ja_path": "audio/sentences/s7_words/w6_ja.mp3",
+          "audio_romaji_path": "audio/sentences/s7_words/w6_romaji.mp3",
+          "audio_en_path": "audio/sentences/s7_words/w6_en.mp3",
+          "audio_explanation_path": "audio/sentences/s7_words/w6_explanation.mp3"
+        },
+        {
+          "word_ja": "あげました",
+          "word_romaji": "agemashita",
+          "position": 10,
+          "word_en": "gave",
+          "explanation": "This is the past tense of the verb 'to give'. It's a focus grammar point, showing that the action happened in the past. So, the person performed the action of giving in the past.",
+          "id": "w7",
+          "audio_ja_path": "audio/sentences/s7_words/w7_ja.mp3",
+          "audio_romaji_path": "audio/sentences/s7_words/w7_romaji.mp3",
+          "audio_en_path": "audio/sentences/s7_words/w7_en.mp3",
+          "audio_explanation_path": "audio/sentences/s7_words/w7_explanation.mp3"
+        }
+      ],
+      "sentence_romaji": "Hito wa miton ni tabemono o agemashita.",
+      "id": "s7",
+      "sentence_ja_audio": "audio/sentences/s7_ja.mp3",
+      "sentence_en_audio": "audio/sentences/s7_en.mp3",
+      "sentence_packed_audio": {
+        "url": "audio/packed/s7.mp3",
+        "duration": 104.58400000000002,
+        "timeline": {
+          "sentence_ja": {
+            "start": 0.0,
+            "end": 3.216
+          },
+          "sentence_en": {
+            "start": 3.716,
+            "end": 5.492
+          },
+          "words": [
+            {
+              "word_index": 0,
+              "start": 6.492,
+              "end": 16.2
+            },
+            {
+              "word_index": 1,
+              "start": 17.2,
+              "end": 32.14
+            },
+            {
+              "word_index": 2,
+              "start": 33.14,
+              "end": 42.8
+            },
+            {
+              "word_index": 3,
+              "start": 43.8,
+              "end": 58.116
+            },
+            {
+              "word_index": 4,
+              "start": 59.116,
+              "end": 66.616
+            },
+            {
+              "word_index": 5,
+              "start": 67.616,
+              "end": 82.676
+            },
+            {
+              "word_index": 6,
+              "start": 83.676,
+              "end": 100.36800000000002
+            }
+          ],
+          "sentence_ja_repeat": {
+            "start": 101.36800000000002,
+            "end": 104.58400000000002
+          }
+        }
+      }
+    },
+    {
+      "sentence_ja": "そして、ミトンの家を知っていますか？と聞きました。",
+      "sentence_en": "And they asked, \"Do you know Mitten's home?\"",
+      "grammar_points": [
+        "Particle は (wa)",
+        "Particle の (no)",
+        "Sentence ender か (ka)",
+        "Verb form 〜ます (~masu)"
+      ],
+      "grammar_points_short": [
+        "は(wa)",
+        "の(no)",
+        "か(ka)",
+        "ます(masu)"
+      ],
+      "words": [
+        {
+          "word_ja": "そして",
+          "word_romaji": "soshite",
+          "position": 0,
+          "word_en": "and",
+          "explanation": "This word is a conjunction, like 'and' in English. It's used here to connect this sentence to a previous one, showing a sequence of events.",
+          "id": "w1",
+          "audio_ja_path": "audio/sentences/s8_words/w1_ja.mp3",
+          "audio_romaji_path": "audio/sentences/s8_words/w1_romaji.mp3",
+          "audio_en_path": "audio/sentences/s8_words/w1_en.mp3",
+          "audio_explanation_path": "audio/sentences/s8_words/w1_explanation.mp3"
+        },
+        {
+          "word_ja": "ミトン",
+          "word_romaji": "Miton",
+          "position": 4,
+          "word_en": "Mitten",
+          "explanation": "This is a proper noun, a name. In this story, it refers to a specific character named Mitten.",
+          "id": "w2",
+          "audio_ja_path": "audio/sentences/s8_words/w2_ja.mp3",
+          "audio_romaji_path": "audio/sentences/s8_words/w2_romaji.mp3",
+          "audio_en_path": "audio/sentences/s8_words/w2_en.mp3",
+          "audio_explanation_path": "audio/sentences/s8_words/w2_explanation.mp3"
+        },
+        {
+          "word_ja": "の",
+          "word_romaji": "no",
+          "position": 7,
+          "word_en": "'s",
+          "explanation": "This is a particle that shows possession, similar to the English 'apostrophe s'. It tells us that something belongs to the person or thing mentioned before it. Here, it connects the name 'Mitten' to the word 'home'.",
+          "id": "w3",
+          "audio_ja_path": "audio/sentences/s8_words/w3_ja.mp3",
+          "audio_romaji_path": "audio/sentences/s8_words/w3_romaji.mp3",
+          "audio_en_path": "audio/sentences/s8_words/w3_en.mp3",
+          "audio_explanation_path": "audio/sentences/s8_words/w3_explanation.mp3"
+        },
+        {
+          "word_ja": "家",
+          "word_romaji": "ie",
+          "position": 8,
+          "word_en": "home",
+          "explanation": "This word means 'home' or 'house'. It's the place where someone lives. In this sentence, it's the thing that belongs to Mitten.",
+          "id": "w4",
+          "audio_ja_path": "audio/sentences/s8_words/w4_ja.mp3",
+          "audio_romaji_path": "audio/sentences/s8_words/w4_romaji.mp3",
+          "audio_en_path": "audio/sentences/s8_words/w4_en.mp3",
+          "audio_explanation_path": "audio/sentences/s8_words/w4_explanation.mp3"
+        },
+        {
+          "word_ja": "を",
+          "word_romaji": "o",
+          "position": 9,
+          "word_en": "object marker",
+          "explanation": "This particle marks the direct object of a verb. Think of it as pointing out what the verb is acting upon. Here, it shows that 'Mitten's home' is what is being known.",
+          "id": "w5",
+          "audio_ja_path": "audio/sentences/s8_words/w5_ja.mp3",
+          "audio_romaji_path": "audio/sentences/s8_words/w5_romaji.mp3",
+          "audio_en_path": "audio/sentences/s8_words/w5_en.mp3",
+          "audio_explanation_path": "audio/sentences/s8_words/w5_explanation.mp3"
+        },
+        {
+          "word_ja": "知っています",
+          "word_romaji": "shitte imasu",
+          "position": 10,
+          "word_en": "know",
+          "explanation": "This is the verb 'to know', and it's in the polite '-masu' form. This is one of our focus grammar points! It indicates a present state of knowing something. The polite form is used for general conversation.",
+          "id": "w6",
+          "audio_ja_path": "audio/sentences/s8_words/w6_ja.mp3",
+          "audio_romaji_path": "audio/sentences/s8_words/w6_romaji.mp3",
+          "audio_en_path": "audio/sentences/s8_words/w6_en.mp3",
+          "audio_explanation_path": "audio/sentences/s8_words/w6_explanation.mp3"
+        },
+        {
+          "word_ja": "か",
+          "word_romaji": "ka",
+          "position": 16,
+          "word_en": "question marker",
+          "explanation": "This is a very important particle that signals the end of a question. It's another one of our focus grammar points! When you see this, you know someone is asking something.",
+          "id": "w7",
+          "audio_ja_path": "audio/sentences/s8_words/w7_ja.mp3",
+          "audio_romaji_path": "audio/sentences/s8_words/w7_romaji.mp3",
+          "audio_en_path": "audio/sentences/s8_words/w7_en.mp3",
+          "audio_explanation_path": "audio/sentences/s8_words/w7_explanation.mp3"
+        },
+        {
+          "word_ja": "と",
+          "word_romaji": "to",
+          "position": 18,
+          "word_en": "quotation marker",
+          "explanation": "This particle is used to mark the end of a direct quote or what someone said. It's like putting quotation marks around speech in English. It comes right after the question marker here.",
+          "id": "w8",
+          "audio_ja_path": "audio/sentences/s8_words/w8_ja.mp3",
+          "audio_romaji_path": "audio/sentences/s8_words/w8_romaji.mp3",
+          "audio_en_path": "audio/sentences/s8_words/w8_en.mp3",
+          "audio_explanation_path": "audio/sentences/s8_words/w8_explanation.mp3"
+        },
+        {
+          "word_ja": "聞きました",
+          "word_romaji": "kikimashita",
+          "position": 19,
+          "word_en": "asked",
+          "explanation": "This is the past tense of the verb 'to ask'. It tells us that the action of asking happened in the past. It's a common verb used when reporting dialogue.",
+          "id": "w9",
+          "audio_ja_path": "audio/sentences/s8_words/w9_ja.mp3",
+          "audio_romaji_path": "audio/sentences/s8_words/w9_romaji.mp3",
+          "audio_en_path": "audio/sentences/s8_words/w9_en.mp3",
+          "audio_explanation_path": "audio/sentences/s8_words/w9_explanation.mp3"
+        }
+      ],
+      "sentence_romaji": "Soshite, Miton no ie o shitte imasu ka? to kikimashita.",
+      "id": "s8",
+      "sentence_ja_audio": "audio/sentences/s8_ja.mp3",
+      "sentence_en_audio": "audio/sentences/s8_en.mp3",
+      "sentence_packed_audio": {
+        "url": "audio/packed/s8.mp3",
+        "duration": 150.936,
+        "timeline": {
+          "sentence_ja": {
+            "start": 0.0,
+            "end": 4.824
+          },
+          "sentence_en": {
+            "start": 5.324,
+            "end": 7.58
+          },
+          "words": [
+            {
+              "word_index": 0,
+              "start": 8.58,
+              "end": 21.36
+            },
+            {
+              "word_index": 1,
+              "start": 22.36,
+              "end": 32.98
+            },
+            {
+              "word_index": 2,
+              "start": 33.98,
+              "end": 50.55199999999999
+            },
+            {
+              "word_index": 3,
+              "start": 51.55199999999999,
+              "end": 64.49999999999999
+            },
+            {
+              "word_index": 4,
+              "start": 65.49999999999999,
+              "end": 79.76799999999999
+            },
+            {
+              "word_index": 5,
+              "start": 80.76799999999999,
+              "end": 98.77999999999999
+            },
+            {
+              "word_index": 6,
+              "start": 99.77999999999999,
+              "end": 114.50399999999999
+            },
+            {
+              "word_index": 7,
+              "start": 115.50399999999999,
+              "end": 129.652
+            },
+            {
+              "word_index": 8,
+              "start": 130.652,
+              "end": 145.112
+            }
+          ],
+          "sentence_ja_repeat": {
+            "start": 146.112,
+            "end": 150.936
+          }
+        }
+      }
+    },
+    {
+      "sentence_ja": "親切な人がミトンを家に連れて行きました。",
+      "sentence_en": "A kind person took Mitten home.",
+      "grammar_points": [
+        "Particle は (wa)",
+        "Particle を (o)",
+        "Verb form 〜ました (~mashita)"
+      ],
+      "grammar_points_short": [
+        "は(wa)",
+        "を(o)",
+        "ました(mashita)"
+      ],
+      "words": [
+        {
+          "word_ja": "親切",
+          "word_romaji": "Shinsetsu",
+          "position": 0,
+          "word_en": "kind",
+          "explanation": "This word describes a quality. In our sentence, it tells us what kind of person we are talking about. It's an adjective modifying the noun that comes next.",
+          "id": "w1",
+          "audio_ja_path": "audio/sentences/s9_words/w1_ja.mp3",
+          "audio_romaji_path": "audio/sentences/s9_words/w1_romaji.mp3",
+          "audio_en_path": "audio/sentences/s9_words/w1_en.mp3",
+          "audio_explanation_path": "audio/sentences/s9_words/w1_explanation.mp3"
+        },
+        {
+          "word_ja": "な",
+          "word_romaji": "na",
+          "position": 2,
+          "word_en": "a / an",
+          "explanation": "This is a particle that connects the adjective 'kind' to the noun 'person'. It helps us understand that the person has the quality of being kind.",
+          "id": "w2",
+          "audio_ja_path": "audio/sentences/s9_words/w2_ja.mp3",
+          "audio_romaji_path": "audio/sentences/s9_words/w2_romaji.mp3",
+          "audio_en_path": "audio/sentences/s9_words/w2_en.mp3",
+          "audio_explanation_path": "audio/sentences/s9_words/w2_explanation.mp3"
+        },
+        {
+          "word_ja": "人",
+          "word_romaji": "hito",
+          "position": 3,
+          "word_en": "person",
+          "explanation": "This is the noun that means 'a person'. In this sentence, it's the subject, the one performing the action. It's modified by the word before it, telling us they are a kind person.",
+          "id": "w3",
+          "audio_ja_path": "audio/sentences/s9_words/w3_ja.mp3",
+          "audio_romaji_path": "audio/sentences/s9_words/w3_romaji.mp3",
+          "audio_en_path": "audio/sentences/s9_words/w3_en.mp3",
+          "audio_explanation_path": "audio/sentences/s9_words/w3_explanation.mp3"
+        },
+        {
+          "word_ja": "が",
+          "word_romaji": "ga",
+          "position": 4,
+          "word_en": "subject marker",
+          "explanation": "This is a very important particle in Japanese! It marks the subject of the sentence, which is 'a kind person'. It tells us who or what is doing the action.",
+          "id": "w4",
+          "audio_ja_path": "audio/sentences/s9_words/w4_ja.mp3",
+          "audio_romaji_path": "audio/sentences/s9_words/w4_romaji.mp3",
+          "audio_en_path": "audio/sentences/s9_words/w4_en.mp3",
+          "audio_explanation_path": "audio/sentences/s9_words/w4_explanation.mp3"
+        },
+        {
+          "word_ja": "ミトン",
+          "word_romaji": "miton",
+          "position": 5,
+          "word_en": "Mitten",
+          "explanation": "This is a name, likely a pet's name in this context. It's the object of the action, the thing being taken somewhere.",
+          "id": "w5",
+          "audio_ja_path": "audio/sentences/s9_words/w5_ja.mp3",
+          "audio_romaji_path": "audio/sentences/s9_words/w5_romaji.mp3",
+          "audio_en_path": "audio/sentences/s9_words/w5_en.mp3",
+          "audio_explanation_path": "audio/sentences/s9_words/w5_explanation.mp3"
+        },
+        {
+          "word_ja": "を",
+          "word_romaji": "o",
+          "position": 8,
+          "word_en": "direct object marker",
+          "explanation": "This is another key particle! It marks the direct object of the verb. Here, it tells us that 'Mitten' is the thing being taken. This is one of our focus grammar points.",
+          "id": "w6",
+          "audio_ja_path": "audio/sentences/s9_words/w6_ja.mp3",
+          "audio_romaji_path": "audio/sentences/s9_words/w6_romaji.mp3",
+          "audio_en_path": "audio/sentences/s9_words/w6_en.mp3",
+          "audio_explanation_path": "audio/sentences/s9_words/w6_explanation.mp3"
+        },
+        {
+          "word_ja": "家",
+          "word_romaji": "ie",
+          "position": 9,
+          "word_en": "home",
+          "explanation": "This word means 'home' or 'house'. In this sentence, it indicates the destination.",
+          "id": "w7",
+          "audio_ja_path": "audio/sentences/s9_words/w7_ja.mp3",
+          "audio_romaji_path": "audio/sentences/s9_words/w7_romaji.mp3",
+          "audio_en_path": "audio/sentences/s9_words/w7_en.mp3",
+          "audio_explanation_path": "audio/sentences/s9_words/w7_explanation.mp3"
+        },
+        {
+          "word_ja": "に",
+          "word_romaji": "ni",
+          "position": 10,
+          "word_en": "to",
+          "explanation": "This particle indicates direction or destination. Combined with the noun before it, it tells us where the action is leading – 'to home'.",
+          "id": "w8",
+          "audio_ja_path": "audio/sentences/s9_words/w8_ja.mp3",
+          "audio_romaji_path": "audio/sentences/s9_words/w8_romaji.mp3",
+          "audio_en_path": "audio/sentences/s9_words/w8_en.mp3",
+          "audio_explanation_path": "audio/sentences/s9_words/w8_explanation.mp3"
+        },
+        {
+          "word_ja": "連れて行きました",
+          "word_romaji": "tsurete ikimashita",
+          "position": 11,
+          "word_en": "took",
+          "explanation": "This is the past tense of the verb 'to take'. It tells us that the action of taking happened in the past. This verb ending is one of our focus grammar points, showing a completed action.",
+          "id": "w9",
+          "audio_ja_path": "audio/sentences/s9_words/w9_ja.mp3",
+          "audio_romaji_path": "audio/sentences/s9_words/w9_romaji.mp3",
+          "audio_en_path": "audio/sentences/s9_words/w9_en.mp3",
+          "audio_explanation_path": "audio/sentences/s9_words/w9_explanation.mp3"
+        }
+      ],
+      "sentence_romaji": "Shinsetsu na hito ga miton o ie ni tsurete ikimashita.",
+      "id": "s9",
+      "sentence_ja_audio": "audio/sentences/s9_ja.mp3",
+      "sentence_en_audio": "audio/sentences/s9_en.mp3",
+      "sentence_packed_audio": {
+        "url": "audio/packed/s9.mp3",
+        "duration": 151.2,
+        "timeline": {
+          "sentence_ja": {
+            "start": 0.0,
+            "end": 4.608
+          },
+          "sentence_en": {
+            "start": 5.108,
+            "end": 7.004
+          },
+          "words": [
+            {
+              "word_index": 0,
+              "start": 8.004,
+              "end": 22.872
+            },
+            {
+              "word_index": 1,
+              "start": 23.872,
+              "end": 39.364
+            },
+            {
+              "word_index": 2,
+              "start": 40.364,
+              "end": 56.6
+            },
+            {
+              "word_index": 3,
+              "start": 57.6,
+              "end": 72.66
+            },
+            {
+              "word_index": 4,
+              "start": 73.66,
+              "end": 84.664
+            },
+            {
+              "word_index": 5,
+              "start": 85.664,
+              "end": 100.724
+            },
+            {
+              "word_index": 6,
+              "start": 101.724,
+              "end": 111.864
+            },
+            {
+              "word_index": 7,
+              "start": 112.864,
+              "end": 126.916
+            },
+            {
+              "word_index": 8,
+              "start": 127.916,
+              "end": 145.59199999999998
+            }
+          ],
+          "sentence_ja_repeat": {
+            "start": 146.59199999999998,
+            "end": 151.2
+          }
+        }
+      }
+    },
+    {
+      "sentence_ja": "ミトンはもう迷子ではありませんでした。",
+      "sentence_en": "Mitten was no longer lost.",
+      "grammar_points": [
+        "Particle は (wa)",
+        "Copula ではありませんでした (dewa arimasen deshita)"
+      ],
+      "grammar_points_short": [
+        "は(wa)",
+        "ではありませんでした(dewa arimasen deshita)"
+      ],
+      "words": [
+        {
+          "word_ja": "ミトン",
+          "word_romaji": "miton",
+          "position": 0,
+          "word_en": "Mitten",
+          "explanation": "This is the name of our main character. It's a proper noun, just like a person's name.",
+          "id": "w1",
+          "audio_ja_path": "audio/sentences/s10_words/w1_ja.mp3",
+          "audio_romaji_path": "audio/sentences/s10_words/w1_romaji.mp3",
+          "audio_en_path": "audio/sentences/s10_words/w1_en.mp3",
+          "audio_explanation_path": "audio/sentences/s10_words/w1_explanation.mp3"
+        },
+        {
+          "word_ja": "は",
+          "word_romaji": "wa",
+          "position": 3,
+          "word_en": "topic marker",
+          "explanation": "This little word is a topic marker particle. It tells us that the word before it, the name of our character, is the main topic of the sentence. It's like saying 'As for Mitten...'",
+          "id": "w2",
+          "audio_ja_path": "audio/sentences/s10_words/w2_ja.mp3",
+          "audio_romaji_path": "audio/sentences/s10_words/w2_romaji.mp3",
+          "audio_en_path": "audio/sentences/s10_words/w2_en.mp3",
+          "audio_explanation_path": "audio/sentences/s10_words/w2_explanation.mp3"
+        },
+        {
+          "word_ja": "もう",
+          "word_romaji": "mou",
+          "position": 4,
+          "word_en": "already",
+          "explanation": "This word means 'already' or 'no longer.' In this sentence, it tells us that a certain state has changed.",
+          "id": "w3",
+          "audio_ja_path": "audio/sentences/s10_words/w3_ja.mp3",
+          "audio_romaji_path": "audio/sentences/s10_words/w3_romaji.mp3",
+          "audio_en_path": "audio/sentences/s10_words/w3_en.mp3",
+          "audio_explanation_path": "audio/sentences/s10_words/w3_explanation.mp3"
+        },
+        {
+          "word_ja": "迷子",
+          "word_romaji": "maigo",
+          "position": 6,
+          "word_en": "lost",
+          "explanation": "This word describes the state of being lost. It's the condition our character was in.",
+          "id": "w4",
+          "audio_ja_path": "audio/sentences/s10_words/w4_ja.mp3",
+          "audio_romaji_path": "audio/sentences/s10_words/w4_romaji.mp3",
+          "audio_en_path": "audio/sentences/s10_words/w4_en.mp3",
+          "audio_explanation_path": "audio/sentences/s10_words/w4_explanation.mp3"
+        },
+        {
+          "word_ja": "で",
+          "word_romaji": "de",
+          "position": 8,
+          "word_en": "be",
+          "explanation": "This is part of a verb phrase that indicates a state of being. Think of it as a linking word connecting the subject to its description.",
+          "id": "w5",
+          "audio_ja_path": "audio/sentences/s10_words/w5_ja.mp3",
+          "audio_romaji_path": "audio/sentences/s10_words/w5_romaji.mp3",
+          "audio_en_path": "audio/sentences/s10_words/w5_en.mp3",
+          "audio_explanation_path": "audio/sentences/s10_words/w5_explanation.mp3"
+        },
+        {
+          "word_ja": "は",
+          "word_romaji": "wa",
+          "position": 9,
+          "word_en": "not",
+          "explanation": "This is a negative marker. It flips the meaning of the verb phrase it's attached to, making it negative.",
+          "id": "w6",
+          "audio_ja_path": "audio/sentences/s10_words/w6_ja.mp3",
+          "audio_romaji_path": "audio/sentences/s10_words/w6_romaji.mp3",
+          "audio_en_path": "audio/sentences/s10_words/w6_en.mp3",
+          "audio_explanation_path": "audio/sentences/s10_words/w6_explanation.mp3"
+        },
+        {
+          "word_ja": "ありませんでした",
+          "word_romaji": "arimasen deshita",
+          "position": 10,
+          "word_en": "was not",
+          "explanation": "This whole phrase is the past tense negative form of the copula, which is like 'to be.' It means that something was not true in the past. So, the character was not in the state of being lost anymore.",
+          "id": "w7",
+          "audio_ja_path": "audio/sentences/s10_words/w7_ja.mp3",
+          "audio_romaji_path": "audio/sentences/s10_words/w7_romaji.mp3",
+          "audio_en_path": "audio/sentences/s10_words/w7_en.mp3",
+          "audio_explanation_path": "audio/sentences/s10_words/w7_explanation.mp3"
+        }
+      ],
+      "sentence_romaji": "miton wa mou maigo de wa arimasen deshita.",
+      "id": "s10",
+      "sentence_ja_audio": "audio/sentences/s10_ja.mp3",
+      "sentence_en_audio": "audio/sentences/s10_en.mp3",
+      "sentence_packed_audio": {
+        "url": "audio/packed/s10.mp3",
+        "duration": 101.55999999999999,
+        "timeline": {
+          "sentence_ja": {
+            "start": 0.0,
+            "end": 3.384
+          },
+          "sentence_en": {
+            "start": 3.884,
+            "end": 5.732
+          },
+          "words": [
+            {
+              "word_index": 0,
+              "start": 6.732,
+              "end": 15.96
+            },
+            {
+              "word_index": 1,
+              "start": 16.96,
+              "end": 31.996
+            },
+            {
+              "word_index": 2,
+              "start": 32.995999999999995,
+              "end": 45.82399999999999
+            },
+            {
+              "word_index": 3,
+              "start": 46.82399999999999,
+              "end": 55.42799999999999
+            },
+            {
+              "word_index": 4,
+              "start": 56.42799999999999,
+              "end": 67.45599999999999
+            },
+            {
+              "word_index": 5,
+              "start": 68.45599999999999,
+              "end": 77.70799999999997
+            },
+            {
+              "word_index": 6,
+              "start": 78.70799999999997,
+              "end": 97.17599999999999
+            }
+          ],
+          "sentence_ja_repeat": {
+            "start": 98.17599999999999,
+            "end": 101.55999999999999
+          }
+        }
+      }
+    }
+  ],
+  "audio_full_story_slow_path": "audio/full_story_slow.mp3",
+  "audio_full_story_normal_path": "audio/full_story_normal.mp3",
+  "audio_full_story_translation_path": "audio/full_story_translation.mp3",
+  "audio_full_story_slow_duration": 31.176,
+  "audio_full_story_normal_duration": 26.568,
+  "audio_full_story_translation_duration": 21.888,
+  "grammar_points": [
+    "います(imasu)",
+    "か(ka)",
+    "で(de)",
+    "です(desu)",
+    "ではありませんでした(dewa arimasen deshita)",
+    "に(ni)",
+    "の(no)",
+    "は(wa)",
+    "ました(mashita)",
+    "ます(masu)",
+    "を(o)"
+  ],
+  "duration_seconds": 1161,
+  "sentence_count": 10,
+  "word_count": 68,
+  "difficulty": "N5",
+  "grammar_group": 0
+}

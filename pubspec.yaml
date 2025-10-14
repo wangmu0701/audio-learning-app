@@ -36,6 +36,8 @@ dependencies:
   cupertino_icons: ^1.0.8
 
   flutter_riverpod: ^2.6.1
+  just_audio: ^0.9.36 
+  audio_session: ^0.1.18
 
 dev_dependencies:
   flutter_test:
@@ -58,6 +60,11 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+  
+  assets:
+    - assets/index.json
+    - assets/stories/N5_G0_001/story.json
+    - assets/stories/N5_G0_001/audio/packed/
 
   # To add assets to your application, add an assets section, like this:
   # assets:
