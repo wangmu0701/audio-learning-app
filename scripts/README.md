@@ -1,483 +1,302 @@
-## Requirement (Critical Always remember)
+## Requirements:
 
 1: Always reply in Chinese.
+2: Don't write code unless got approval explicitly. Always explain your ideas and then ask for approval for coding.
 
-2: Don't write code unless I ask you to, only show ideas and ask for approval to start coding.
+## Project Description
+Japanese Learning App - Project Description
+Project Background
+I'm planning a trip to Japan in 2 years and want to learn Japanese, but I only have time during my commute to study. Existing Japanese learning apps either require constant screen attention or have boring content. I need an audio-first learning app that allows me to learn efficiently while driving or on the subway.
+Core Principles
 
-## Product Vision
+Audio-first: Can learn completely without looking at the screen
+Zero-to-hero: Designed for learners with absolutely no Japanese knowledge
+Natural acquisition: Learn through repeated exposure, like how babies learn language, rather than memorizing grammar rules
+Personal use: This is my personal learning tool, not a commercial product (at least initially)
 
-A pure audio-based Japanese learning app for absolute beginners (N5 level) designed for commute-time learning. The app generates fresh, interesting daily content that teaches Japanese through natural exposure and repetition, similar to how babies learn language.
+Learning Content Plan
+Phase 1: M-MVP (First 2 weeks)
 
-## Core Principles
+Goal: Validate that the learning method works
+Content: 5 stories covering N5 Group 1 grammar points (the most basic 10-12 grammar points)
+Duration: Each story is approximately 15 minutes of audio
+Deployment: Bundled as iOS app assets, manually reinstall every 7 days
 
-Audio-first: Can be used entirely without looking at the screen
+Phase 2: MVP (1-2 months)
 
-Zero-to-hero: Designed for users with absolutely no Japanese knowledge
+Goal: Complete coverage of all N5 grammar points
+Content: 30 stories
 
-Daily fresh content: 5 new stories every day
+10 stories - N5 Group 1 (basic grammar)
+10 stories - N5 Group 2 (extended grammar)
+10 stories - N5 Group 3 (advanced grammar)
 
-Natural acquisition: Learning through repeated exposure rather than systematic memorization
 
-Stateless (MVP): No user progress tracking to minimize complexity and cost
+Requirements: Ensure all N5 grammar points and common vocabulary are adequately covered
 
-User Experience
+Phase 3: Full N5 (2-4 months)
 
+Goal: Achieve fluency at N5 level
+Content: 100 stories for deeper repetition and practice
+Features:
 
-## Primary Use Case
+More diverse topics
+More natural conversation scenarios
+More vocabulary accumulation
 
-User is commuting (driving, on train/bus) and wants to learn Japanese without looking at their phone.
 
 
-### User Flow
+Phase 4: N4 (4-12 months)
 
-Open app
+Goal: Advance to N4 level
+Content: 200 stories
+Note: This phase will be decided based on learning effectiveness after completing N5
 
-See list of dates, each date has 5 stories
+Learning Experience
+Typical Use Case
 
-Tap a story → Audio starts playing (~15 minutes)
+Morning commute, open the app
+Select the next story
+Press play
+Listen to the complete story (15 minutes) learning cycle:
 
-Listen and learn
+Full story in slow Japanese
+English translation
+Sentence-by-sentence detailed breakdown (Japanese → English → Romaji → Grammar explanation)
+Full story in natural-speed Japanese
 
-Optionally glance at phone to see visual text reinforcement
 
-Content Display
+Glance at screen for text when needed
 
+App Interface (Minimalist Design)
 
-📅 2025-10-09
+Story list arranged in learning order
+Each story displays: Japanese title + English translation + duration
+Tap to enter playback screen
+Playback screen: Large play/pause button + current sentence text display
+Local tracking of completed stories (simple progress tracking)
 
-- 新しいロボット / New Robot (13:12)
+Success Criteria
 
-- 美味しいラーメン / Delicious Ramen (16:05)
+Short-term: M-MVP keeps me engaged for 2 weeks without getting bored
+Mid-term: MVP enables me to have simple daily conversations in Japanese
+Long-term: When I go to Japan in 2 years, I can handle basic travel scenarios
 
-- 東京の旅行 / Tokyo Travel (14:58)
+Future Possibilities
+If this method works for me and the content quality is good, I might:
 
-- 朝の習慣 / Morning Routine (17:20)
+Release to App Store for others to use
+Add support for other native languages like Chinese
+Expand to other JLPT levels (N4, N3...)
+But these are secondary; the primary goal is to learn Japanese myself
 
-- 友達との会話 / Conversation with Friends (15:03)
+## App Development
+The system consists of two main components:
 
-📅 2025-10-08
+Backend Data Generation System - Python scripts that generate learning content
+Flutter Mobile App - iOS app that delivers the learning experience
 
-- [5 stories]
 
-📅 2025-10-07
+1. Backend Data Generation System
+Current Status: Implemented ✅
+A pipeline-based content generation system that transforms story ideas into complete learning materials.
+Pipeline Stages (All Implemented)
+Stage 1: Story Idea Generation
 
-- [5 stories][Infinite scroll for history...]
+Generate diverse, interesting story ideas
+Topics cover daily life, technology, food, travel, culture, business
+Output: Story titles and summaries in English
 
-### UI Features
+Stage 2: Story Generation with Grammar Tagging
 
-Bilingual titles: Japanese + English translation (since user knows zero Japanese)
-
-Duration display: Shows exact audio length
-
-Date grouping: Stories organized by date
-
-Recent focus: Shows last 7 days by default
-
-Infinite scrolling: Can access all historical content
-
-No filters (MVP): No topic filtering, no difficulty selection
-
-No progress tracking (MVP): No "completed" checkmarks or learning statistics
-
-### Content Specifications
-
-Daily Generation (By a separate daily script)
-
-5 stories per day
-
-All N5 difficulty level (MVP)
-
-13-17 minutes per story (including all learning components)
-
-Diverse topics: Automatically varied (technology, food, daily life, travel, culture, business) but not surfaced to user
-
-### Audio Structure (Per Story)
-
-Total duration: 13-17 minutes
-
-Full story in Japanese (slow speed) - ~90 seconds
-
-Full story in English translation - ~90 seconds
-
-Sentence-by-sentence breakdown (6-10 sentences) - ~10-12 minutesFor each sentence, break into word-level components:Japanese word (slow) - 2s
-
-Romaji - 2s
-
-English translation - 2s
-
-Detailed explanation - 10-30s (varies by complexity)
-
-Full story in Japanese (natural speed) - ~60 seconds
-
-
-### Story Structure
-
-Each story contains:
-
-6-10 sentences
-
-4-8 words per sentence (word = segmented unit)
-
-N5 vocabulary only
-
-High repetition: Same particles, verbs, and sentence patterns appear multiple times
-
-Daily life context: Easy to visualize without visual aids
-
-Interesting content: Based on real-world topics adapted for beginner
-
-
-## N5 Grammar organized into 3 groups:
-
-
-
-Group 1: Core Basics (MVP - 10-12 points)
-
-Particles: は, を, に, で, の
-
-Verb forms: です, ます, ました, ません
-
-Basic sentence structure
-
-Question marker か
-
-
-
-Group 2: Expansion (Future - 12-15 points)
-
-Particles: が, と, も, へ, から/まで, や
-
-Verb forms: ている, てください, ましょう, たい
-
-Adjectives: い-adjectives, な-adjectives
-
-
-
-Group 3: N5 Advanced (Future - 10-12 points)
-
-て form connections
-
-Comparatives
-
-Counters
-
-Must/should expressions
-
-Advanced question word usage
-
-
-
-## Grammar Learning Strategy
-
-Random exposure: Stories randomly use 3-5 grammar points from the active group
-
-Natural repetition: High-frequency grammar (like は) appears in almost every story
-
-Not systematic: No "Lesson 1 teaches は, Lesson 2 teaches を" structure
-
-Baby-like learning: Through repeated exposure across different contexts
-
-Progressive difficulty: MVP only uses Group 1, future phases gradually introduce Groups 2 and 3
-
-
-
-## Data Architecture
-
-
-
-### Multi-Language Support Design
-
-Key Principle: Japanese story content is language-agnostic. Translations and explanations are language-specific.
-
-
-
-This allows:
-
-One Japanese story to serve multiple native languages
-
-Easy addition of new native languages (Chinese, Spanish, etc.)
-
-Cost efficiency (generate Japanese once, translate multiple times)
-
-Core Data Models
-
-Story (Language-Agnostic)
-
-The core Japanese content that is shared across all languages.
-
-
-
-### Firebase Storage Path: {learningLang}/
-
-
-
-stories/
-
-  ├─ 2025-10-09.json                # Japanese core content (shared)
-
-  ├─ 2025-10-08.json
-
-  └─ index.json                     # Story catalog (language-agnostic)
-
-
-
-translations/
-
-  ├─ en/
-
-  │   ├─ 2025-10-09.json            # English translations/explanations
-
-  │   ├─ 2025-10-08.json
-
-  │   └─ index_en.json              # English index (with English titles + durations)
-
-  └─ zh/
-
-      ├─ 2025-10-09.json            # Chinese translations/explanations (future)
-
-      └─ index_zh.json
-
-
-
-audio/
-
-  ├─ ja/                            # Japanese audio (shared)
-
-  │   └─ 2025-10-09/
-
-  │       ├─ story_full.mp3
-
-  │       └─ sentences/
-
-  │           ├─ s1.mp3
-
-  │           ├─ s2.mp3
-
-  │           └─ ...
-
-  ├─ en/                            # English audio
-
-  │   └─ 2025-10-09/
-
-  │       ├─ story_full_translation.mp3
-
-  │       └─ explanations/
-
-  │           ├─ s1-w1.mp3
-
-  │           ├─ s1-w2.mp3
-
-  │           └─ ...
-
-  └─ zh/                            # Chinese audio (future)
-
-
-
-
-
-## Content Generation Pipeline
-
-
-
-### Pipeline Overview
-
-The pipeline consists of stages that transform input through multiple steps to produce the final content.
-
-
-
-Stage 1: News Collection
-
-Purpose: Generate interesting story ideas for the day
-
-Use LLM to generate 5 diverse, interesting story ideas
-
-Topics cover: technology, food, daily life, travel, culture, business
-
-Each idea includes: Japanese title, English summary, topic category, sample URL
-
-MVP uses LLM generation (not real-time news search)
-
-Future: Could integrate actual news APIs or web search
-
-
-
-Stage 2: Story Generation + Grammar Tagging
-
-Purpose: Generate complete Japanese stories with grammar annotations
-
-Randomly select 3-5 grammar points from active group
-
-Generate interesting N5-level story in Japanese
-
-Structure output as 6-10 sentences
-
+Generate complete Japanese stories (6-10 sentences per story)
+Select specific grammar points from the target grammar group
 Tag which grammar points each sentence uses
-
-Appropriate for audio-only learning (vivid, easy to visualize)
-
+Ensure stories are audio-friendly (vivid, easy to visualize)
 
 Stage 3: Word Segmentation & Romanization
 
-Segment Japanese sentences into meaningful words
+Break Japanese sentences into pedagogically meaningful words
+Keep verb conjugations whole (not morphological splitting)
+Generate Hepburn romanization for all text
+Track word positions within sentences
 
-Generate romaji (romanization) for each word and full sentence
+Stage 4 & 5: Content Pedagogy (Translation & Explanation)
 
-Create word IDs for tracking
-
-Segmentation Principles (N5/Baby Level):
-
-Romaji is language-agnostic (standard Hepburn romanization)
-
-Word boundaries optimized for beginner comprehension
-
-
-Stage 4: Translation Generation
-
-Purpose: Generate translations in target native language
-
-Translate Japanese title to native language
-
-Translate each complete sentence
-
-Translate each individual word with context
-
-Contextually appropriate
-
-Brief and clear for audio consumption
-
-
-
-Stage 5: Explanation Generation
-
-Purpose: Generate grammar explanations for each word in native language
-
-
-
-For each word, generate conversational explanation suitable for audio
-
-Explanation style: oral, friendly, not academic
-
-Focus on grammar points relevant to N5 learners
-
-Vary explanation depth based on word importance
-
-
-
-Conversational tone (spoken, not written)
-
-Appropriate length: 8-25 seconds when read aloud
-
-Focus on why/when/how, not just what
-
-Connect to grammar points being taught
-
-Assume zero prior Japanese knowledge
-
-
-
-
+Generate contextual English translations for each word
+Create conversational, audio-friendly explanations
+Connect explanations to relevant grammar points
+Avoid quoting Japanese/Romaji in explanations (for TTS quality)
 
 Stage 6: Audio Generation
 
-Purpose: Generate all audio files using Text-to-Speech
+Use Google Cloud Text-to-Speech to generate all audio files
+Create full story audio (slow and normal speed)
+Create sentence-level audio (Japanese and English)
+Create word-level audio (Japanese, Romaji, English, Explanation)
 
-Complete Story (Japanese text)
+Stage 7: Audio Packaging
 
-Complete Translation (English text and explanations)
+Combine individual audio files into seamless packaged audio
+Add silence gaps for natural pacing
+Generate timeline metadata for precise text highlighting
+Package one file per sentence with complete learning cycle
 
+Stage 8: Story Publish
+Publish the story so that the App can use it.
+We need to design the data and file structure, both for MVP and for future.
 
+Key Features
 
-Stage 7: Index Generation & Packaging
+Resume capability: Can resume from any stage if generation is interrupted
+Per-story output: Each story has its own directory with all assets
+Provider abstraction: Supports multiple LLM providers (OpenAI, Gemini, GLM)
+Configurable: Grammar groups, model selection, gap timings all configurable
 
-Purpose: Create index files for app to consume
+What's Working
 
-Update index.json (language-agnostic story list)
-
-Update index_{lang}.json (language-specific with translations)
-
-Validate all files are complete
-
-
-
-Stage 8: Upload to Firebase
-
-Purpose: Deploy all generated content to Firebase Cloud Storage
-
-
-
-
-
-##MVP Scope vs Future Phases
-
-
-
-### MVP (Launch ASAP - Weeks 1-4)
-
-Goal: Get a working app to start learning immediately
-
-Included:
+End-to-end generation from idea to packaged audio
+Tested with Gemini Flash for cost efficiency
+Output includes JSON metadata + MP3 audio files
+Can generate 5 stories for M-MVP validation
 
 
+2. Flutter Mobile App
+Current Status: Partial Implementation 🚧
+Basic UI structure exists but needs integration with real generated content.
+What Exists
 
-✅ N5 difficulty only
+Library screen with story list
+Player screen with playback UI
+Story model and provider setup (Riverpod)
+Filter functionality (difficulty, topics)
+Fake data for UI testing
 
-✅ Group 1 grammar points only (10-12 basic points)
+What Needs to Be Done
+Phase 1: M-MVP (5 Stories)
 
-✅ English as native language only
+Replace fake data with actual generated content
+Load stories and audio from app assets
+Implement actual audio playback with audio player package
+Sync text highlighting with audio timeline
+Simple local storage for "completed" status
+Remove unnecessary filters (since M-MVP has only Group 1 stories)
 
-✅ 5 stories per day
+Phase 2: MVP (30 Stories)
 
-✅ Word-level breakdown with explanations
+Story organization by grammar groups
+Better navigation for 30 stories
+Progress tracking across stories
+Maybe add simple statistics (stories completed, time spent)
 
-✅ ~9 minute audio per story
+Phase 3: Full N5 (100 Stories)
 
-✅ Last 7 days + infinite scroll
-
-✅ No user progress tracking (stateless)
-
-✅ No topic filtering
-
-✅ Bilingual titles (Japanese + English)
-
-✅ Audio duration display
-
-
-
-Not Included:
-
-
-
-❌ Chinese language support
-
-❌ N4-N1 difficulty levels
-
-❌ Group 2-3 grammar points
-
-❌ Progress tracking
-
-❌ Topic filtering
-
-❌ Learning statistics
-
-❌ User accounts
+Performance optimization for larger content
+Better content discovery
+Review/replay functionality for difficult stories
 
 
+3. Content Strategy & Quality Assurance
+M-MVP Coverage Strategy
 
-### Phase 2 (Months 2-3)
+5 stories targeting N5 Group 1 (10-12 grammar points)
+Ensure each grammar point appears at least 2-3 times
+Progressive difficulty within the 5 stories
+High-frequency vocabulary repetition
 
-Chinese language support (reuse same Japanese stories)
+MVP Coverage Strategy
 
-Group 2 grammar points (expansion)
+30 stories structured to systematically cover:
 
-Smart grammar progression (track what user has heard)
+All N5 grammar points with adequate repetition
+Core N5 vocabulary (approximately 800 words)
+Variety of real-life scenarios
 
-### Phase 3 (Months 3-4)
+
+Each grammar point appears in multiple contexts
+Vocabulary frequency tracking and balanced distribution
+
+Quality Validation
+
+Manual review of generated stories for M-MVP
+Audio quality check (pronunciation, pacing, clarity)
+Grammar point verification
+Learning effectiveness self-testing
 
 
-N4 difficulty level
+4. Future Improvements (Post-MVP)
+Content Generation Enhancements
 
-Group 3 grammar points
+Vocabulary management: Track and ensure comprehensive vocabulary coverage
+Grammar frequency control: Automatically balance grammar point distribution
+Difficulty calibration: Measure and adjust story complexity
+Content variety: More sophisticated topic generation and mixing
 
-Basic progress tracking (which stories played)
+App Enhancements
 
-Future Phases
+Spaced repetition: Intelligently suggest story review timing
+Weak point detection: Identify grammar/vocabulary that needs more practice
+Offline capability: Full offline mode after initial download
+Multiple languages: Add Chinese as native language option
+
+Deployment Evolution
+
+App Store release: If effective, publish for others to use
+Cloud content delivery: Replace bundled assets with downloadable content
+Content updates: Add new stories without app updates
+N4 pipeline: Extend generation system for intermediate level
+
+
+5. Technical Decisions Pending
+Asset Bundling vs Download
+
+M-MVP: Bundle everything (~50-100MB) - Simpler, works offline immediately
+MVP: TBD based on app size (~300-600MB may be too large)
+Full N5: Likely need download strategy
+
+Story Organization
+
+How to structure/name story files?
+Metadata format for story ordering and grouping?
+Index file structure for app consumption?
+
+Progress Persistence
+
+Local-only with SharedPreferences?
+Or simple cloud sync for multi-device?
+
+Update Strategy
+
+Manual app reinstall for M-MVP (acceptable for personal use)
+Later: Design for easier content updates
+
+
+Next Steps
+
+Finalize M-MVP content specification
+
+Exact grammar point distribution across 5 stories
+Vocabulary list to emphasize
+Story topics/themes
+
+
+Generate M-MVP content
+
+Run pipeline for 5 stories
+Manual quality review
+Iterate if needed
+
+
+Complete Flutter app integration
+
+Asset loading
+Audio playback
+Text-audio sync
+Basic UI polish
+
+
+Self-test and iterate
+
+Use app for 2 weeks
+Gather learnings
+Adjust before scaling to 30 stories

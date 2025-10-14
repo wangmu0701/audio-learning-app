@@ -27,9 +27,16 @@ class StoryGenerationStage(PipelineStage):
         if not llm_provider:
             raise ValueError("LLMProvider is required.")
         self.llm_provider = llm_provider
-        self.grammar_points = load_grammar(self.language, self.level, self.grammar_group)
-        if not self.grammar_points:
+
+        self.target_grammar_points, self.previous_grammar_points = load_grammar(
+            self.language, self.level, self.grammar_group
+        )
+        self.cumulative_grammar_points = self.target_grammar_points + self.previous_grammar_points
+
+        if not self.cumulative_grammar_points:
             raise ValueError(f"No grammar points loaded for {self.language}-{self.level}, group {self.grammar_group}")
+
+        self.grammar_point_map = {p.name: p for p in self.cumulative_grammar_points}
 
     @property
     def stage_name(self) -> str:
@@ -49,21 +56,37 @@ class StoryGenerationStage(PipelineStage):
 
     def process(self, story: Dict) -> Dict:
         """
-        Processes a list of story ideas to generate stories.
+        Processes a single story idea to generate a story, then validates
+        and augments the generated data.
         """
         idea = story
         logger.info(f"Generating story for idea: '{idea.get('title')}'")
         generated_story_data = self._generate_single_story(idea)
-        # Merge the original idea with the new data
+
+        # Post-processing and validation
+        for sentence_data in generated_story_data.get("story_breakdown", []):
+            validated_grammar_names = []
+            short_names = []
+            llm_grammar_points = sentence_data.get("grammar_points", [])
+
+            for gp_name in llm_grammar_points:
+                if gp_name in self.grammar_point_map:
+                    validated_grammar_names.append(gp_name)
+                    short_names.append(self.grammar_point_map[gp_name].short)
+                else:
+                    logger.warning(f"LLM generated an invalid grammar point: '{gp_name}' for sentence: '{sentence_data.get('sentence_ja')}'")
+            
+            sentence_data["grammar_points"] = validated_grammar_names
+            sentence_data["grammar_points_short"] = short_names
+
+        # Merge the original idea with the new, validated data
         idea.update(generated_story_data)
         return idea
 
     def _generate_single_story(self, story_idea: Dict) -> Dict:
-        """Generates a single story, ensuring each sentence is tagged with grammar points from the full group list."""
-        # 1. Use the full list of grammar points for the configured group
-        logger.debug(f"Using {len(self.grammar_points)} grammar points from group {self.grammar_group}.")
+        """Generates a single story using a structured, conditional prompt."""
+        logger.debug(f"Targeting {len(self.target_grammar_points)} new grammar points and using {len(self.previous_grammar_points)} previous points.")
 
-        # 2. Define the JSON schema (remains the same)
         story_schema = {
             "type": "object",
             "properties": {
@@ -87,7 +110,7 @@ class StoryGenerationStage(PipelineStage):
                             },
                             "grammar_points": {
                                 "type": "array",
-                                "description": "A list of the names of the grammar points from the provided list that are used in this sentence.",
+                                "description": "A list of the names of the grammar points from the provided lists that are used in this sentence.",
                                 "items": {"type": "string"}
                             }
                         },
@@ -98,34 +121,55 @@ class StoryGenerationStage(PipelineStage):
             "required": ["title_ja", "story_breakdown"]
         }
 
-        # 3. Construct the new, more robust prompt
-        grammar_list_str = "\n".join([f"- {p.name}" for p in self.grammar_points])
-        prompt = f"""
-            You are a creative writer and translator for Japanese language learning content.
-            Your task is to take a story idea, translate its title to Japanese, write a simple story, and then provide a sentence-by-sentence breakdown with translations.
+        prompt_parts = [
+            "You are a creative writer for Japanese language learning content.",
+            "Your task is to take a story idea, write a simple story, and provide a sentence-by-sentence breakdown.",
+            f"\n**Story Idea:**",
+            f"- Title: {story_idea.get('title')}",
+            f"- Summary: {story_idea.get('summary')}",
+        ]
 
-            **Story Idea:**
-            - Title: {story_idea.get('title')}
-            - Summary: {story_idea.get('summary')}
+        # Determine header and source names based on context
+        if self.previous_grammar_points:
+            target_header = f"**New Grammar Points (Group {self.grammar_group}):**"
+            source_list_name = "the 'New Grammar Points' list"
+        else:
+            target_header = f"**Available Grammar Points (Group {self.grammar_group}):**"
+            source_list_name = "the 'Available Grammar Points' list"
 
-            **Available {self.level} Grammar Points (Group {self.grammar_group}):**
-            {grammar_list_str}
+        if self.target_grammar_points:
+            target_list_str = "\n".join([f"- {p.name}" for p in self.target_grammar_points])
+            prompt_parts.append(f"\n{target_header}\n{target_list_str}")
 
-            **Instructions:**
-            1.  First, translate the English story idea **Title** into a suitable Japanese title.
-            2.  Write a short story in Japanese (6-10 sentences) based on the story idea.
-            3.  For each sentence you write, you **must** use at least one grammar point from the **Available N5 Grammar Points** list.
-            4.  Break the story into individual sentences.
-            5.  For each sentence, create a JSON object containing:
-                a. The Japanese sentence (`sentence_ja`).
-                b. A natural, fluent English translation of the sentence (`sentence_en`).
-                c. A list of the grammar points used (`grammar_points`). **Crucially, the name for each grammar point MUST strictly match the format from the provided list, including the pronunciation in parentheses.** For example, it must be `Particle は (wa)`, not just `Particle は`.
+        # Conditionally add previous grammar points section
+        if self.previous_grammar_points:
+            previous_list_str = "\n".join([f"- {p.name}" for p in self.previous_grammar_points])
+            prompt_parts.append(f"\n**Previously Learned Grammar Points:**\n{previous_list_str}")
 
-            6.  Your entire output must be a single JSON object that strictly follows the provided schema and example below.
+        # Build instructions dynamically
+        instructions = [
+            "\n**Instructions:**",
+            "1. Translate the English **Title** into a suitable Japanese title.",
+            f"2. Write a short, simple story (6-10 sentences) that is easy for a beginner {self.level} learner to understand.",
+            f"3. **CRITICAL RULE: Every single sentence (`sentence_ja`) MUST use at least one grammar point from {source_list_name}.**",
+        ]
 
-            **Output Schema and Example:**
-            Your output must be a valid JSON object. Do not include any text or explanations outside of the JSON structure.
+        if self.previous_grammar_points:
+            instructions.append("4. You may also use grammar from the 'Previously Learned Grammar Points' list to make the story natural.")
+            final_instructions_start_num = 5
+        else:
+            final_instructions_start_num = 4
 
+        instructions.extend([
+            f"{final_instructions_start_num}. Break the story into individual sentences and create a JSON object for each, containing:",
+            "   a. The Japanese sentence (`sentence_ja`).",
+            "   b. A natural English translation (`sentence_en`).",
+            "   c. A list of all grammar points used (`grammar_points`). The names MUST exactly match the provided lists (e.g., `Particle は (wa)`).",
+            f"{final_instructions_start_num + 1}. Your entire output must be a single, valid JSON object, with no text outside the JSON structure.",
+        ])
+        prompt_parts.extend(instructions)
+
+        prompt_parts.append(f'''\n**Output Schema and Example:**
             {{
             "title_ja": "Example Japanese Title",
             "story_breakdown": [
@@ -140,9 +184,10 @@ class StoryGenerationStage(PipelineStage):
                 }}
             ]
             }}
-        """
+        ''')
 
-        # 4. Call the LLM
+        prompt = "\n".join(prompt_parts)
+
         generation_config = GenerationConfig(
             model_name=self.llm_model_name,
             temperature=0.7,
@@ -152,10 +197,5 @@ class StoryGenerationStage(PipelineStage):
         )
 
         response_text = self.llm_provider.generate_response(prompt, generation_config)
-        
-        # 5. Parse and return the structured data
-        if response_text.startswith('```json'):
-            response_text = response_text[7:-3].strip()
-        
         response_data = json.loads(response_text)
         return response_data

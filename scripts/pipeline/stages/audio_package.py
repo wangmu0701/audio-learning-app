@@ -66,7 +66,8 @@ class AudioPackageStage(PipelineStage):
         Order with gaps:
         - sentence_ja → [gap_minor] → sentence_en → [gap_major] → 
         - word_ja → [gap_minor] → word_en → [gap_minor] → word_romaji → [gap_minor] → explanation → [gap_major] → next word_ja
-        
+        - ... → [gap_major] → sentence_ja (repeat)
+
         Raises:
             FileNotFoundError: If required audio files are missing
             Exception: If audio merging fails
@@ -93,7 +94,8 @@ class AudioPackageStage(PipelineStage):
         timeline_data = {
             'sentence_ja': None,
             'sentence_en': None,
-            'words': []
+            'words': [],
+            'sentence_ja_repeat': None
         }
         
         current_time = 0.0  # in seconds
@@ -125,11 +127,11 @@ class AudioPackageStage(PipelineStage):
         if not sentence_en_path:
             raise ValueError(f"Missing sentence_en_audio path for sentence {sentence_id}")
         
-        full_path = os.path.join(base_path, sentence_en_path)
-        if not os.path.exists(full_path):
-            raise FileNotFoundError(f"Required audio file not found: {full_path}")
+        full_path_en = os.path.join(base_path, sentence_en_path)
+        if not os.path.exists(full_path_en):
+            raise FileNotFoundError(f"Required audio file not found: {full_path_en}")
         
-        audio = AudioSegment.from_mp3(full_path)
+        audio = AudioSegment.from_mp3(full_path_en)
         duration = len(audio) / 1000.0
         audio_segments.append(audio)
         timeline_data['sentence_en'] = {
@@ -160,11 +162,11 @@ class AudioPackageStage(PipelineStage):
             word_ja_path = word.get('audio_ja_path')
             if not word_ja_path:
                 raise ValueError(f"Missing audio_ja_path for word {word_idx} in sentence {sentence_id}")
-            full_path = os.path.join(base_path, word_ja_path)
-            if not os.path.exists(full_path):
-                raise FileNotFoundError(f"Required audio file not found: {full_path}")
+            word_full_path = os.path.join(base_path, word_ja_path)
+            if not os.path.exists(word_full_path):
+                raise FileNotFoundError(f"Required audio file not found: {word_full_path}")
             
-            audio = AudioSegment.from_mp3(full_path)
+            audio = AudioSegment.from_mp3(word_full_path)
             duration = len(audio) / 1000.0
             audio_segments.append(audio)
             word_timeline['word_ja'] = {
@@ -181,11 +183,11 @@ class AudioPackageStage(PipelineStage):
             word_en_path = word.get('audio_en_path')
             if not word_en_path:
                 raise ValueError(f"Missing audio_en_path for word {word_idx} in sentence {sentence_id}")
-            full_path = os.path.join(base_path, word_en_path)
-            if not os.path.exists(full_path):
-                raise FileNotFoundError(f"Required audio file not found: {full_path}")
+            word_full_path = os.path.join(base_path, word_en_path)
+            if not os.path.exists(word_full_path):
+                raise FileNotFoundError(f"Required audio file not found: {word_full_path}")
             
-            audio = AudioSegment.from_mp3(full_path)
+            audio = AudioSegment.from_mp3(word_full_path)
             duration = len(audio) / 1000.0
             audio_segments.append(audio)
             word_timeline['word_en'] = {
@@ -202,11 +204,11 @@ class AudioPackageStage(PipelineStage):
             word_romaji_path = word.get('audio_romaji_path')
             if not word_romaji_path:
                 raise ValueError(f"Missing audio_romaji_path for word {word_idx} in sentence {sentence_id}")
-            full_path = os.path.join(base_path, word_romaji_path)
-            if not os.path.exists(full_path):
-                raise FileNotFoundError(f"Required audio file not found: {full_path}")
+            word_full_path = os.path.join(base_path, word_romaji_path)
+            if not os.path.exists(word_full_path):
+                raise FileNotFoundError(f"Required audio file not found: {word_full_path}")
             
-            audio = AudioSegment.from_mp3(full_path)
+            audio = AudioSegment.from_mp3(word_full_path)
             duration = len(audio) / 1000.0
             audio_segments.append(audio)
             word_timeline['word_romaji'] = {
@@ -223,11 +225,11 @@ class AudioPackageStage(PipelineStage):
             explanation_path = word.get('audio_explanation_path')
             if not explanation_path:
                 raise ValueError(f"Missing audio_explanation_path for word {word_idx} in sentence {sentence_id}")
-            full_path = os.path.join(base_path, explanation_path)
-            if not os.path.exists(full_path):
-                raise FileNotFoundError(f"Required audio file not found: {full_path}")
+            word_full_path = os.path.join(base_path, explanation_path)
+            if not os.path.exists(word_full_path):
+                raise FileNotFoundError(f"Required audio file not found: {word_full_path}")
             
-            audio = AudioSegment.from_mp3(full_path)
+            audio = AudioSegment.from_mp3(word_full_path)
             duration = len(audio) / 1000.0
             audio_segments.append(audio)
             word_timeline['explanation'] = {
@@ -242,6 +244,19 @@ class AudioPackageStage(PipelineStage):
             if word_idx < len(words) - 1:
                 audio_segments.append(silence_major)
                 current_time += self.gap_major
+
+        # 4. Add final repetition of sentence_ja
+        audio_segments.append(silence_major)
+        current_time += self.gap_major
+
+        audio = AudioSegment.from_mp3(full_path) # Reuse path from the top
+        duration = len(audio) / 1000.0
+        audio_segments.append(audio)
+        timeline_data['sentence_ja_repeat'] = {
+            'start': current_time,
+            'end': current_time + duration
+        }
+        current_time += duration
 
         # Merge all segments
         if not audio_segments:
