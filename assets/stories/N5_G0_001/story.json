@@ -141,6 +141,88 @@
             "end": 94.42800000000001
           }
         }
+      },
+      "sentence_packed_fast_mode_audio": {
+        "url": "audio/packed/s1_fast.mp3",
+        "duration": 26.779999999999998,
+        "timeline": {
+          "sentence_ja": {
+            "start": 0.0,
+            "end": 3.168
+          },
+          "sentence_en": {
+            "start": 3.668,
+            "end": 5.732
+          },
+          "words": [
+            {
+              "word_index": 0,
+              "word_ja": {
+                "start": 6.732,
+                "end": 7.908
+              },
+              "word_en": {
+                "start": 8.408000000000001,
+                "end": 9.104000000000001
+              }
+            },
+            {
+              "word_index": 1,
+              "word_ja": {
+                "start": 10.104000000000001,
+                "end": 10.656
+              },
+              "word_en": {
+                "start": 11.156,
+                "end": 12.74
+              }
+            },
+            {
+              "word_index": 2,
+              "word_ja": {
+                "start": 13.74,
+                "end": 14.796
+              },
+              "word_en": {
+                "start": 15.296,
+                "end": 16.16
+              }
+            },
+            {
+              "word_index": 3,
+              "word_ja": {
+                "start": 17.16,
+                "end": 17.976
+              },
+              "word_en": {
+                "start": 18.476,
+                "end": 19.22
+              }
+            },
+            {
+              "word_index": 4,
+              "word_ja": {
+                "start": 20.22,
+                "end": 20.796
+              },
+              "word_en": {
+                "start": 21.296,
+                "end": 22.471999999999998
+              }
+            },
+            {
+              "word_index": 5,
+              "word_ja": {
+                "start": 23.471999999999998,
+                "end": 24.455999999999996
+              },
+              "word_en": {
+                "start": 24.955999999999996,
+                "end": 26.779999999999998
+              }
+            }
+          ]
+        }
       }
     },
     {
@@ -246,6 +328,66 @@
             "start": 64.492,
             "end": 66.412
           }
+        }
+      },
+      "sentence_packed_fast_mode_audio": {
+        "url": "audio/packed/s2_fast.mp3",
+        "duration": 15.812000000000001,
+        "timeline": {
+          "sentence_ja": {
+            "start": 0.0,
+            "end": 1.92
+          },
+          "sentence_en": {
+            "start": 2.42,
+            "end": 4.004
+          },
+          "words": [
+            {
+              "word_index": 0,
+              "word_ja": {
+                "start": 5.004,
+                "end": 5.9159999999999995
+              },
+              "word_en": {
+                "start": 6.4159999999999995,
+                "end": 7.039999999999999
+              }
+            },
+            {
+              "word_index": 1,
+              "word_ja": {
+                "start": 8.04,
+                "end": 8.616
+              },
+              "word_en": {
+                "start": 9.116,
+                "end": 10.1
+              }
+            },
+            {
+              "word_index": 2,
+              "word_ja": {
+                "start": 11.1,
+                "end": 11.964
+              },
+              "word_en": {
+                "start": 12.464,
+                "end": 13.088000000000001
+              }
+            },
+            {
+              "word_index": 3,
+              "word_ja": {
+                "start": 14.088000000000001,
+                "end": 14.856000000000002
+              },
+              "word_en": {
+                "start": 15.356000000000002,
+                "end": 15.812000000000001
+              }
+            }
+          ]
         }
       }
     },
@@ -406,6 +548,99 @@
             "end": 103.88799999999998
           }
         }
+      },
+      "sentence_packed_fast_mode_audio": {
+        "url": "audio/packed/s3_fast.mp3",
+        "duration": 26.984,
+        "timeline": {
+          "sentence_ja": {
+            "start": 0.0,
+            "end": 3.024
+          },
+          "sentence_en": {
+            "start": 3.524,
+            "end": 5.0600000000000005
+          },
+          "words": [
+            {
+              "word_index": 0,
+              "word_ja": {
+                "start": 6.0600000000000005,
+                "end": 6.924
+              },
+              "word_en": {
+                "start": 7.424,
+                "end": 8.0
+              }
+            },
+            {
+              "word_index": 1,
+              "word_ja": {
+                "start": 9.0,
+                "end": 9.576
+              },
+              "word_en": {
+                "start": 10.076,
+                "end": 11.084
+              }
+            },
+            {
+              "word_index": 2,
+              "word_ja": {
+                "start": 12.084,
+                "end": 12.948
+              },
+              "word_en": {
+                "start": 13.448,
+                "end": 14.192
+              }
+            },
+            {
+              "word_index": 3,
+              "word_ja": {
+                "start": 15.192,
+                "end": 15.744
+              },
+              "word_en": {
+                "start": 16.244,
+                "end": 17.612
+              }
+            },
+            {
+              "word_index": 4,
+              "word_ja": {
+                "start": 18.612,
+                "end": 19.5
+              },
+              "word_en": {
+                "start": 20.0,
+                "end": 20.768
+              }
+            },
+            {
+              "word_index": 5,
+              "word_ja": {
+                "start": 21.768,
+                "end": 22.344
+              },
+              "word_en": {
+                "start": 22.844,
+                "end": 23.612000000000002
+              }
+            },
+            {
+              "word_index": 6,
+              "word_ja": {
+                "start": 24.612000000000002,
+                "end": 25.788
+              },
+              "word_en": {
+                "start": 26.288,
+                "end": 26.984
+              }
+            }
+          ]
+        }
       }
     },
     {
@@ -565,6 +800,99 @@
             "end": 107.36800000000001
           }
         }
+      },
+      "sentence_packed_fast_mode_audio": {
+        "url": "audio/packed/s4_fast.mp3",
+        "duration": 26.168000000000006,
+        "timeline": {
+          "sentence_ja": {
+            "start": 0.0,
+            "end": 2.76
+          },
+          "sentence_en": {
+            "start": 3.26,
+            "end": 4.484
+          },
+          "words": [
+            {
+              "word_index": 0,
+              "word_ja": {
+                "start": 5.484,
+                "end": 6.348
+              },
+              "word_en": {
+                "start": 6.848,
+                "end": 7.4719999999999995
+              }
+            },
+            {
+              "word_index": 1,
+              "word_ja": {
+                "start": 8.472,
+                "end": 9.048
+              },
+              "word_en": {
+                "start": 9.548,
+                "end": 10.652000000000001
+              }
+            },
+            {
+              "word_index": 2,
+              "word_ja": {
+                "start": 11.652000000000001,
+                "end": 12.372000000000002
+              },
+              "word_en": {
+                "start": 12.872000000000002,
+                "end": 13.400000000000002
+              }
+            },
+            {
+              "word_index": 3,
+              "word_ja": {
+                "start": 14.400000000000002,
+                "end": 14.976000000000003
+              },
+              "word_en": {
+                "start": 15.476000000000003,
+                "end": 16.772000000000002
+              }
+            },
+            {
+              "word_index": 4,
+              "word_ja": {
+                "start": 17.772000000000002,
+                "end": 18.660000000000004
+              },
+              "word_en": {
+                "start": 19.160000000000004,
+                "end": 19.856000000000005
+              }
+            },
+            {
+              "word_index": 5,
+              "word_ja": {
+                "start": 20.856000000000005,
+                "end": 21.528000000000006
+              },
+              "word_en": {
+                "start": 22.028000000000006,
+                "end": 22.916000000000007
+              }
+            },
+            {
+              "word_index": 6,
+              "word_ja": {
+                "start": 23.916000000000007,
+                "end": 24.684000000000008
+              },
+              "word_en": {
+                "start": 25.184000000000008,
+                "end": 26.168000000000006
+              }
+            }
+          ]
+        }
       }
     },
     {
@@ -689,6 +1017,77 @@
             "start": 81.67999999999998,
             "end": 83.95999999999998
           }
+        }
+      },
+      "sentence_packed_fast_mode_audio": {
+        "url": "audio/packed/s5_fast.mp3",
+        "duration": 19.952,
+        "timeline": {
+          "sentence_ja": {
+            "start": 0.0,
+            "end": 2.28
+          },
+          "sentence_en": {
+            "start": 2.78,
+            "end": 3.9079999999999995
+          },
+          "words": [
+            {
+              "word_index": 0,
+              "word_ja": {
+                "start": 4.9079999999999995,
+                "end": 5.675999999999999
+              },
+              "word_en": {
+                "start": 6.175999999999999,
+                "end": 6.919999999999999
+              }
+            },
+            {
+              "word_index": 1,
+              "word_ja": {
+                "start": 7.919999999999999,
+                "end": 8.495999999999999
+              },
+              "word_en": {
+                "start": 8.995999999999999,
+                "end": 10.052
+              }
+            },
+            {
+              "word_index": 2,
+              "word_ja": {
+                "start": 11.052,
+                "end": 11.916
+              },
+              "word_en": {
+                "start": 12.416,
+                "end": 13.040000000000001
+              }
+            },
+            {
+              "word_index": 3,
+              "word_ja": {
+                "start": 14.040000000000001,
+                "end": 14.544
+              },
+              "word_en": {
+                "start": 15.044,
+                "end": 16.652
+              }
+            },
+            {
+              "word_index": 4,
+              "word_ja": {
+                "start": 17.652,
+                "end": 18.684
+              },
+              "word_en": {
+                "start": 19.184,
+                "end": 19.952
+              }
+            }
+          ]
         }
       }
     },
@@ -848,6 +1247,99 @@
             "start": 113.92,
             "end": 116.68
           }
+        }
+      },
+      "sentence_packed_fast_mode_audio": {
+        "url": "audio/packed/s6_fast.mp3",
+        "duration": 26.960000000000008,
+        "timeline": {
+          "sentence_ja": {
+            "start": 0.0,
+            "end": 2.76
+          },
+          "sentence_en": {
+            "start": 3.26,
+            "end": 5.156
+          },
+          "words": [
+            {
+              "word_index": 0,
+              "word_ja": {
+                "start": 6.156,
+                "end": 7.26
+              },
+              "word_en": {
+                "start": 7.76,
+                "end": 8.288
+              }
+            },
+            {
+              "word_index": 1,
+              "word_ja": {
+                "start": 9.288,
+                "end": 10.104000000000001
+              },
+              "word_en": {
+                "start": 10.604000000000001,
+                "end": 11.348
+              }
+            },
+            {
+              "word_index": 2,
+              "word_ja": {
+                "start": 12.348,
+                "end": 13.116000000000001
+              },
+              "word_en": {
+                "start": 13.616000000000001,
+                "end": 14.240000000000002
+              }
+            },
+            {
+              "word_index": 3,
+              "word_ja": {
+                "start": 15.240000000000002,
+                "end": 15.816000000000003
+              },
+              "word_en": {
+                "start": 16.316000000000003,
+                "end": 17.804000000000002
+              }
+            },
+            {
+              "word_index": 4,
+              "word_ja": {
+                "start": 18.804000000000002,
+                "end": 19.308000000000003
+              },
+              "word_en": {
+                "start": 19.808000000000003,
+                "end": 21.032000000000004
+              }
+            },
+            {
+              "word_index": 5,
+              "word_ja": {
+                "start": 22.032000000000004,
+                "end": 22.728000000000005
+              },
+              "word_en": {
+                "start": 23.228000000000005,
+                "end": 23.996000000000006
+              }
+            },
+            {
+              "word_index": 6,
+              "word_ja": {
+                "start": 24.996000000000006,
+                "end": 25.884000000000007
+              },
+              "word_en": {
+                "start": 26.384000000000007,
+                "end": 26.960000000000008
+              }
+            }
+          ]
         }
       }
     },
@@ -1009,6 +1501,99 @@
             "start": 101.36800000000002,
             "end": 104.58400000000002
           }
+        }
+      },
+      "sentence_packed_fast_mode_audio": {
+        "url": "audio/packed/s7_fast.mp3",
+        "duration": 27.296000000000003,
+        "timeline": {
+          "sentence_ja": {
+            "start": 0.0,
+            "end": 3.216
+          },
+          "sentence_en": {
+            "start": 3.716,
+            "end": 5.492
+          },
+          "words": [
+            {
+              "word_index": 0,
+              "word_ja": {
+                "start": 6.492,
+                "end": 7.26
+              },
+              "word_en": {
+                "start": 7.76,
+                "end": 8.504
+              }
+            },
+            {
+              "word_index": 1,
+              "word_ja": {
+                "start": 9.504,
+                "end": 10.08
+              },
+              "word_en": {
+                "start": 10.58,
+                "end": 11.564
+              }
+            },
+            {
+              "word_index": 2,
+              "word_ja": {
+                "start": 12.564,
+                "end": 13.428
+              },
+              "word_en": {
+                "start": 13.928,
+                "end": 14.552000000000001
+              }
+            },
+            {
+              "word_index": 3,
+              "word_ja": {
+                "start": 15.552000000000001,
+                "end": 16.128
+              },
+              "word_en": {
+                "start": 16.628,
+                "end": 17.636
+              }
+            },
+            {
+              "word_index": 4,
+              "word_ja": {
+                "start": 18.636,
+                "end": 19.692
+              },
+              "word_en": {
+                "start": 20.192,
+                "end": 20.768
+              }
+            },
+            {
+              "word_index": 5,
+              "word_ja": {
+                "start": 21.768,
+                "end": 22.272000000000002
+              },
+              "word_en": {
+                "start": 22.772000000000002,
+                "end": 24.116000000000003
+              }
+            },
+            {
+              "word_index": 6,
+              "word_ja": {
+                "start": 25.116000000000003,
+                "end": 26.268000000000004
+              },
+              "word_en": {
+                "start": 26.768000000000004,
+                "end": 27.296000000000003
+              }
+            }
+          ]
         }
       }
     },
@@ -1205,6 +1790,121 @@
             "end": 150.936
           }
         }
+      },
+      "sentence_packed_fast_mode_audio": {
+        "url": "audio/packed/s8_fast.mp3",
+        "duration": 35.216,
+        "timeline": {
+          "sentence_ja": {
+            "start": 0.0,
+            "end": 4.824
+          },
+          "sentence_en": {
+            "start": 5.324,
+            "end": 7.58
+          },
+          "words": [
+            {
+              "word_index": 0,
+              "word_ja": {
+                "start": 8.58,
+                "end": 9.468
+              },
+              "word_en": {
+                "start": 9.968,
+                "end": 10.544
+              }
+            },
+            {
+              "word_index": 1,
+              "word_ja": {
+                "start": 11.544,
+                "end": 12.408000000000001
+              },
+              "word_en": {
+                "start": 12.908000000000001,
+                "end": 13.532000000000002
+              }
+            },
+            {
+              "word_index": 2,
+              "word_ja": {
+                "start": 14.532000000000002,
+                "end": 15.084000000000001
+              },
+              "word_en": {
+                "start": 15.584000000000001,
+                "end": 15.872000000000002
+              }
+            },
+            {
+              "word_index": 3,
+              "word_ja": {
+                "start": 16.872,
+                "end": 17.592
+              },
+              "word_en": {
+                "start": 18.092,
+                "end": 18.715999999999998
+              }
+            },
+            {
+              "word_index": 4,
+              "word_ja": {
+                "start": 19.715999999999998,
+                "end": 20.22
+              },
+              "word_en": {
+                "start": 20.72,
+                "end": 21.727999999999998
+              }
+            },
+            {
+              "word_index": 5,
+              "word_ja": {
+                "start": 22.727999999999998,
+                "end": 24.072
+              },
+              "word_en": {
+                "start": 24.572,
+                "end": 25.268
+              }
+            },
+            {
+              "word_index": 6,
+              "word_ja": {
+                "start": 26.268,
+                "end": 26.82
+              },
+              "word_en": {
+                "start": 27.32,
+                "end": 28.328
+              }
+            },
+            {
+              "word_index": 7,
+              "word_ja": {
+                "start": 29.328,
+                "end": 29.832
+              },
+              "word_en": {
+                "start": 30.332,
+                "end": 31.556
+              }
+            },
+            {
+              "word_index": 8,
+              "word_ja": {
+                "start": 32.556,
+                "end": 33.708
+              },
+              "word_en": {
+                "start": 34.208,
+                "end": 35.216
+              }
+            }
+          ]
+        }
       }
     },
     {
@@ -1398,6 +2098,121 @@
             "end": 151.2
           }
         }
+      },
+      "sentence_packed_fast_mode_audio": {
+        "url": "audio/packed/s9_fast.mp3",
+        "duration": 35.36000000000001,
+        "timeline": {
+          "sentence_ja": {
+            "start": 0.0,
+            "end": 4.608
+          },
+          "sentence_en": {
+            "start": 5.108,
+            "end": 7.004
+          },
+          "words": [
+            {
+              "word_index": 0,
+              "word_ja": {
+                "start": 8.004,
+                "end": 9.132
+              },
+              "word_en": {
+                "start": 9.632,
+                "end": 10.16
+              }
+            },
+            {
+              "word_index": 1,
+              "word_ja": {
+                "start": 11.16,
+                "end": 11.712
+              },
+              "word_en": {
+                "start": 12.212,
+                "end": 13.508
+              }
+            },
+            {
+              "word_index": 2,
+              "word_ja": {
+                "start": 14.508,
+                "end": 15.276
+              },
+              "word_en": {
+                "start": 15.776,
+                "end": 16.4
+              }
+            },
+            {
+              "word_index": 3,
+              "word_ja": {
+                "start": 17.4,
+                "end": 17.976
+              },
+              "word_en": {
+                "start": 18.476,
+                "end": 19.58
+              }
+            },
+            {
+              "word_index": 4,
+              "word_ja": {
+                "start": 20.58,
+                "end": 21.444
+              },
+              "word_en": {
+                "start": 21.944,
+                "end": 22.592
+              }
+            },
+            {
+              "word_index": 5,
+              "word_ja": {
+                "start": 23.592,
+                "end": 24.096
+              },
+              "word_en": {
+                "start": 24.596,
+                "end": 25.94
+              }
+            },
+            {
+              "word_index": 6,
+              "word_ja": {
+                "start": 26.94,
+                "end": 27.66
+              },
+              "word_en": {
+                "start": 28.16,
+                "end": 28.976
+              }
+            },
+            {
+              "word_index": 7,
+              "word_ja": {
+                "start": 29.976,
+                "end": 30.552
+              },
+              "word_en": {
+                "start": 31.052,
+                "end": 31.628
+              }
+            },
+            {
+              "word_index": 8,
+              "word_ja": {
+                "start": 32.628,
+                "end": 34.404
+              },
+              "word_en": {
+                "start": 34.904,
+                "end": 35.36000000000001
+              }
+            }
+          ]
+        }
       }
     },
     {
@@ -1555,6 +2370,99 @@
             "end": 101.55999999999999
           }
         }
+      },
+      "sentence_packed_fast_mode_audio": {
+        "url": "audio/packed/s10_fast.mp3",
+        "duration": 27.320000000000007,
+        "timeline": {
+          "sentence_ja": {
+            "start": 0.0,
+            "end": 3.384
+          },
+          "sentence_en": {
+            "start": 3.884,
+            "end": 5.732
+          },
+          "words": [
+            {
+              "word_index": 0,
+              "word_ja": {
+                "start": 6.732,
+                "end": 7.596
+              },
+              "word_en": {
+                "start": 8.096,
+                "end": 8.72
+              }
+            },
+            {
+              "word_index": 1,
+              "word_ja": {
+                "start": 9.72,
+                "end": 10.296000000000001
+              },
+              "word_en": {
+                "start": 10.796000000000001,
+                "end": 11.804000000000002
+              }
+            },
+            {
+              "word_index": 2,
+              "word_ja": {
+                "start": 12.804000000000002,
+                "end": 13.524000000000003
+              },
+              "word_en": {
+                "start": 14.024000000000003,
+                "end": 14.912000000000003
+              }
+            },
+            {
+              "word_index": 3,
+              "word_ja": {
+                "start": 15.912000000000003,
+                "end": 16.800000000000004
+              },
+              "word_en": {
+                "start": 17.300000000000004,
+                "end": 18.044000000000004
+              }
+            },
+            {
+              "word_index": 4,
+              "word_ja": {
+                "start": 19.044000000000004,
+                "end": 19.596000000000004
+              },
+              "word_en": {
+                "start": 20.096000000000004,
+                "end": 20.672000000000004
+              }
+            },
+            {
+              "word_index": 5,
+              "word_ja": {
+                "start": 21.672000000000004,
+                "end": 22.248000000000005
+              },
+              "word_en": {
+                "start": 22.748000000000005,
+                "end": 23.324000000000005
+              }
+            },
+            {
+              "word_index": 6,
+              "word_ja": {
+                "start": 24.324000000000005,
+                "end": 25.932000000000006
+              },
+              "word_en": {
+                "start": 26.432000000000006,
+                "end": 27.320000000000007
+              }
+            }
+          ]
+        }
       }
     }
   ],
@@ -1578,6 +2486,7 @@
     "を(o)"
   ],
   "duration_seconds": 1161,
+  "duration_fast_mode_seconds": 316,
   "sentence_count": 10,
   "word_count": 68,
   "difficulty": "N5",

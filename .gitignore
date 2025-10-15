@@ -76,6 +76,9 @@ app.*.map.json
 **/macos/Flutter/GeneratedPluginRegistrant.swift
 **/macos/Flutter/ephemeral/
 
+# Assets
+assets/
+
 # Firebase
 **/ios/Runner/GoogleService-Info.plist
 **/android/app/google-services.json
@@ -90,6 +93,7 @@ scripts/.venv/
 # Generated data
 scripts/output/
 scripts/output/audio/
+scripts/app_assets/
 
 # tmp logs
 tmp*
