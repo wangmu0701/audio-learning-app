@@ -152,6 +152,7 @@ class IndexingAndPublishStage(PipelineStage):
                 "grammar_points": story.get('grammar_points'),
                 "topics": story.get('topics', []),
                 "duration_seconds": story.get('duration_seconds'),
+                "duration_fast_mode_seconds": story.get('duration_fast_mode_seconds'),
                 "sentence_count": story.get('sentence_count'),
                 "word_count": story.get('word_count')
             }
@@ -181,15 +182,21 @@ class IndexingAndPublishStage(PipelineStage):
                     try: duration = len(AudioSegment.from_mp3(path)) / 1000.0
                     except Exception as e: logger.warning(f"Could not read duration from {path}: {e}")
                 else: logger.warning(f"Audio file not found: {path}")
-                story[dur_key], total_duration = duration, total_duration + duration
+                story[dur_key] = duration
+                total_duration += duration
+
+        fast_mode_duration = story.get('audio_full_story_normal_duration', 0.0) + \
+                             story.get('audio_full_story_translation_duration', 0.0)
 
         for sentence in story.get('story_breakdown', []):
             all_grammar.update(sentence.get('grammar_points_short', []))
             total_duration += sentence.get('sentence_packed_audio', {}).get('duration', 0.0)
+            fast_mode_duration += sentence.get('sentence_packed_fast_mode_audio', {}).get('duration', 0.0)
             total_words += len(sentence.get('words', []))
             
         story['grammar_points'] = sorted(list(all_grammar))
         story['duration_seconds'] = round(total_duration)
+        story['duration_fast_mode_seconds'] = round(fast_mode_duration)
         story['sentence_count'] = len(story.get('story_breakdown', []))
         story['word_count'] = total_words
 

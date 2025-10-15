@@ -70,6 +70,7 @@ class AudioPackageStage(PipelineStage):
             sentence_id = sentence.get('id', f's{i+1}')
             logger.debug(f"  Packaging sentence: {sentence_id}")
             self._pack_sentence_audio(sentence, base_path, packed_audio_dir, sentence_id)
+            self._pack_sentence_fast_mode_audio(sentence, base_path, packed_audio_dir, sentence_id)
 
         logger.info(f"  Successfully packaged {len(story.get('story_breakdown', []))} sentences")
         return story
@@ -291,6 +292,108 @@ class AudioPackageStage(PipelineStage):
 
         # Update sentence with packed audio info
         sentence['sentence_packed_audio'] = {
+            'url': os.path.relpath(output_file, base_path),
+            'duration': current_time,
+            'timeline': timeline_data
+        }
+
+    def _pack_sentence_fast_mode_audio(self, sentence: Dict, base_path: str, packed_dir: str, sentence_id: str):
+        """
+        Packages a streamlined 'fast mode' audio for a single sentence.
+        
+        Order with gaps:
+        - sentence_ja → [gap_minor] → sentence_en → [gap_major] → 
+        - word_ja → [gap_minor] → word_en → [gap_major] → next word_ja
+        """
+        output_file = os.path.join(packed_dir, f"{sentence_id}_fast.mp3")
+        
+        if os.path.exists(output_file):
+            logger.debug(f"    Fast mode packed audio already exists, skipping: {output_file}")
+            try:
+                existing_audio = AudioSegment.from_mp3(output_file)
+                sentence['sentence_packed_fast_mode_audio'] = {
+                    'url': os.path.relpath(output_file, base_path),
+                    'duration': len(existing_audio) / 1000.0
+                }
+            except Exception as e:
+                logger.warning(f"Could not read existing fast mode packed audio {output_file}: {e}")
+            return
+
+        silence_major = AudioSegment.silent(duration=int(self.gap_major * 1000))
+        silence_minor = AudioSegment.silent(duration=int(self.gap_minor * 1000))
+
+        audio_segments = []
+        timeline_data = {
+            'sentence_ja': None,
+            'sentence_en': None,
+            'words': []
+        }
+        current_time = 0.0
+
+        # 1. Sentence Japanese audio
+        sentence_ja_path = sentence.get('sentence_ja_audio')
+        full_path = os.path.join(base_path, sentence_ja_path)
+        audio = AudioSegment.from_mp3(full_path)
+        duration = len(audio) / 1000.0
+        audio_segments.append(audio)
+        timeline_data['sentence_ja'] = {'start': current_time, 'end': current_time + duration}
+        current_time += duration
+        
+        audio_segments.append(silence_minor)
+        current_time += self.gap_minor
+
+        # 2. Sentence English audio
+        sentence_en_path = sentence.get('sentence_en_audio')
+        full_path_en = os.path.join(base_path, sentence_en_path)
+        audio = AudioSegment.from_mp3(full_path_en)
+        duration = len(audio) / 1000.0
+        audio_segments.append(audio)
+        timeline_data['sentence_en'] = {'start': current_time, 'end': current_time + duration}
+        current_time += duration
+        
+        audio_segments.append(silence_major)
+        current_time += self.gap_major
+
+        # 3. Word-level audio (JA and EN only)
+        words = sentence.get('words', [])
+        for word_idx, word in enumerate(words):
+            word_timeline = { 'word_index': word_idx, 'word_ja': None, 'word_en': None }
+
+            # Word JA
+            word_ja_path = word.get('audio_ja_path')
+            word_full_path = os.path.join(base_path, word_ja_path)
+            audio = AudioSegment.from_mp3(word_full_path)
+            duration = len(audio) / 1000.0
+            audio_segments.append(audio)
+            word_timeline['word_ja'] = {'start': current_time, 'end': current_time + duration}
+            current_time += duration
+            
+            audio_segments.append(silence_minor)
+            current_time += self.gap_minor
+
+            # Word EN
+            word_en_path = word.get('audio_en_path')
+            word_full_path = os.path.join(base_path, word_en_path)
+            audio = AudioSegment.from_mp3(word_full_path)
+            duration = len(audio) / 1000.0
+            audio_segments.append(audio)
+            word_timeline['word_en'] = {'start': current_time, 'end': current_time + duration}
+            current_time += duration
+
+            timeline_data['words'].append(word_timeline)
+            
+            if word_idx < len(words) - 1:
+                audio_segments.append(silence_major)
+                current_time += self.gap_major
+
+        if not audio_segments:
+            return
+
+        combined_audio = sum(audio_segments)
+        combined_audio.export(output_file, format="mp3")
+        logger.debug(f"    Successfully saved fast mode packed audio to {output_file}")
+
+        sentence['sentence_packed_fast_mode_audio'] = {
             'url': os.path.relpath(output_file, base_path),
             'duration': current_time,
             'timeline': timeline_data
