@@ -19,6 +19,7 @@ class PlayerScreen extends ConsumerStatefulWidget {
 class _PlayerScreenState extends ConsumerState<PlayerScreen> {
   StreamSubscription? _playerStateSubscription;
   StreamSubscription? _positionSubscription;
+  Word? _lastDisplayedWord;
 
   @override
   void initState() {
@@ -28,7 +29,14 @@ class _PlayerScreenState extends ConsumerState<PlayerScreen> {
 
   Future<void> _initializePlayer() async {
     final audioService = ref.read(audioServiceProvider);
-    await audioService.loadStory(widget.story.storyId);
+    final currentPlayingStoryId = ref.read(currentPlayingStoryIdProvider);
+
+    // 只在不是当前播放的故事时才重新加载
+    if (currentPlayingStoryId != widget.story.storyId) {
+      await audioService.loadStory(widget.story.storyId);
+      ref.read(currentPlayingStoryIdProvider.notifier).state =
+          widget.story.storyId;
+    }
 
     // 监听播放状态
     _playerStateSubscription = audioService.player.playerStateStream.listen((
@@ -96,6 +104,11 @@ class _PlayerScreenState extends ConsumerState<PlayerScreen> {
               ? currentSentence.words[currentWordIndex]
               : null;
 
+          // 新增：如果有新单词，更新 lastDisplayedWord
+          if (currentWord != null) {
+            _lastDisplayedWord = currentWord;
+          }
+
           return Column(
             children: [
               // Story title section
@@ -112,8 +125,8 @@ class _PlayerScreenState extends ConsumerState<PlayerScreen> {
                       else
                         _buildIntroDisplay(),
 
-                      // Word explanation section
-                      _buildWordExplanationSection(currentWord),
+                      // Word explanation section - 使用 _lastDisplayedWord 而不是 currentWord
+                      _buildWordExplanationSection(_lastDisplayedWord),
                     ],
                   ),
                 ),
@@ -446,7 +459,16 @@ class _PlayerScreenState extends ConsumerState<PlayerScreen> {
                 icon: const Icon(Icons.skip_previous),
                 iconSize: 48,
                 onPressed: canGoPrevious
-                    ? () => audioService.jumpToPreviousSentence()
+                    ? () async {
+                        final newPosition = await audioService
+                            .jumpToPreviousSentence();
+                        if (newPosition != null) {
+                          // 立即更新状态
+                          ref.read(playbackPositionProvider.notifier).state =
+                              newPosition;
+                          _updateCurrentSentenceAndWord(newPosition);
+                        }
+                      }
                     : null,
                 color: canGoPrevious ? Colors.black : Colors.grey,
               ),
@@ -474,7 +496,16 @@ class _PlayerScreenState extends ConsumerState<PlayerScreen> {
                 icon: const Icon(Icons.skip_next),
                 iconSize: 48,
                 onPressed: canGoNext
-                    ? () => audioService.jumpToNextSentence()
+                    ? () async {
+                        final newPosition = await audioService
+                            .jumpToNextSentence();
+                        if (newPosition != null) {
+                          // 立即更新状态
+                          ref.read(playbackPositionProvider.notifier).state =
+                              newPosition;
+                          _updateCurrentSentenceAndWord(newPosition);
+                        }
+                      }
                     : null,
                 color: canGoNext ? Colors.black : Colors.grey,
               ),

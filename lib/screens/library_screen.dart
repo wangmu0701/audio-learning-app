@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/story_providers.dart';
+import '../providers/audio_providers.dart';
 import '../models/story.dart';
 import 'player_screen.dart';
 
@@ -71,6 +72,13 @@ class _StoryCardState extends ConsumerState<StoryCard> {
     final storyDetailAsync = ref.watch(
       storyDetailProvider(widget.story.storyId),
     );
+    final currentPlayingStoryId = ref.watch(currentPlayingStoryIdProvider);
+    final isPlaying = ref.watch(isPlayingProvider);
+    final audioService = ref.watch(audioServiceProvider);
+
+    // 判断当前故事是否正在播放
+    final isCurrentStoryPlaying =
+        currentPlayingStoryId == widget.story.storyId && isPlaying;
 
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
@@ -118,14 +126,60 @@ class _StoryCardState extends ConsumerState<StoryCard> {
                 ),
               ],
             ),
-            trailing: IconButton(
-              icon: Icon(_isExpanded ? Icons.expand_less : Icons.expand_more),
-              onPressed: () {
-                setState(() {
-                  _isExpanded = !_isExpanded;
-                });
-              },
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // 播放/暂停按钮
+                IconButton(
+                  icon: Icon(
+                    isCurrentStoryPlaying
+                        ? Icons.pause_circle_filled
+                        : Icons.play_circle_filled,
+                  ),
+                  iconSize: 40,
+                  color: currentPlayingStoryId == widget.story.storyId
+                      ? Colors.blue
+                      : Colors.grey[700],
+                  onPressed: () async {
+                    if (currentPlayingStoryId == widget.story.storyId) {
+                      // 如果是当前播放的故事，切换播放/暂停
+                      if (isPlaying) {
+                        await audioService.pause();
+                      } else {
+                        await audioService.play();
+                      }
+                    } else {
+                      // 如果不是当前播放的故事，加载并播放
+                      await audioService.loadStory(widget.story.storyId);
+                      ref.read(currentPlayingStoryIdProvider.notifier).state =
+                          widget.story.storyId;
+                      await audioService.play();
+                    }
+                  },
+                ),
+
+                // 展开/收起按钮
+                IconButton(
+                  icon: Icon(
+                    _isExpanded ? Icons.expand_less : Icons.expand_more,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      _isExpanded = !_isExpanded;
+                    });
+                  },
+                ),
+              ],
             ),
+            onTap: () {
+              // 点击卡片进入播放界面
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => PlayerScreen(story: widget.story),
+                ),
+              );
+            },
           ),
 
           // Expanded content
@@ -195,7 +249,7 @@ class _StoryCardState extends ConsumerState<StoryCard> {
                       ),
                       const SizedBox(height: 16),
 
-                      // Play button (simplified - no mode selection)
+                      // Enter player button
                       SizedBox(
                         width: double.infinity,
                         child: ElevatedButton.icon(
@@ -208,9 +262,9 @@ class _StoryCardState extends ConsumerState<StoryCard> {
                               ),
                             );
                           },
-                          icon: const Icon(Icons.play_arrow),
+                          icon: const Icon(Icons.headphones),
                           label: Text(
-                            'Start Learning (${storyDetail.formattedDuration})',
+                            'Open Player (${storyDetail.formattedDuration})',
                           ),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.blue,

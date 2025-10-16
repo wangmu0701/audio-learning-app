@@ -113,37 +113,46 @@ class AudioPlayerService {
   }
 
   /// 跳转到下一句
-  Future<void> jumpToNextSentence() async {
-    if (_fastModeAudio == null || _audioPlayer.duration == null) return;
+  Future<Duration?> jumpToNextSentence() async {
+    if (_fastModeAudio == null || _audioPlayer.duration == null) return null;
 
     final currentIndex = getCurrentSentenceIndex(_audioPlayer.position);
     final sentences = _fastModeAudio!.timeline.sentences;
+
+    Duration? newPosition;
 
     // 如果在 intro 阶段（currentIndex == -1），跳转到第一句
     if (currentIndex == -1) {
       if (sentences.isNotEmpty) {
         final firstStart = sentences[0].sentenceJa.start;
-        await seek(Duration(milliseconds: (firstStart * 1000).toInt()));
+        newPosition = Duration(milliseconds: (firstStart * 1000).toInt());
+        await seek(newPosition);
       }
     }
     // 否则跳转到下一句
     else if (currentIndex < sentences.length - 1) {
       final nextStart = sentences[currentIndex + 1].sentenceJa.start;
-      await seek(Duration(milliseconds: (nextStart * 1000).toInt()));
+      newPosition = Duration(milliseconds: (nextStart * 1000).toInt());
+      await seek(newPosition);
     }
+
+    return newPosition;
   }
 
   /// 跳转到上一句（或当前句子开始，或 intro 开始）
-  Future<void> jumpToPreviousSentence() async {
-    if (_fastModeAudio == null || _audioPlayer.duration == null) return;
+  Future<Duration?> jumpToPreviousSentence() async {
+    if (_fastModeAudio == null || _audioPlayer.duration == null) return null;
 
     final currentIndex = getCurrentSentenceIndex(_audioPlayer.position);
     final sentences = _fastModeAudio!.timeline.sentences;
 
+    Duration? newPosition;
+
     // 如果在 intro 阶段，跳到开头
     if (currentIndex == -1) {
-      await seek(Duration.zero);
-      return;
+      newPosition = Duration.zero;
+      await seek(newPosition);
+      return newPosition;
     }
 
     final currentSentence = sentences[currentIndex];
@@ -151,21 +160,24 @@ class AudioPlayerService {
 
     // 如果当前句子播放超过 1 秒，跳回当前句子开始
     if (currentSeconds - currentSentence.sentenceJa.start > 1.0) {
-      await seek(
-        Duration(
-          milliseconds: (currentSentence.sentenceJa.start * 1000).toInt(),
-        ),
+      newPosition = Duration(
+        milliseconds: (currentSentence.sentenceJa.start * 1000).toInt(),
       );
+      await seek(newPosition);
     }
     // 如果是第一句且播放不到 1 秒，跳回 intro 开始
     else if (currentIndex == 0) {
-      await seek(Duration.zero);
+      newPosition = Duration.zero;
+      await seek(newPosition);
     }
     // 否则跳到上一句
     else {
       final prevStart = sentences[currentIndex - 1].sentenceJa.start;
-      await seek(Duration(milliseconds: (prevStart * 1000).toInt()));
+      newPosition = Duration(milliseconds: (prevStart * 1000).toInt());
+      await seek(newPosition);
     }
+
+    return newPosition;
   }
 
   /// 停止播放

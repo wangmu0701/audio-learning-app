@@ -23,3 +23,6 @@ final currentSentenceIndexProvider = StateProvider<int>((ref) => 0);
 
 // Current highlighted word index provider
 final currentWordIndexProvider = StateProvider<int?>((ref) => null);
+
+// Current playing story ID provider (新增)
+final currentPlayingStoryIdProvider = StateProvider<String?>((ref) => null);
