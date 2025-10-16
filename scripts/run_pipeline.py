@@ -89,7 +89,7 @@ def main():
     llm_provider = LLMProvider()
     tts_provider = TTSProvider()
     config = {
-        "llm_model_name": "gemini-2.5-flash-latest",
+        "llm_model_name": "gemini-2.5-flash",
         "language": "ja",
         "level": "N5",
         "grammar_group": 0,
@@ -115,7 +115,7 @@ def main():
         # Define configuration for new run
         config.update({
             "output_base_dir": run_output_dir,
-            "number_of_stories": 1,
+            "number_of_stories": 5,
             "story_id_prefix": f"{today_str}-{run_id_str}",
         })
 

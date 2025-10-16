@@ -9,6 +9,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
 from pipeline.base import PipelineStage
 from pipeline.logger import get_logger
 from pipeline.grammar import load_grammar, GrammarPoint
+from pipeline.vocabulary import load_vocabulary
 from pipeline.llm_provider import LLMProvider, GenerationConfig
 
 logger = get_logger(__name__)
@@ -37,6 +38,7 @@ class StoryGenerationStage(PipelineStage):
             raise ValueError(f"No grammar points loaded for {self.language}-{self.level}, group {self.grammar_group}")
 
         self.grammar_point_map = {p.name: p for p in self.cumulative_grammar_points}
+        self.vocabulary = load_vocabulary(self.language, self.level)
 
     @property
     def stage_name(self) -> str:
@@ -146,19 +148,24 @@ class StoryGenerationStage(PipelineStage):
             previous_list_str = "\n".join([f"- {p.name}" for p in self.previous_grammar_points])
             prompt_parts.append(f"\n**Previously Learned Grammar Points:**\n{previous_list_str}")
 
+        if self.vocabulary:
+            vocab_list_str = ", ".join(self.vocabulary)
+            prompt_parts.append(f"\n**Preferred Vocabulary List:**\n{vocab_list_str}")
+
         # Build instructions dynamically
         instructions = [
             "\n**Instructions:**",
             "1. Translate the English **Title** into a suitable Japanese title.",
             f"2. Write a short, simple story (6-10 sentences) that is easy for a beginner {self.level} learner to understand.",
             f"3. **CRITICAL RULE: Every single sentence (`sentence_ja`) MUST use at least one grammar point from {source_list_name}.**",
+            "4. **PRIORITY: Prioritize using words from the 'Preferred Vocabulary List'. This is a suggestion, not a strict rule; you can use other common words to make the story natural and fluent.**"
         ]
 
         if self.previous_grammar_points:
-            instructions.append("4. You may also use grammar from the 'Previously Learned Grammar Points' list to make the story natural.")
-            final_instructions_start_num = 5
+            instructions.append("5. You may also use grammar from the 'Previously Learned Grammar Points' list to make the story natural.")
+            final_instructions_start_num = 6
         else:
-            final_instructions_start_num = 4
+            final_instructions_start_num = 5
 
         instructions.extend([
             f"{final_instructions_start_num}. Break the story into individual sentences and create a JSON object for each, containing:",
