@@ -92,13 +92,11 @@ class IndexingAndPublishStage(PipelineStage):
         os.makedirs(os.path.join(self.output_dir, 'stories'), exist_ok=True)
         
         existing_story_keys = self._initialize_from_index()
-        print(f'Existing stories in index: {existing_story_keys}')
         index_metadata_list = []
         for story in input_stories:
             story_title = story.get('title')
             story_difficulty = self.difficulty
 
-            print(f'Processing story: {story_title} at difficulty {story_difficulty}')
             # 1. Prevent Duplicates
             if (story_title, story_difficulty) in existing_story_keys:
                 logger.info(f"Skipping already published story: '{story_title}' (Difficulty {story_difficulty})")
@@ -131,10 +129,11 @@ class IndexingAndPublishStage(PipelineStage):
             # Aggregate, clean, copy, and save
             self._aggregate_metadata(story)
             story['story_id'] = app_story_id
-            published_story_data = self._clean_story_data(story)
             
             os.makedirs(target_story_path, exist_ok=True)
-            self._copy_audio_files(story['output_path'], target_story_path)
+            self._copy_mvp_assets(story['output_path'], target_story_path, story)
+            
+            published_story_data = self._clean_story_data(story)
             
             story_json_path = os.path.join(target_story_path, 'story.json')
             with open(story_json_path, 'w', encoding='utf-8') as f:
@@ -152,7 +151,7 @@ class IndexingAndPublishStage(PipelineStage):
                 "grammar_points": story.get('grammar_points'),
                 "topics": story.get('topics', []),
                 "duration_seconds": story.get('duration_seconds'),
-                "duration_fast_mode_seconds": story.get('duration_fast_mode_seconds'),
+                "fast_mode_duration_seconds": story.get('duration_fast_mode_seconds'),
                 "sentence_count": story.get('sentence_count'),
                 "word_count": story.get('word_count')
             }
@@ -169,29 +168,17 @@ class IndexingAndPublishStage(PipelineStage):
         return f"{difficulty}_G{group}_{count:03d}"
 
     def _aggregate_metadata(self, story: Dict):
-        """Calculates and adds story-level metadata."""
-        all_grammar, total_duration, total_words = set(), 0.0, 0
-        source_path = story.get('output_path')
+        """Calculates and adds story-level metadata from pre-processed data."""
+        all_grammar, total_words = set(), 0
 
-        if AudioSegment and source_path:
-            for key, dur_key in [('full_story_slow', 'audio_full_story_slow_duration'), 
-                                 ('full_story_normal', 'audio_full_story_normal_duration'), 
-                                 ('full_story_translation', 'audio_full_story_translation_duration')]:
-                path, duration = os.path.join(source_path, 'audio', f'{key}.mp3'), 0.0
-                if os.path.exists(path):
-                    try: duration = len(AudioSegment.from_mp3(path)) / 1000.0
-                    except Exception as e: logger.warning(f"Could not read duration from {path}: {e}")
-                else: logger.warning(f"Audio file not found: {path}")
-                story[dur_key] = duration
-                total_duration += duration
-
-        fast_mode_duration = story.get('audio_full_story_normal_duration', 0.0) + \
-                             story.get('audio_full_story_translation_duration', 0.0)
+        # Durations are now pre-calculated in the audio_package stage
+        fast_mode_duration = story.get('fast_mode', {}).get('duration', 0.0)
+        
+        # For MVP, full duration is the same as fast mode duration
+        total_duration = fast_mode_duration
 
         for sentence in story.get('story_breakdown', []):
             all_grammar.update(sentence.get('grammar_points_short', []))
-            total_duration += sentence.get('sentence_packed_audio', {}).get('duration', 0.0)
-            fast_mode_duration += sentence.get('sentence_packed_fast_mode_audio', {}).get('duration', 0.0)
             total_words += len(sentence.get('words', []))
             
         story['grammar_points'] = sorted(list(all_grammar))
@@ -202,8 +189,8 @@ class IndexingAndPublishStage(PipelineStage):
 
     def _clean_story_data(self, story: Dict) -> Dict:
         """
-        Cleans the story object by removing temporary runtime fields and simplifying
-        the audio timeline for the final app asset.
+        Cleans the story object for the final app asset by simplifying the timeline
+        and removing all references to temporary or un-packaged audio files.
         """
         # Create a deep copy to avoid modifying the original story object in-place.
         published_story_data = json.loads(json.dumps(story))
@@ -212,41 +199,67 @@ class IndexingAndPublishStage(PipelineStage):
         if 'status' in published_story_data:
             del published_story_data['status']
 
-        # 2. Clean up the word timeline in sentence_packed_audio
-        if 'story_breakdown' in published_story_data:
-            for sentence in published_story_data.get('story_breakdown', []):
-                if 'sentence_packed_audio' in sentence and \
-                   'timeline' in sentence['sentence_packed_audio'] and \
-                   'words' in sentence['sentence_packed_audio']['timeline']:
-                    
-                    original_words_timeline = sentence['sentence_packed_audio']['timeline']['words']
+        # 2. Clean up the fast_mode timeline
+        if 'fast_mode' in published_story_data and 'timeline' in published_story_data['fast_mode']:
+            timeline = published_story_data['fast_mode']['timeline']
+            if 'sentences' in timeline:
+                for sentence_timeline in timeline.get('sentences', []):
                     cleaned_words_timeline = []
-                    
-                    for word_timeline in original_words_timeline:
-                        if all(k in word_timeline for k in ['word_index', 'word_ja', 'explanation']) and \
-                           'start' in word_timeline['word_ja'] and 'end' in word_timeline['explanation']:
+                    for word_timeline in sentence_timeline.get('words', []):
+                        if 'word_ja' in word_timeline and 'word_en' in word_timeline and \
+                           'start' in word_timeline['word_ja'] and 'end' in word_timeline['word_en']:
                             
                             cleaned_words_timeline.append({
-                                'word_index': word_timeline['word_index'],
+                                'word_index': word_timeline.get('word_index'),
                                 'start': word_timeline['word_ja']['start'],
-                                'end': word_timeline['explanation']['end']
+                                'end': word_timeline['word_en']['end']
                             })
                     
-                    sentence['sentence_packed_audio']['timeline']['words'] = cleaned_words_timeline
+                    sentence_timeline['words'] = cleaned_words_timeline
 
-        # 3. Ensure difficulty and grammar_group are set from the current run's config
+        # 3. Remove all temporary/unpackaged audio file references and durations
+        keys_to_remove_story = [
+            'audio_full_story_slow_duration', 'audio_full_story_normal_duration',
+            'audio_full_story_translation_duration'
+        ]
+        for key in keys_to_remove_story:
+            if key in published_story_data:
+                del published_story_data[key]
+
+        if 'story_breakdown' in published_story_data:
+            for sentence in published_story_data.get('story_breakdown', []):
+                keys_to_remove_sentence = ['sentence_ja_audio', 'sentence_en_audio', 'sentence_packed_audio', 'sentence_packed_fast_mode_audio']
+                for key in keys_to_remove_sentence:
+                    if key in sentence:
+                        del sentence[key]
+                
+                for word in sentence.get('words', []):
+                    keys_to_remove_word = ['audio_ja_path', 'audio_en_path', 'audio_romaji_path', 'audio_explanation_path']
+                    for key in keys_to_remove_word:
+                        if key in word:
+                            del word[key]
+
+        # 4. Ensure difficulty and grammar_group are set from the current run's config
         published_story_data['difficulty'] = self.difficulty
         published_story_data['grammar_group'] = self.grammar_group
 
         return published_story_data
 
-    def _copy_audio_files(self, source_story_path: str, target_story_path: str):
-        """Recursively copies the entire audio directory for a story."""
-        source_audio_dir = os.path.join(source_story_path, 'audio')
-        target_audio_dir = os.path.join(target_story_path, 'audio')
-        if not os.path.isdir(source_audio_dir): return
-        if os.path.isdir(target_audio_dir): shutil.rmtree(target_audio_dir)
-        shutil.copytree(source_audio_dir, target_audio_dir)
+    def _copy_mvp_assets(self, source_story_path: str, target_story_path: str, story: Dict):
+        """Copies only the final packaged fast_mode.mp3 for the MVP."""
+        if 'fast_mode' not in story or 'audio_url' not in story['fast_mode']:
+            logger.warning(f"No 'fast_mode' audio package found for story, skipping audio copy.")
+            return
+
+        source_file = os.path.join(source_story_path, story['fast_mode']['audio_url'])
+        target_file = os.path.join(target_story_path, story['fast_mode']['audio_url'])
+
+        if not os.path.exists(source_file):
+            raise FileNotFoundError(f"Packaged audio file not found at source: {source_file}")
+
+        os.makedirs(os.path.dirname(target_file), exist_ok=True)
+        shutil.copy(source_file, target_file)
+        logger.debug(f"Copied {source_file} to {target_file}")
 
     def _update_index_json(self, stories_metadata: List[Dict]):
         """Loads, updates, and saves the global index.json."""
