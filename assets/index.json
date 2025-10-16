@@ -26,8 +26,31 @@
       "fast_mode_duration_seconds": 327,
       "sentence_count": 10,
       "word_count": 68
+    },
+    {
+      "id": "N5_G0_002",
+      "folder": "stories/N5_G0_002",
+      "title_ja": "レオさんのクッキー作り",
+      "title": "Chef Leo's First Recipe",
+      "summary": "Leo wants to bake cookies for his mom. He follows a simple recipe step-by-step, mixing ingredients and learning about measurements. The kitchen gets a little messy, but the cookies turn out delicious.",
+      "difficulty": "N5",
+      "grammar_group": 0,
+      "grammar_points": [
+        "で(de)",
+        "でした(deshita)",
+        "です(desu)",
+        "ではありません(dewa arimasen)",
+        "に(ni)",
+        "は(wa)",
+        "ます(masu)",
+        "を(o)"
+      ],
+      "topics": [],
+      "fast_mode_duration_seconds": 217,
+      "sentence_count": 8,
+      "word_count": 39
     }
   ],
-  "last_updated": "2025-10-16T05:18:55.892030Z",
-  "total_stories": 1
+  "last_updated": "2025-10-16T07:40:19.203983Z",
+  "total_stories": 2
 }

@@ -68,6 +68,9 @@ flutter:
     # Story metadata
     - assets/stories/N5_G0_001/story.json
     - assets/stories/N5_G0_001/audio/packed/fast_mode.mp3
+    - assets/stories/N5_G0_002/story.json
+    - assets/stories/N5_G0_002/audio/packed/fast_mode.mp3
+    # - assets/stories/
 
   # To add assets to your application, add an assets section, like this:
   # assets:

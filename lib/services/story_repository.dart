@@ -34,7 +34,7 @@ class StoryRepository {
           title: storyJson['title'] ?? '',
           difficulty: storyJson['difficulty'] ?? '',
           topics: [], // Not in index.json
-          durationSeconds: storyJson['fase_mode_duration_seconds'] ?? 0,
+          durationSeconds: storyJson['fast_mode_duration_seconds'] ?? 0,
         );
       }).toList();
 
