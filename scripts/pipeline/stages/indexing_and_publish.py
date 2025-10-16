@@ -150,7 +150,6 @@ class IndexingAndPublishStage(PipelineStage):
                 "grammar_group": self.grammar_group,
                 "grammar_points": story.get('grammar_points'),
                 "topics": story.get('topics', []),
-                "duration_seconds": story.get('duration_seconds'),
                 "fast_mode_duration_seconds": story.get('duration_fast_mode_seconds'),
                 "sentence_count": story.get('sentence_count'),
                 "word_count": story.get('word_count')
@@ -174,15 +173,12 @@ class IndexingAndPublishStage(PipelineStage):
         # Durations are now pre-calculated in the audio_package stage
         fast_mode_duration = story.get('fast_mode', {}).get('duration', 0.0)
         
-        # For MVP, full duration is the same as fast mode duration
-        total_duration = fast_mode_duration
 
         for sentence in story.get('story_breakdown', []):
             all_grammar.update(sentence.get('grammar_points_short', []))
             total_words += len(sentence.get('words', []))
             
         story['grammar_points'] = sorted(list(all_grammar))
-        story['duration_seconds'] = round(total_duration)
         story['duration_fast_mode_seconds'] = round(fast_mode_duration)
         story['sentence_count'] = len(story.get('story_breakdown', []))
         story['word_count'] = total_words

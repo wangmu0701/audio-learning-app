@@ -57,7 +57,7 @@ class AudioPackageStage(PipelineStage):
         Processes a story to create a single packaged 'fast_mode' audio file
         with timeline metadata for the entire story.
         """
-        story_id = story.get("id", "unknown")
+        story_id = story.get("story_id", "unknown")
         logger.info(f"Packaging 'fast_mode' audio for story: {story_id}")
 
         base_path = story["output_path"]
