@@ -77,7 +77,7 @@ app.*.map.json
 **/macos/Flutter/ephemeral/
 
 # Assets
-assets/
+# assets/
 
 # Firebase
 **/ios/Runner/GoogleService-Info.plist

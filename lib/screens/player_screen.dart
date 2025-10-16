@@ -37,28 +37,13 @@ class _PlayerScreenState extends ConsumerState<PlayerScreen> {
     final audioService = ref.read(audioServiceProvider);
     await audioService.loadStory(widget.story.storyId, widget.playbackMode);
 
-    // Listen to player state changes
     _playerStateSubscription = audioService.player.playerStateStream.listen((
       state,
     ) {
       if (!mounted) return;
-
       ref.read(isPlayingProvider.notifier).state = state.playing;
-
-      // When audio completes or changes, update current sentence
-      if (state.processingState == ProcessingState.completed ||
-          state.processingState == ProcessingState.ready) {
-        Future.delayed(const Duration(milliseconds: 100), () {
-          if (!mounted) return;
-          ref.read(currentSentenceProvider.notifier).state =
-              audioService.currentSentence;
-          ref.read(currentSentenceIndexProvider.notifier).state =
-              audioService.currentSentenceIndex;
-        });
-      }
     });
 
-    // Listen to position changes for word highlighting
     _positionSubscription = audioService.player.positionStream.listen((
       position,
     ) {
@@ -73,7 +58,6 @@ class _PlayerScreenState extends ConsumerState<PlayerScreen> {
 
     final audioService = ref.read(audioServiceProvider);
 
-    // Only update highlights during sentence learning phase
     if (audioService.currentPhase != PlaybackPhase.sentenceLearning) {
       ref.read(highlightedWordIndexProvider.notifier).state = null;
       return;
@@ -87,7 +71,6 @@ class _PlayerScreenState extends ConsumerState<PlayerScreen> {
 
     final currentSeconds = position.inMilliseconds / 1000.0;
 
-    // Get the appropriate timeline based on mode
     final timeline = audioService.playbackMode == PlaybackMode.fast
         ? sentence.sentencePackedFastModeAudio?.timeline
         : sentence.packedAudio?.timeline;
@@ -123,7 +106,7 @@ class _PlayerScreenState extends ConsumerState<PlayerScreen> {
 
           return Column(
             children: [
-              // Story title area
+              // Story title and phase info
               Container(
                 width: double.infinity,
                 padding: const EdgeInsets.all(20.0),
@@ -145,7 +128,6 @@ class _PlayerScreenState extends ConsumerState<PlayerScreen> {
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 8),
-                    // Show current phase
                     Text(
                       audioService.currentPhaseDescription,
                       style: TextStyle(
@@ -184,32 +166,63 @@ class _PlayerScreenState extends ConsumerState<PlayerScreen> {
     storyDetail,
     int? highlightedWordIndex,
   ) {
-    // During intro phase, show a message
     if (audioService.currentPhase == PlaybackPhase.intro) {
-      return Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.headphones, size: 64, color: Colors.grey[400]),
-            const SizedBox(height: 16),
-            Text(
-              'Listen to the full story',
-              style: TextStyle(fontSize: 18, color: Colors.grey[600]),
+      // Show all sentences during intro
+      return ListView.builder(
+        padding: const EdgeInsets.all(24.0),
+        itemCount: storyDetail.sentences.length,
+        itemBuilder: (context, index) {
+          final sentence = storyDetail.sentences[index];
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 24.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Sentence number
+                Text(
+                  'Sentence ${index + 1}',
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Colors.grey[600],
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                // Japanese
+                Text(
+                  sentence.sentenceJa,
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500,
+                    height: 1.5,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                // English
+                Text(
+                  sentence.sentenceEn,
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.grey[700],
+                    height: 1.5,
+                  ),
+                ),
+                if (index < storyDetail.sentences.length - 1)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 16.0),
+                    child: Divider(color: Colors.grey[300]),
+                  ),
+              ],
             ),
-            const SizedBox(height: 8),
-            Text(
-              audioService.currentPhaseDescription,
-              style: TextStyle(fontSize: 14, color: Colors.grey[500]),
-            ),
-          ],
-        ),
+          );
+        },
       );
     }
 
-    // During sentence learning, show current sentence
+    // During sentence learning
     final currentSentence = audioService.currentSentence;
     if (currentSentence == null) {
-      return const Center(child: Text('Loading sentence...'));
+      return const Center(child: Text('Loading...'));
     }
 
     return SingleChildScrollView(
@@ -217,12 +230,8 @@ class _PlayerScreenState extends ConsumerState<PlayerScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // Japanese sentence with highlighted words
           _buildJapaneseSentence(currentSentence, highlightedWordIndex),
-
           const SizedBox(height: 32),
-
-          // English translation
           Text(
             currentSentence.sentenceEn,
             style: const TextStyle(
@@ -241,7 +250,6 @@ class _PlayerScreenState extends ConsumerState<PlayerScreen> {
     final spans = <TextSpan>[];
     String remainingText = sentence.sentenceJa;
 
-    // Sort words by position
     final sortedWords = List.from(sentence.words)
       ..sort((a, b) => a.position.compareTo(b.position));
 
@@ -251,7 +259,6 @@ class _PlayerScreenState extends ConsumerState<PlayerScreen> {
       final word = sortedWords[i];
       final isHighlighted = highlightedWordIndex == i;
 
-      // Add text before this word
       if (word.position > currentPosition) {
         spans.add(
           TextSpan(
@@ -263,7 +270,6 @@ class _PlayerScreenState extends ConsumerState<PlayerScreen> {
         );
       }
 
-      // Add the word (highlighted or not)
       final wordLength = word.wordJa.length;
       spans.add(
         TextSpan(
@@ -279,7 +285,6 @@ class _PlayerScreenState extends ConsumerState<PlayerScreen> {
       currentPosition = word.position + wordLength;
     }
 
-    // Add remaining text
     if (remainingText.isNotEmpty) {
       spans.add(TextSpan(text: remainingText));
     }
@@ -294,6 +299,13 @@ class _PlayerScreenState extends ConsumerState<PlayerScreen> {
   }
 
   Widget _buildPlayerControls(bool isPlaying, AudioPlayerService audioService) {
+    final canGoPrevious =
+        audioService.currentPhase == PlaybackPhase.sentenceLearning;
+    final canGoNext =
+        audioService.currentPhase == PlaybackPhase.intro ||
+        (audioService.currentPhase == PlaybackPhase.sentenceLearning &&
+            audioService.hasNextSentence);
+
     return Container(
       padding: const EdgeInsets.all(24.0),
       decoration: BoxDecoration(
@@ -309,15 +321,15 @@ class _PlayerScreenState extends ConsumerState<PlayerScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          // Previous button (only during sentence learning)
-          if (audioService.currentPhase == PlaybackPhase.sentenceLearning)
-            IconButton(
-              icon: const Icon(Icons.skip_previous),
-              iconSize: 48,
-              onPressed: audioService.hasPreviousSentence
-                  ? () => audioService.previousSentence()
-                  : null,
-            ),
+          // Previous button
+          IconButton(
+            icon: const Icon(Icons.skip_previous),
+            iconSize: 48,
+            onPressed: canGoPrevious
+                ? () => audioService.previousSentence()
+                : null,
+            color: canGoPrevious ? Colors.black : Colors.grey,
+          ),
 
           const SizedBox(width: 24),
 
@@ -330,15 +342,13 @@ class _PlayerScreenState extends ConsumerState<PlayerScreen> {
 
           const SizedBox(width: 24),
 
-          // Next button (only during sentence learning)
-          if (audioService.currentPhase == PlaybackPhase.sentenceLearning)
-            IconButton(
-              icon: const Icon(Icons.skip_next),
-              iconSize: 48,
-              onPressed: audioService.hasNextSentence
-                  ? () => audioService.nextSentence()
-                  : null,
-            ),
+          // Next button
+          IconButton(
+            icon: const Icon(Icons.skip_next),
+            iconSize: 48,
+            onPressed: canGoNext ? () => audioService.nextSentence() : null,
+            color: canGoNext ? Colors.black : Colors.grey,
+          ),
         ],
       ),
     );
@@ -363,11 +373,12 @@ class _PlayerScreenState extends ConsumerState<PlayerScreen> {
 
   @override
   void dispose() {
+    // Cancel subscriptions first
     _playerStateSubscription?.cancel();
     _positionSubscription?.cancel();
 
-    final audioService = ref.read(audioServiceProvider);
-    audioService.pause();
+    // Don't use ref.read in dispose - it's too late
+    // Just let the audio continue playing or be managed by the service
 
     super.dispose();
   }
