@@ -21,7 +21,9 @@ class StoryRepository {
     }
 
     try {
-      final String jsonString = await rootBundle.loadString('assets/index.json');
+      final String jsonString = await rootBundle.loadString(
+        'assets/index.json',
+      );
       final Map<String, dynamic> jsonData = json.decode(jsonString);
       final List<dynamic> storiesJson = jsonData['stories'] ?? [];
 
@@ -32,7 +34,7 @@ class StoryRepository {
           title: storyJson['title'] ?? '',
           difficulty: storyJson['difficulty'] ?? '',
           topics: [], // Not in index.json
-          durationSeconds: storyJson['duration_seconds'] ?? 0,
+          durationSeconds: storyJson['fase_mode_duration_seconds'] ?? 0,
         );
       }).toList();
 
@@ -60,7 +62,9 @@ class StoryRepository {
 
       // Load the story.json from the story's folder
       final String folderPath = _getStoryFolderPath(storyId);
-      final String jsonString = await rootBundle.loadString('$folderPath/story.json');
+      final String jsonString = await rootBundle.loadString(
+        '$folderPath/story.json',
+      );
       final Map<String, dynamic> jsonData = json.decode(jsonString);
 
       final storyDetail = StoryDetail.fromJson(jsonData);

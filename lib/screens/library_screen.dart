@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/story_providers.dart';
 import '../models/story.dart';
-import '../models/playback_mode.dart';
 import 'player_screen.dart';
 
 class LibraryScreen extends ConsumerWidget {
@@ -20,9 +19,7 @@ class LibraryScreen extends ConsumerWidget {
       body: storiesAsync.when(
         data: (stories) {
           if (stories.isEmpty) {
-            return const Center(
-              child: Text('No stories available'),
-            );
+            return const Center(child: Text('No stories available'));
           }
 
           return ListView.builder(
@@ -34,9 +31,7 @@ class LibraryScreen extends ConsumerWidget {
             },
           );
         },
-        loading: () => const Center(
-          child: CircularProgressIndicator(),
-        ),
+        loading: () => const Center(child: CircularProgressIndicator()),
         error: (error, stack) => Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -73,7 +68,9 @@ class _StoryCardState extends ConsumerState<StoryCard> {
 
   @override
   Widget build(BuildContext context) {
-    final storyDetailAsync = ref.watch(storyDetailProvider(widget.story.storyId));
+    final storyDetailAsync = ref.watch(
+      storyDetailProvider(widget.story.storyId),
+    );
 
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
@@ -84,10 +81,7 @@ class _StoryCardState extends ConsumerState<StoryCard> {
             contentPadding: const EdgeInsets.all(16.0),
             title: Text(
               widget.story.title,
-              style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             subtitle: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -118,10 +112,7 @@ class _StoryCardState extends ConsumerState<StoryCard> {
                     const SizedBox(width: 4),
                     Text(
                       widget.story.formattedDuration,
-                      style: TextStyle(
-                        color: Colors.grey[600],
-                        fontSize: 14,
-                      ),
+                      style: TextStyle(color: Colors.grey[600], fontSize: 14),
                     ),
                   ],
                 ),
@@ -142,7 +133,7 @@ class _StoryCardState extends ConsumerState<StoryCard> {
             storyDetailAsync.when(
               data: (storyDetail) {
                 if (storyDetail == null) return const SizedBox.shrink();
-                
+
                 return Padding(
                   padding: const EdgeInsets.fromLTRB(16.0, 0, 16.0, 16.0),
                   child: Column(
@@ -150,7 +141,7 @@ class _StoryCardState extends ConsumerState<StoryCard> {
                     children: [
                       const Divider(),
                       const SizedBox(height: 8),
-                      
+
                       // Japanese title
                       Text(
                         storyDetail.titleJa,
@@ -160,7 +151,7 @@ class _StoryCardState extends ConsumerState<StoryCard> {
                         ),
                       ),
                       const SizedBox(height: 16),
-                      
+
                       // Stats
                       Row(
                         children: [
@@ -176,7 +167,7 @@ class _StoryCardState extends ConsumerState<StoryCard> {
                         ],
                       ),
                       const SizedBox(height: 16),
-                      
+
                       // Grammar points
                       const Text(
                         'Grammar Points:',
@@ -196,22 +187,38 @@ class _StoryCardState extends ConsumerState<StoryCard> {
                               style: const TextStyle(fontSize: 12),
                             ),
                             backgroundColor: Colors.blue[50],
-                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8.0,
+                            ),
                           );
                         }).toList(),
                       ),
                       const SizedBox(height: 16),
-                      
-                      // Play mode buttons
-                      const Text(
-                        'Select Mode:',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14,
+
+                      // Play button (simplified - no mode selection)
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton.icon(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    PlayerScreen(story: widget.story),
+                              ),
+                            );
+                          },
+                          icon: const Icon(Icons.play_arrow),
+                          label: Text(
+                            'Start Learning (${storyDetail.formattedDuration})',
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.blue,
+                            foregroundColor: Colors.white,
+                            padding: const EdgeInsets.all(16.0),
+                          ),
                         ),
                       ),
-                      const SizedBox(height: 8),
-                      _buildModeButtons(context, storyDetail),
                     ],
                   ),
                 );
@@ -242,92 +249,9 @@ class _StoryCardState extends ConsumerState<StoryCard> {
         children: [
           Icon(icon, size: 16, color: Colors.grey[700]),
           const SizedBox(width: 4),
-          Text(
-            label,
-            style: TextStyle(
-              fontSize: 12,
-              color: Colors.grey[700],
-            ),
-          ),
+          Text(label, style: TextStyle(fontSize: 12, color: Colors.grey[700])),
         ],
       ),
-    );
-  }
-
-  Widget _buildModeButtons(BuildContext context, storyDetail) {
-    return Column(
-      children: [
-        // Complete Learning button
-        SizedBox(
-          width: double.infinity,
-          child: ElevatedButton.icon(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => PlayerScreen(
-                    story: widget.story,
-                    playbackMode: PlaybackMode.full,
-                  ),
-                ),
-              );
-            },
-            icon: const Icon(Icons.school),
-            label: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(PlaybackMode.full.displayName),
-                Text(
-                  '${storyDetail.getFormattedDuration(PlaybackMode.full)} • ${PlaybackMode.full.description}',
-                  style: const TextStyle(fontSize: 11),
-                ),
-              ],
-            ),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.blue,
-              foregroundColor: Colors.white,
-              padding: const EdgeInsets.all(16.0),
-              alignment: Alignment.centerLeft,
-            ),
-          ),
-        ),
-        const SizedBox(height: 8),
-        
-        // Quick Review button
-        SizedBox(
-          width: double.infinity,
-          child: ElevatedButton.icon(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => PlayerScreen(
-                    story: widget.story,
-                    playbackMode: PlaybackMode.fast,
-                  ),
-                ),
-              );
-            },
-            icon: const Icon(Icons.fast_forward),
-            label: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(PlaybackMode.fast.displayName),
-                Text(
-                  '${storyDetail.getFormattedDuration(PlaybackMode.fast)} • ${PlaybackMode.fast.description}',
-                  style: const TextStyle(fontSize: 11),
-                ),
-              ],
-            ),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.green,
-              foregroundColor: Colors.white,
-              padding: const EdgeInsets.all(16.0),
-              alignment: Alignment.centerLeft,
-            ),
-          ),
-        ),
-      ],
     );
   }
 

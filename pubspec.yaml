@@ -67,35 +67,7 @@ flutter:
     
     # Story metadata
     - assets/stories/N5_G0_001/story.json
-    
-    # Full story audio files
-    - assets/stories/N5_G0_001/audio/full_story_slow.mp3
-    - assets/stories/N5_G0_001/audio/full_story_normal.mp3
-    - assets/stories/N5_G0_001/audio/full_story_translation.mp3
-    
-    # Packed audio - Complete mode
-    - assets/stories/N5_G0_001/audio/packed/s1.mp3
-    - assets/stories/N5_G0_001/audio/packed/s2.mp3
-    - assets/stories/N5_G0_001/audio/packed/s3.mp3
-    - assets/stories/N5_G0_001/audio/packed/s4.mp3
-    - assets/stories/N5_G0_001/audio/packed/s5.mp3
-    - assets/stories/N5_G0_001/audio/packed/s6.mp3
-    - assets/stories/N5_G0_001/audio/packed/s7.mp3
-    - assets/stories/N5_G0_001/audio/packed/s8.mp3
-    - assets/stories/N5_G0_001/audio/packed/s9.mp3
-    - assets/stories/N5_G0_001/audio/packed/s10.mp3
-    
-    # Packed audio - Fast mode
-    - assets/stories/N5_G0_001/audio/packed/s1_fast.mp3
-    - assets/stories/N5_G0_001/audio/packed/s2_fast.mp3
-    - assets/stories/N5_G0_001/audio/packed/s3_fast.mp3
-    - assets/stories/N5_G0_001/audio/packed/s4_fast.mp3
-    - assets/stories/N5_G0_001/audio/packed/s5_fast.mp3
-    - assets/stories/N5_G0_001/audio/packed/s6_fast.mp3
-    - assets/stories/N5_G0_001/audio/packed/s7_fast.mp3
-    - assets/stories/N5_G0_001/audio/packed/s8_fast.mp3
-    - assets/stories/N5_G0_001/audio/packed/s9_fast.mp3
-    - assets/stories/N5_G0_001/audio/packed/s10_fast.mp3
+    - assets/stories/N5_G0_001/audio/packed/fast_mode.mp3
 
   # To add assets to your application, add an assets section, like this:
   # assets:

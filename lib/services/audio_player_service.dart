@@ -1,279 +1,179 @@
 import 'package:just_audio/just_audio.dart';
-import '../models/sentence.dart';
 import '../models/story_detail.dart';
-import '../models/playback_mode.dart';
 import 'story_repository.dart';
-
-enum PlaybackPhase { intro, sentenceLearning, completed }
 
 class AudioPlayerService {
   final AudioPlayer _audioPlayer = AudioPlayer();
   final StoryRepository _repository = StoryRepository();
 
   StoryDetail? _currentStory;
-  PlaybackMode _playbackMode = PlaybackMode.full;
-  PlaybackPhase _currentPhase = PlaybackPhase.intro;
-  int _currentSentenceIndex = 0;
-  int _introStep =
-      0; // 0=slow/normal, 1=translation, 2=normal(complete mode only)
-  bool _isListenerSetup = false;
+  FastModeAudio? _fastModeAudio;
 
   // Getters
   AudioPlayer get player => _audioPlayer;
-  PlaybackMode get playbackMode => _playbackMode;
-  PlaybackPhase get currentPhase => _currentPhase;
-  int get currentSentenceIndex => _currentSentenceIndex;
+  StoryDetail? get currentStory => _currentStory;
+  FastModeAudio? get fastModeAudio => _fastModeAudio;
 
-  Sentence? get currentSentence {
-    if (_currentStory == null ||
-        _currentPhase != PlaybackPhase.sentenceLearning ||
-        _currentSentenceIndex >= _currentStory!.sentences.length) {
-      return null;
-    }
-    return _currentStory!.sentences[_currentSentenceIndex];
-  }
+  /// 加载并准备播放故事
+  Future<void> loadStory(String storyId) async {
+    print('Loading story: $storyId');
 
-  bool get hasNextSentence {
-    if (_currentStory == null) return false;
-    return _currentSentenceIndex < _currentStory!.sentences.length - 1;
-  }
-
-  bool get hasPreviousSentence {
-    return _currentSentenceIndex > 0;
-  }
-
-  bool get isFirstSentence {
-    return _currentSentenceIndex == 0;
-  }
-
-  String get currentPhaseDescription {
-    switch (_currentPhase) {
-      case PlaybackPhase.intro:
-        if (_playbackMode == PlaybackMode.full) {
-          switch (_introStep) {
-            case 0:
-              return 'Full Story (Slow Japanese)';
-            case 1:
-              return 'Full Story (English)';
-            case 2:
-              return 'Full Story (Normal Japanese)';
-            default:
-              return 'Full Story';
-          }
-        } else {
-          return _introStep == 0
-              ? 'Full Story (Japanese)'
-              : 'Full Story (English)';
-        }
-      case PlaybackPhase.sentenceLearning:
-        return 'Sentence ${_currentSentenceIndex + 1} / ${_currentStory?.sentences.length ?? 0}';
-      case PlaybackPhase.completed:
-        return 'Completed';
-    }
-  }
-
-  /// Initialize and load a story
-  Future<void> loadStory(String storyId, PlaybackMode mode) async {
-    print('Loading story: $storyId with mode: $mode');
-
+    // 停止当前播放
     await _audioPlayer.stop();
 
+    // 加载故事数据
     _currentStory = await _repository.loadStoryDetail(storyId);
-    _playbackMode = mode;
-    _currentPhase = PlaybackPhase.intro;
-    _currentSentenceIndex = 0;
-    _introStep = 0;
-
-    if (!_isListenerSetup) {
-      _setupCompletionListener();
-      _isListenerSetup = true;
-    }
-  }
-
-  void _setupCompletionListener() {
-    _audioPlayer.playerStateStream.listen((state) {
-      if (state.processingState == ProcessingState.completed) {
-        print(
-          'Audio completed, current phase: $_currentPhase, intro step: $_introStep',
-        );
-        _onPlaybackCompleted();
-      }
-    });
-  }
-
-  /// Start playing from the beginning
-  Future<void> startPlaying() async {
-    print('Starting playback from beginning');
-    _currentPhase = PlaybackPhase.intro;
-    _currentSentenceIndex = 0;
-    _introStep = 0;
-
-    await _playIntroPhase();
-  }
-
-  /// Play current sentence
-  Future<void> _playCurrentSentence() async {
-    if (currentSentence == null) {
-      print('No current sentence');
+    if (_currentStory == null) {
+      print('Failed to load story');
       return;
     }
 
-    final audioUrl = _playbackMode == PlaybackMode.fast
-        ? currentSentence!.sentencePackedFastModeAudio?.url
-        : currentSentence!.packedAudio?.url;
-
-    if (audioUrl == null) {
-      print('No audio available for current sentence');
+    _fastModeAudio = _currentStory!.fastModeAudio;
+    if (_fastModeAudio == null) {
+      print('No fast mode audio available');
       return;
     }
 
+    // 设置音频路径
     final audioPath = _repository.getAudioAssetPath(
-      _currentStory!.storyId,
-      audioUrl,
+      storyId,
+      _fastModeAudio!.url,
     );
-    print('Playing sentence ${_currentSentenceIndex + 1}: $audioPath');
+    print('Loading audio: $audioPath');
 
     try {
-      // Don't use stop() - just set the new asset directly
-      // This avoids the "Operation Stopped" error
-      await Future.delayed(const Duration(milliseconds: 200));
       await _audioPlayer.setAsset(audioPath);
-      await _audioPlayer.play();
-      print('Sentence playback started successfully');
+      print('Audio loaded successfully, duration: ${_audioPlayer.duration}');
     } catch (e) {
-      print('Error playing sentence: $e');
+      print('Error loading audio: $e');
     }
   }
 
-  /// Play intro phase
-  Future<void> _playIntroPhase() async {
-    if (_currentStory == null) return;
-
-    String audioFile;
-
-    if (_playbackMode == PlaybackMode.full) {
-      switch (_introStep) {
-        case 0:
-          audioFile = 'audio/full_story_slow.mp3';
-          break;
-        case 1:
-          audioFile = 'audio/full_story_translation.mp3';
-          break;
-        case 2:
-          audioFile = 'audio/full_story_normal.mp3';
-          break;
-        default:
-          audioFile = 'audio/full_story_slow.mp3';
-      }
-    } else {
-      audioFile = _introStep == 0
-          ? 'audio/full_story_normal.mp3'
-          : 'audio/full_story_translation.mp3';
-    }
-
-    final audioPath = _repository.getAudioAssetPath(
-      _currentStory!.storyId,
-      audioFile,
-    );
-    print('Playing intro step $_introStep: $audioPath');
-
-    try {
-      // Don't use stop() - just set the new asset directly
-      await Future.delayed(const Duration(milliseconds: 200));
-      await _audioPlayer.setAsset(audioPath);
-      await _audioPlayer.play();
-    } catch (e) {
-      print('Error playing intro: $e');
-    }
+  /// 开始播放
+  Future<void> play() async {
+    await _audioPlayer.play();
   }
 
-  /// Handle playback completion
-  Future<void> _onPlaybackCompleted() async {
-    if (_currentPhase == PlaybackPhase.intro) {
-      final maxIntroSteps = _playbackMode == PlaybackMode.full ? 3 : 2;
-
-      if (_introStep < maxIntroSteps - 1) {
-        // Continue to next intro step
-        _introStep++;
-        await _playIntroPhase();
-      } else {
-        // Intro completed, start sentence learning
-        print('Intro completed, starting sentence learning');
-        _currentPhase = PlaybackPhase.sentenceLearning;
-        _currentSentenceIndex = 0;
-        await _playCurrentSentence();
-      }
-    } else if (_currentPhase == PlaybackPhase.sentenceLearning) {
-      if (hasNextSentence) {
-        _currentSentenceIndex++;
-        await _playCurrentSentence();
-      } else {
-        print('All sentences completed');
-        _currentPhase = PlaybackPhase.completed;
-      }
-    }
-  }
-
-  /// Jump to intro
-  Future<void> jumpToIntro() async {
-    print('Jumping to intro');
-    _currentPhase = PlaybackPhase.intro;
-    _introStep = 0;
-    await _playIntroPhase(); // 移除这里的延迟，方法内部已经有了
-  }
-
-  /// Jump to first sentence
-  Future<void> jumpToFirstSentence() async {
-    print('Jumping to first sentence');
-    _currentPhase = PlaybackPhase.sentenceLearning;
-    _currentSentenceIndex = 0;
-    await _playCurrentSentence(); // 这个方法内部已经有延迟了
-  }
-
-  /// Move to next sentence
-  Future<void> nextSentence() async {
-    print('Manual next sentence');
-
-    if (_currentPhase == PlaybackPhase.intro) {
-      // Jump to first sentence
-      await jumpToFirstSentence();
-    } else if (_currentPhase == PlaybackPhase.sentenceLearning &&
-        hasNextSentence) {
-      _currentSentenceIndex++;
-      await _playCurrentSentence(); // 这个方法内部已经有延迟了
-    }
-  }
-
-  /// Move to previous sentence
-  Future<void> previousSentence() async {
-    print('Manual previous sentence');
-
-    if (_currentPhase == PlaybackPhase.sentenceLearning) {
-      if (isFirstSentence) {
-        // Go back to intro
-        await jumpToIntro();
-      } else {
-        _currentSentenceIndex--;
-        await _playCurrentSentence(); // 这个方法内部已经有延迟了
-      }
-    }
-  }
-
+  /// 暂停播放
   Future<void> pause() async {
     await _audioPlayer.pause();
   }
 
-  Future<void> resume() async {
-    await _audioPlayer.play();
+  /// 跳转到指定位置
+  Future<void> seek(Duration position) async {
+    await _audioPlayer.seek(position);
   }
 
+  /// 根据播放位置获取当前句子索引
+  /// 返回 -1 表示还在 intro 阶段
+  int getCurrentSentenceIndex(Duration position) {
+    if (_fastModeAudio == null) return 0;
+
+    final seconds = position.inMilliseconds / 1000.0;
+    final sentences = _fastModeAudio!.timeline.sentences;
+
+    // 如果还没开始第一句，返回 -1 表示在 intro 阶段
+    if (sentences.isNotEmpty && seconds < sentences[0].sentenceJa.start) {
+      return -1;
+    }
+
+    for (int i = 0; i < sentences.length; i++) {
+      final sentence = sentences[i];
+      final sentenceEnd = sentence.words.isNotEmpty
+          ? sentence.words.last.end
+          : sentence.sentenceEn.end;
+
+      if (seconds >= sentence.sentenceJa.start && seconds <= sentenceEnd) {
+        return i;
+      }
+    }
+
+    // 如果超出所有句子的范围，返回最后一句
+    return sentences.isEmpty ? 0 : sentences.length - 1;
+  }
+
+  /// 根据播放位置和句子索引获取当前单词索引
+  int? getCurrentWordIndex(Duration position, int sentenceIndex) {
+    if (_fastModeAudio == null) return null;
+
+    final sentences = _fastModeAudio!.timeline.sentences;
+    if (sentenceIndex < 0 || sentenceIndex >= sentences.length) return null;
+
+    final seconds = position.inMilliseconds / 1000.0;
+    final sentence = sentences[sentenceIndex];
+
+    for (int i = 0; i < sentence.words.length; i++) {
+      final word = sentence.words[i];
+      if (seconds >= word.start && seconds <= word.end) {
+        return word.wordIndex;
+      }
+    }
+
+    return null;
+  }
+
+  /// 跳转到下一句
+  Future<void> jumpToNextSentence() async {
+    if (_fastModeAudio == null || _audioPlayer.duration == null) return;
+
+    final currentIndex = getCurrentSentenceIndex(_audioPlayer.position);
+    final sentences = _fastModeAudio!.timeline.sentences;
+
+    // 如果在 intro 阶段（currentIndex == -1），跳转到第一句
+    if (currentIndex == -1) {
+      if (sentences.isNotEmpty) {
+        final firstStart = sentences[0].sentenceJa.start;
+        await seek(Duration(milliseconds: (firstStart * 1000).toInt()));
+      }
+    }
+    // 否则跳转到下一句
+    else if (currentIndex < sentences.length - 1) {
+      final nextStart = sentences[currentIndex + 1].sentenceJa.start;
+      await seek(Duration(milliseconds: (nextStart * 1000).toInt()));
+    }
+  }
+
+  /// 跳转到上一句（或当前句子开始，或 intro 开始）
+  Future<void> jumpToPreviousSentence() async {
+    if (_fastModeAudio == null || _audioPlayer.duration == null) return;
+
+    final currentIndex = getCurrentSentenceIndex(_audioPlayer.position);
+    final sentences = _fastModeAudio!.timeline.sentences;
+
+    // 如果在 intro 阶段，跳到开头
+    if (currentIndex == -1) {
+      await seek(Duration.zero);
+      return;
+    }
+
+    final currentSentence = sentences[currentIndex];
+    final currentSeconds = _audioPlayer.position.inMilliseconds / 1000.0;
+
+    // 如果当前句子播放超过 1 秒，跳回当前句子开始
+    if (currentSeconds - currentSentence.sentenceJa.start > 1.0) {
+      await seek(
+        Duration(
+          milliseconds: (currentSentence.sentenceJa.start * 1000).toInt(),
+        ),
+      );
+    }
+    // 如果是第一句且播放不到 1 秒，跳回 intro 开始
+    else if (currentIndex == 0) {
+      await seek(Duration.zero);
+    }
+    // 否则跳到上一句
+    else {
+      final prevStart = sentences[currentIndex - 1].sentenceJa.start;
+      await seek(Duration(milliseconds: (prevStart * 1000).toInt()));
+    }
+  }
+
+  /// 停止播放
   Future<void> stop() async {
     await _audioPlayer.stop();
-    _currentPhase = PlaybackPhase.intro;
-    _currentSentenceIndex = 0;
-    _introStep = 0;
   }
 
+  /// 释放资源
   void dispose() {
     _audioPlayer.dispose();
   }
