@@ -32,12 +32,12 @@ class AudioGenerationStage(PipelineStage):
         # Define voice configurations
         self.tts_config_ja_normal = TTSConfig(
             language_code="ja-JP",
-            voice_name="ja-JP-Wavenet-B", # A standard female voice
+            voice_name="ja-JP-Chirp3-HD-Leda", # A standard female voice
             speaking_rate=1.0
         )
         self.tts_config_ja_slow = TTSConfig(
             language_code="ja-JP",
-            voice_name="ja-JP-Wavenet-B",
+            voice_name="ja-JP-Chirp3-HD-Leda",
             speaking_rate=0.85 # Slightly slower for learning
         )
         self.tts_config_en = TTSConfig(
@@ -68,35 +68,8 @@ class AudioGenerationStage(PipelineStage):
         
     def _generate_story_level_audio(self, story: Dict, story_dir: str, relative_to_path: str):
         """Generates audio for the full story text and translation."""
-        # Full Japanese story (slow and normal)
-        full_story_ja = " ".join([s.get('sentence_ja', '') for s in story.get('story_breakdown', [])])
-        self._synthesize_and_save(
-            text=full_story_ja, 
-            config=self.tts_config_ja_slow, 
-            file_path=os.path.join(story_dir, "full_story_slow.mp3"),
-            target_dict=story,
-            key="audio_full_story_slow_path",
-            relative_to_path=relative_to_path
-        )
-        self._synthesize_and_save(
-            text=full_story_ja, 
-            config=self.tts_config_ja_normal, 
-            file_path=os.path.join(story_dir, "full_story_normal.mp3"),
-            target_dict=story,
-            key="audio_full_story_normal_path",
-            relative_to_path=relative_to_path
-        )
-
-        # Full English translation
-        full_story_en = " ".join([s.get('sentence_en', '') for s in story.get('story_breakdown', [])])
-        self._synthesize_and_save(
-            text=full_story_en, 
-            config=self.tts_config_en, 
-            file_path=os.path.join(story_dir, "full_story_translation.mp3"),
-            target_dict=story,
-            key="audio_full_story_translation_path",
-            relative_to_path=relative_to_path
-        )
+        # This is now handled by packaging individual sentence audio.
+        pass
 
     def _generate_sentence_level_audio(self, story: Dict, story_dir: str, relative_to_path: str):
         """Generates audio for each sentence and its components."""
@@ -141,21 +114,9 @@ class AudioGenerationStage(PipelineStage):
                     relative_to_path=relative_to_path
                 )
                 self._synthesize_and_save(
-                    text=word.get('word_romaji', ''), config=self.tts_config_en, # Read romaji with English voice
-                    file_path=os.path.join(words_dir, f"{word_id}_romaji.mp3"),
-                    target_dict=word, key="audio_romaji_path",
-                    relative_to_path=relative_to_path
-                )
-                self._synthesize_and_save(
                     text=word.get('word_en', ''), config=self.tts_config_en, 
                     file_path=os.path.join(words_dir, f"{word_id}_en.mp3"),
                     target_dict=word, key="audio_en_path",
-                    relative_to_path=relative_to_path
-                )
-                self._synthesize_and_save(
-                    text=word.get('explanation', ''), config=self.tts_config_en, 
-                    file_path=os.path.join(words_dir, f"{word_id}_explanation.mp3"),
-                    target_dict=word, key="audio_explanation_path",
                     relative_to_path=relative_to_path
                 )
 

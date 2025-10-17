@@ -79,6 +79,8 @@ def main():
     parser = argparse.ArgumentParser(description='Content Generation Pipeline')
     parser.add_argument('--resume_id', type=str, default=None,
                        help='Resume from existing run (format: YYYY-MM-DD/R-XXXX)')
+    parser.add_argument('--number_of_stories', type=int, default=1,
+                       help='The number of stories to generate (only for new runs)')
     args = parser.parse_args()
     
     logger.info("============================================================")
@@ -115,7 +117,7 @@ def main():
         # Define configuration for new run
         config.update({
             "output_base_dir": run_output_dir,
-            "number_of_stories": 5,
+            "number_of_stories": args.number_of_stories,
             "story_id_prefix": f"{today_str}-{run_id_str}",
         })
 

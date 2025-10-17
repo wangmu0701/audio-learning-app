@@ -195,23 +195,43 @@ class IndexingAndPublishStage(PipelineStage):
         if 'status' in published_story_data:
             del published_story_data['status']
 
-        # 2. Clean up the fast_mode timeline
+        # 2. Clean up the fast_mode timeline to create continuous highlighting
         if 'fast_mode' in published_story_data and 'timeline' in published_story_data['fast_mode']:
             timeline = published_story_data['fast_mode']['timeline']
-            if 'sentences' in timeline:
-                for sentence_timeline in timeline.get('sentences', []):
-                    cleaned_words_timeline = []
-                    for word_timeline in sentence_timeline.get('words', []):
-                        if 'word_ja' in word_timeline and 'word_en' in word_timeline and \
-                           'start' in word_timeline['word_ja'] and 'end' in word_timeline['word_en']:
-                            
-                            cleaned_words_timeline.append({
-                                'word_index': word_timeline.get('word_index'),
-                                'start': word_timeline['word_ja']['start'],
-                                'end': word_timeline['word_en']['end']
-                            })
-                    
-                    sentence_timeline['words'] = cleaned_words_timeline
+            sentences_timeline = timeline.get('sentences', [])
+
+            for i, sentence_timeline in enumerate(sentences_timeline):
+                cleaned_words_timeline = []
+                words_in_sentence = sentence_timeline.get('words', [])
+                
+                for j, word_timeline in enumerate(words_in_sentence):
+                    if 'word_ja' not in word_timeline or 'start' not in word_timeline['word_ja']:
+                        continue
+
+                    start_time = word_timeline['word_ja']['start']
+                    end_time = 0
+
+                    # Determine the end time by looking ahead to the next event
+                    if j < len(words_in_sentence) - 1:
+                        # Not the last word in the sentence -> ends at the start of the next word.
+                        end_time = words_in_sentence[j+1]['word_ja']['start']
+                    elif i < len(sentences_timeline) - 1:
+                        # Last word of a sentence -> ends at the start of the next sentence's JA audio.
+                        end_time = sentences_timeline[i+1]['sentence_ja']['start']
+                    else:
+                        # Last word of the last sentence -> ends at its own natural end time.
+                        if 'word_en' in word_timeline and 'end' in word_timeline['word_en']:
+                            end_time = word_timeline['word_en']['end']
+                        else: # Fallback
+                            end_time = word_timeline['word_ja']['end']
+
+                    cleaned_words_timeline.append({
+                        'word_index': word_timeline.get('word_index'),
+                        'start': start_time,
+                        'end': end_time
+                    })
+                
+                sentence_timeline['words'] = cleaned_words_timeline
 
         # 3. Remove all temporary/unpackaged audio file references and durations
         keys_to_remove_story = [

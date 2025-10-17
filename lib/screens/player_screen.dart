@@ -104,10 +104,11 @@ class _PlayerScreenState extends ConsumerState<PlayerScreen> {
               ? currentSentence.words[currentWordIndex]
               : null;
 
-          // 新增：如果有新单词，更新 lastDisplayedWord
+          // 更新 lastDisplayedWord：只在有新单词时更新
           if (currentWord != null) {
             _lastDisplayedWord = currentWord;
           }
+          // 不再需要清除逻辑，因为没有单词时会自动显示 "Listening to sentence..."
 
           return Column(
             children: [
@@ -121,11 +122,12 @@ class _PlayerScreenState extends ConsumerState<PlayerScreen> {
                     children: [
                       // Sentence display or intro display
                       if (currentSentence != null)
-                        _buildSentenceDisplay(currentSentence, currentWordIndex)
-                      else
-                        _buildIntroDisplay(),
+                        _buildSentenceDisplay(
+                          currentSentence,
+                          currentWordIndex,
+                        ),
 
-                      // Word explanation section - 使用 _lastDisplayedWord 而不是 currentWord
+                      // Word explanation section
                       _buildWordExplanationSection(_lastDisplayedWord),
                     ],
                   ),
@@ -138,9 +140,8 @@ class _PlayerScreenState extends ConsumerState<PlayerScreen> {
                 position: position,
                 duration: duration,
                 audioService: audioService,
-                canGoPrevious: true,
-                canGoNext:
-                    currentSentenceIndex < storyDetail.sentences.length - 1,
+                storyDetail: storyDetail,
+                currentSentenceIndex: currentSentenceIndex,
               ),
             ],
           );
@@ -180,33 +181,6 @@ class _PlayerScreenState extends ConsumerState<PlayerScreen> {
           Text(
             storyDetail.title,
             style: TextStyle(fontSize: 14, color: Colors.grey[600]),
-            textAlign: TextAlign.center,
-          ),
-        ],
-      ),
-    );
-  }
-
-  // Intro display when in intro phase
-  Widget _buildIntroDisplay() {
-    return Container(
-      padding: const EdgeInsets.all(40.0),
-      child: Column(
-        children: [
-          Icon(Icons.play_circle_outline, size: 64, color: Colors.grey[400]),
-          const SizedBox(height: 16),
-          Text(
-            'Listening to full story...',
-            style: TextStyle(
-              fontSize: 18,
-              color: Colors.grey[600],
-              fontStyle: FontStyle.italic,
-            ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            'Tap next to start sentence-by-sentence learning',
-            style: TextStyle(fontSize: 14, color: Colors.grey[500]),
             textAlign: TextAlign.center,
           ),
         ],
@@ -387,9 +361,11 @@ class _PlayerScreenState extends ConsumerState<PlayerScreen> {
     required Duration position,
     required Duration duration,
     required audioService,
-    required bool canGoPrevious,
-    required bool canGoNext,
+    required storyDetail,
+    required int currentSentenceIndex,
   }) {
+    final canGoNext = currentSentenceIndex < storyDetail.sentences.length - 1;
+
     return Container(
       padding: const EdgeInsets.all(20.0),
       decoration: BoxDecoration(
@@ -428,12 +404,19 @@ class _PlayerScreenState extends ConsumerState<PlayerScreen> {
                     ),
                   ),
                   child: Slider(
-                    value: position.inMilliseconds.toDouble(),
+                    value: position.inMilliseconds.toDouble().clamp(
+                      0.0,
+                      duration.inMilliseconds.toDouble(),
+                    ),
                     min: 0.0,
                     max: duration.inMilliseconds.toDouble(),
                     onChanged: (value) {
                       final newPosition = Duration(milliseconds: value.toInt());
                       audioService.seek(newPosition);
+                      // 立即更新状态
+                      ref.read(playbackPositionProvider.notifier).state =
+                          newPosition;
+                      _updateCurrentSentenceAndWord(newPosition);
                     },
                   ),
                 ),
@@ -458,19 +441,17 @@ class _PlayerScreenState extends ConsumerState<PlayerScreen> {
               IconButton(
                 icon: const Icon(Icons.skip_previous),
                 iconSize: 48,
-                onPressed: canGoPrevious
-                    ? () async {
-                        final newPosition = await audioService
-                            .jumpToPreviousSentence();
-                        if (newPosition != null) {
-                          // 立即更新状态
-                          ref.read(playbackPositionProvider.notifier).state =
-                              newPosition;
-                          _updateCurrentSentenceAndWord(newPosition);
-                        }
-                      }
-                    : null,
-                color: canGoPrevious ? Colors.black : Colors.grey,
+                onPressed: () async {
+                  final newPosition = await audioService
+                      .jumpToPreviousSentence();
+                  if (newPosition != null) {
+                    // 立即更新状态
+                    ref.read(playbackPositionProvider.notifier).state =
+                        newPosition;
+                    _updateCurrentSentenceAndWord(newPosition);
+                  }
+                },
+                color: Colors.black,
               ),
 
               const SizedBox(width: 24),

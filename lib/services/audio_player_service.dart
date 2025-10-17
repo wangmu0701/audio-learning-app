@@ -65,20 +65,30 @@ class AudioPlayerService {
   }
 
   /// 根据播放位置获取当前句子索引
-  /// 返回 -1 表示还在 intro 阶段
+  /// 现在 intro 阶段也返回正确的句子索引
   int getCurrentSentenceIndex(Duration position) {
     if (_fastModeAudio == null) return 0;
 
     final seconds = position.inMilliseconds / 1000.0;
-    final sentences = _fastModeAudio!.timeline.sentences;
+    final timeline = _fastModeAudio!.timeline;
 
-    // 如果还没开始第一句，返回 -1 表示在 intro 阶段
-    if (sentences.isNotEmpty && seconds < sentences[0].sentenceJa.start) {
-      return -1;
+    // 1. 检查是否在日语 intro 阶段
+    for (var item in timeline.storyPlaybackTimelineJa) {
+      if (item.contains(seconds)) {
+        return item.sentenceIndex;
+      }
     }
 
-    for (int i = 0; i < sentences.length; i++) {
-      final sentence = sentences[i];
+    // 2. 检查是否在英语 intro 阶段
+    for (var item in timeline.storyPlaybackTimelineEn) {
+      if (item.contains(seconds)) {
+        return item.sentenceIndex;
+      }
+    }
+
+    // 3. 检查是否在详细学习阶段
+    for (int i = 0; i < timeline.sentences.length; i++) {
+      final sentence = timeline.sentences[i];
       final sentenceEnd = sentence.words.isNotEmpty
           ? sentence.words.last.end
           : sentence.sentenceEn.end;
@@ -88,19 +98,36 @@ class AudioPlayerService {
       }
     }
 
-    // 如果超出所有句子的范围，返回最后一句
-    return sentences.isEmpty ? 0 : sentences.length - 1;
+    // 4. 如果超出所有范围，返回最后一句
+    return timeline.sentences.isEmpty ? 0 : timeline.sentences.length - 1;
   }
 
   /// 根据播放位置和句子索引获取当前单词索引
+  /// 只在详细学习阶段返回单词索引，intro 阶段返回 null
   int? getCurrentWordIndex(Duration position, int sentenceIndex) {
     if (_fastModeAudio == null) return null;
 
-    final sentences = _fastModeAudio!.timeline.sentences;
-    if (sentenceIndex < 0 || sentenceIndex >= sentences.length) return null;
-
     final seconds = position.inMilliseconds / 1000.0;
-    final sentence = sentences[sentenceIndex];
+    final timeline = _fastModeAudio!.timeline;
+
+    // 检查是否在 intro 阶段（日语或英语）
+    for (var item in timeline.storyPlaybackTimelineJa) {
+      if (item.contains(seconds)) {
+        return null; // Intro 阶段不返回单词索引
+      }
+    }
+    for (var item in timeline.storyPlaybackTimelineEn) {
+      if (item.contains(seconds)) {
+        return null; // Intro 阶段不返回单词索引
+      }
+    }
+
+    // 详细学习阶段才返回单词索引
+    if (sentenceIndex < 0 || sentenceIndex >= timeline.sentences.length) {
+      return null;
+    }
+
+    final sentence = timeline.sentences[sentenceIndex];
 
     for (int i = 0; i < sentence.words.length; i++) {
       final word = sentence.words[i];
@@ -117,21 +144,54 @@ class AudioPlayerService {
     if (_fastModeAudio == null || _audioPlayer.duration == null) return null;
 
     final currentIndex = getCurrentSentenceIndex(_audioPlayer.position);
-    final sentences = _fastModeAudio!.timeline.sentences;
+    final timeline = _fastModeAudio!.timeline;
+    final currentSeconds = _audioPlayer.position.inMilliseconds / 1000.0;
 
     Duration? newPosition;
 
-    // 如果在 intro 阶段（currentIndex == -1），跳转到第一句
-    if (currentIndex == -1) {
-      if (sentences.isNotEmpty) {
-        final firstStart = sentences[0].sentenceJa.start;
-        newPosition = Duration(milliseconds: (firstStart * 1000).toInt());
-        await seek(newPosition);
+    // 1. 如果在日语 intro 阶段，跳到下一句的日语部分
+    for (int i = 0; i < timeline.storyPlaybackTimelineJa.length; i++) {
+      if (timeline.storyPlaybackTimelineJa[i].contains(currentSeconds)) {
+        if (i < timeline.storyPlaybackTimelineJa.length - 1) {
+          final nextStart = timeline.storyPlaybackTimelineJa[i + 1].start;
+          newPosition = Duration(milliseconds: (nextStart * 1000).toInt());
+        } else {
+          // 日语 intro 的最后一句，跳到英语 intro 的第一句
+          if (timeline.storyPlaybackTimelineEn.isNotEmpty) {
+            final nextStart = timeline.storyPlaybackTimelineEn[0].start;
+            newPosition = Duration(milliseconds: (nextStart * 1000).toInt());
+          }
+        }
+        if (newPosition != null) {
+          await seek(newPosition);
+        }
+        return newPosition;
       }
     }
-    // 否则跳转到下一句
-    else if (currentIndex < sentences.length - 1) {
-      final nextStart = sentences[currentIndex + 1].sentenceJa.start;
+
+    // 2. 如果在英语 intro 阶段，跳到下一句的英语部分
+    for (int i = 0; i < timeline.storyPlaybackTimelineEn.length; i++) {
+      if (timeline.storyPlaybackTimelineEn[i].contains(currentSeconds)) {
+        if (i < timeline.storyPlaybackTimelineEn.length - 1) {
+          final nextStart = timeline.storyPlaybackTimelineEn[i + 1].start;
+          newPosition = Duration(milliseconds: (nextStart * 1000).toInt());
+        } else {
+          // 英语 intro 的最后一句，跳到详细学习的第一句
+          if (timeline.sentences.isNotEmpty) {
+            final nextStart = timeline.sentences[0].sentenceJa.start;
+            newPosition = Duration(milliseconds: (nextStart * 1000).toInt());
+          }
+        }
+        if (newPosition != null) {
+          await seek(newPosition);
+        }
+        return newPosition;
+      }
+    }
+
+    // 3. 如果在详细学习阶段，跳到下一句
+    if (currentIndex < timeline.sentences.length - 1) {
+      final nextStart = timeline.sentences[currentIndex + 1].sentenceJa.start;
       newPosition = Duration(milliseconds: (nextStart * 1000).toInt());
       await seek(newPosition);
     }
@@ -139,42 +199,111 @@ class AudioPlayerService {
     return newPosition;
   }
 
-  /// 跳转到上一句（或当前句子开始，或 intro 开始）
+  /// 跳转到上一句
   Future<Duration?> jumpToPreviousSentence() async {
     if (_fastModeAudio == null || _audioPlayer.duration == null) return null;
 
-    final currentIndex = getCurrentSentenceIndex(_audioPlayer.position);
-    final sentences = _fastModeAudio!.timeline.sentences;
+    final timeline = _fastModeAudio!.timeline;
+    final currentSeconds = _audioPlayer.position.inMilliseconds / 1000.0;
 
     Duration? newPosition;
 
-    // 如果在 intro 阶段，跳到开头
-    if (currentIndex == -1) {
-      newPosition = Duration.zero;
-      await seek(newPosition);
-      return newPosition;
+    // 1. 如果在日语 intro 阶段
+    for (int i = 0; i < timeline.storyPlaybackTimelineJa.length; i++) {
+      if (timeline.storyPlaybackTimelineJa[i].contains(currentSeconds)) {
+        // 检查是否播放超过 1 秒
+        if (currentSeconds - timeline.storyPlaybackTimelineJa[i].start > 1.0) {
+          // 跳回当前句开始
+          newPosition = Duration(
+            milliseconds: (timeline.storyPlaybackTimelineJa[i].start * 1000)
+                .toInt(),
+          );
+        } else if (i > 0) {
+          // 跳到上一句
+          newPosition = Duration(
+            milliseconds: (timeline.storyPlaybackTimelineJa[i - 1].start * 1000)
+                .toInt(),
+          );
+        } else {
+          // 已经是第一句，跳到开头
+          newPosition = Duration.zero;
+        }
+        if (newPosition != null) {
+          await seek(newPosition);
+        }
+        return newPosition;
+      }
     }
 
-    final currentSentence = sentences[currentIndex];
-    final currentSeconds = _audioPlayer.position.inMilliseconds / 1000.0;
+    // 2. 如果在英语 intro 阶段
+    for (int i = 0; i < timeline.storyPlaybackTimelineEn.length; i++) {
+      if (timeline.storyPlaybackTimelineEn[i].contains(currentSeconds)) {
+        if (currentSeconds - timeline.storyPlaybackTimelineEn[i].start > 1.0) {
+          // 跳回当前句开始
+          newPosition = Duration(
+            milliseconds: (timeline.storyPlaybackTimelineEn[i].start * 1000)
+                .toInt(),
+          );
+        } else if (i > 0) {
+          // 跳到上一句英语
+          newPosition = Duration(
+            milliseconds: (timeline.storyPlaybackTimelineEn[i - 1].start * 1000)
+                .toInt(),
+          );
+        } else {
+          // 英语的第一句，跳回日语的最后一句
+          if (timeline.storyPlaybackTimelineJa.isNotEmpty) {
+            newPosition = Duration(
+              milliseconds: (timeline.storyPlaybackTimelineJa.last.start * 1000)
+                  .toInt(),
+            );
+          } else {
+            newPosition = Duration.zero;
+          }
+        }
+        if (newPosition != null) {
+          await seek(newPosition);
+        }
+        return newPosition;
+      }
+    }
 
-    // 如果当前句子播放超过 1 秒，跳回当前句子开始
-    if (currentSeconds - currentSentence.sentenceJa.start > 1.0) {
-      newPosition = Duration(
-        milliseconds: (currentSentence.sentenceJa.start * 1000).toInt(),
-      );
-      await seek(newPosition);
-    }
-    // 如果是第一句且播放不到 1 秒，跳回 intro 开始
-    else if (currentIndex == 0) {
-      newPosition = Duration.zero;
-      await seek(newPosition);
-    }
-    // 否则跳到上一句
-    else {
-      final prevStart = sentences[currentIndex - 1].sentenceJa.start;
-      newPosition = Duration(milliseconds: (prevStart * 1000).toInt());
-      await seek(newPosition);
+    // 3. 如果在详细学习阶段
+    final currentIndex = getCurrentSentenceIndex(_audioPlayer.position);
+    if (currentIndex >= 0 && currentIndex < timeline.sentences.length) {
+      final currentSentence = timeline.sentences[currentIndex];
+
+      if (currentSeconds - currentSentence.sentenceJa.start > 1.0) {
+        // 跳回当前句开始
+        newPosition = Duration(
+          milliseconds: (currentSentence.sentenceJa.start * 1000).toInt(),
+        );
+      } else if (currentIndex > 0) {
+        // 跳到上一句
+        newPosition = Duration(
+          milliseconds:
+              (timeline.sentences[currentIndex - 1].sentenceJa.start * 1000)
+                  .toInt(),
+        );
+      } else {
+        // 详细学习的第一句，跳回英语 intro 的最后一句
+        if (timeline.storyPlaybackTimelineEn.isNotEmpty) {
+          newPosition = Duration(
+            milliseconds: (timeline.storyPlaybackTimelineEn.last.start * 1000)
+                .toInt(),
+          );
+        } else if (timeline.storyPlaybackTimelineJa.isNotEmpty) {
+          newPosition = Duration(
+            milliseconds: (timeline.storyPlaybackTimelineJa.last.start * 1000)
+                .toInt(),
+          );
+        } else {
+          newPosition = Duration.zero;
+        }
+      }
+      if (newPosition != null) {
+        await seek(newPosition);
+      }
     }
 
     return newPosition;

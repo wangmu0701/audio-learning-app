@@ -4,17 +4,17 @@
     {
       "id": "N5_G0_001",
       "folder": "stories/N5_G0_001",
-      "title_ja": "迷子の猫の冒険 (Maigo no Neko no Bōken)",
-      "title": "The Lost Cat's Adventure",
-      "summary": "A small, fluffy cat named Whiskers gets lost in the big city. He meets friendly people and other animals who help him find his way back home. This story uses simple vocabulary to describe places and actions.",
+      "title_ja": "みんなの庭",
+      "title": "The Community Garden",
+      "summary": "A group of diverse neighbors decides to transform an empty lot into a vibrant community garden. They face small challenges like choosing the right plants and sharing tools, but learn to work together. The garden eventually thrives, bringing fresh produce and new friendships to the neighborhood.",
       "difficulty": "N5",
       "grammar_group": 0,
       "grammar_points": [
-        "います(imasu)",
+        "ありました(arimashita)",
+        "あります(arimasu)",
         "か(ka)",
         "で(de)",
         "です(desu)",
-        "ではありませんでした(dewa arimasen deshita)",
         "に(ni)",
         "の(no)",
         "は(wa)",
@@ -23,34 +23,11 @@
         "を(o)"
       ],
       "topics": [],
-      "fast_mode_duration_seconds": 327,
+      "fast_mode_duration_seconds": 326,
       "sentence_count": 10,
-      "word_count": 68
-    },
-    {
-      "id": "N5_G0_002",
-      "folder": "stories/N5_G0_002",
-      "title_ja": "レオさんのクッキー作り",
-      "title": "Chef Leo's First Recipe",
-      "summary": "Leo wants to bake cookies for his mom. He follows a simple recipe step-by-step, mixing ingredients and learning about measurements. The kitchen gets a little messy, but the cookies turn out delicious.",
-      "difficulty": "N5",
-      "grammar_group": 0,
-      "grammar_points": [
-        "で(de)",
-        "でした(deshita)",
-        "です(desu)",
-        "ではありません(dewa arimasen)",
-        "に(ni)",
-        "は(wa)",
-        "ます(masu)",
-        "を(o)"
-      ],
-      "topics": [],
-      "fast_mode_duration_seconds": 217,
-      "sentence_count": 8,
-      "word_count": 39
+      "word_count": 55
     }
   ],
-  "last_updated": "2025-10-16T07:40:19.203983Z",
-  "total_stories": 2
+  "last_updated": "2025-10-17T04:13:02.506033Z",
+  "total_stories": 1
 }

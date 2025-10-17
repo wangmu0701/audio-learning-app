@@ -1,3 +1,4 @@
+import 'dart:async'; // 添加这个 import
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/story_providers.dart';
@@ -5,11 +6,43 @@ import '../providers/audio_providers.dart';
 import '../models/story.dart';
 import 'player_screen.dart';
 
-class LibraryScreen extends ConsumerWidget {
+class LibraryScreen extends ConsumerStatefulWidget {
+  // 改为 StatefulWidget
   const LibraryScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<LibraryScreen> createState() => _LibraryScreenState();
+}
+
+class _LibraryScreenState extends ConsumerState<LibraryScreen> {
+  StreamSubscription? _playerStateSubscription;
+
+  @override
+  void initState() {
+    super.initState();
+    _setupPlayerStateListener();
+  }
+
+  void _setupPlayerStateListener() {
+    final audioService = ref.read(audioServiceProvider);
+
+    // 监听播放状态并更新 provider
+    _playerStateSubscription = audioService.player.playerStateStream.listen((
+      state,
+    ) {
+      if (!mounted) return;
+      ref.read(isPlayingProvider.notifier).state = state.playing;
+    });
+  }
+
+  @override
+  void dispose() {
+    _playerStateSubscription?.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final storiesAsync = ref.watch(storiesProvider);
 
     return Scaffold(
@@ -55,6 +88,7 @@ class LibraryScreen extends ConsumerWidget {
   }
 }
 
+// StoryCard 保持不变
 class StoryCard extends ConsumerStatefulWidget {
   final Story story;
 
@@ -77,8 +111,8 @@ class _StoryCardState extends ConsumerState<StoryCard> {
     final audioService = ref.watch(audioServiceProvider);
 
     // 判断当前故事是否正在播放
-    final isCurrentStoryPlaying =
-        currentPlayingStoryId == widget.story.storyId && isPlaying;
+    final isCurrentStory = currentPlayingStoryId == widget.story.storyId;
+    final isCurrentStoryPlaying = isCurrentStory && isPlaying;
 
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
@@ -86,7 +120,10 @@ class _StoryCardState extends ConsumerState<StoryCard> {
         children: [
           // Main story info
           ListTile(
-            contentPadding: const EdgeInsets.all(16.0),
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 16.0,
+              vertical: 8.0,
+            ),
             title: Text(
               widget.story.title,
               style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
@@ -129,7 +166,7 @@ class _StoryCardState extends ConsumerState<StoryCard> {
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                // 播放/暂停按钮
+                // 播放/暂停按钮（后台控制）
                 IconButton(
                   icon: Icon(
                     isCurrentStoryPlaying
@@ -137,24 +174,37 @@ class _StoryCardState extends ConsumerState<StoryCard> {
                         : Icons.play_circle_filled,
                   ),
                   iconSize: 40,
-                  color: currentPlayingStoryId == widget.story.storyId
-                      ? Colors.blue
-                      : Colors.grey[700],
+                  color: isCurrentStory ? Colors.blue : Colors.grey[700],
                   onPressed: () async {
-                    if (currentPlayingStoryId == widget.story.storyId) {
-                      // 如果是当前播放的故事，切换播放/暂停
+                    if (isCurrentStory) {
+                      // 如果是当前故事，切换播放/暂停
                       if (isPlaying) {
                         await audioService.pause();
                       } else {
                         await audioService.play();
                       }
                     } else {
-                      // 如果不是当前播放的故事，加载并播放
+                      // 如果不是当前故事，加载并在后台播放
                       await audioService.loadStory(widget.story.storyId);
                       ref.read(currentPlayingStoryIdProvider.notifier).state =
                           widget.story.storyId;
                       await audioService.play();
                     }
+                  },
+                ),
+
+                // 打开 Player Screen 按钮
+                IconButton(
+                  icon: const Icon(Icons.open_in_full),
+                  iconSize: 28,
+                  color: Colors.grey[700],
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => PlayerScreen(story: widget.story),
+                      ),
+                    );
                   },
                 ),
 
@@ -172,7 +222,7 @@ class _StoryCardState extends ConsumerState<StoryCard> {
               ],
             ),
             onTap: () {
-              // 点击卡片进入播放界面
+              // 点击卡片也打开播放界面
               Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -246,32 +296,6 @@ class _StoryCardState extends ConsumerState<StoryCard> {
                             ),
                           );
                         }).toList(),
-                      ),
-                      const SizedBox(height: 16),
-
-                      // Enter player button
-                      SizedBox(
-                        width: double.infinity,
-                        child: ElevatedButton.icon(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    PlayerScreen(story: widget.story),
-                              ),
-                            );
-                          },
-                          icon: const Icon(Icons.headphones),
-                          label: Text(
-                            'Open Player (${storyDetail.formattedDuration})',
-                          ),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.blue,
-                            foregroundColor: Colors.white,
-                            padding: const EdgeInsets.all(16.0),
-                          ),
-                        ),
                       ),
                     ],
                   ),

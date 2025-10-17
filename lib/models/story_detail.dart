@@ -1,6 +1,30 @@
 import 'sentence.dart';
 import 'audio_timeline.dart';
 
+class StoryPlaybackTimeline {
+  final int sentenceIndex;
+  final double start;
+  final double end;
+
+  StoryPlaybackTimeline({
+    required this.sentenceIndex,
+    required this.start,
+    required this.end,
+  });
+
+  factory StoryPlaybackTimeline.fromJson(Map<String, dynamic> json) {
+    return StoryPlaybackTimeline(
+      sentenceIndex: json['sentence_index'] ?? 0,
+      start: (json['start'] ?? 0).toDouble(),
+      end: (json['end'] ?? 0).toDouble(),
+    );
+  }
+
+  bool contains(double time) {
+    return time >= start && time <= end;
+  }
+}
+
 class FastModeAudio {
   final String url;
   final double duration;
@@ -22,17 +46,40 @@ class FastModeAudio {
 }
 
 class FastModeTimeline {
+  final List<StoryPlaybackTimeline> storyPlaybackTimelineJa;
+  final List<StoryPlaybackTimeline> storyPlaybackTimelineEn;
   final List<FastModeSentence> sentences;
 
-  FastModeTimeline({required this.sentences});
+  FastModeTimeline({
+    required this.storyPlaybackTimelineJa,
+    required this.storyPlaybackTimelineEn,
+    required this.sentences,
+  });
 
   factory FastModeTimeline.fromJson(Map<String, dynamic> json) {
+    final jaList =
+        (json['story_playback_timeline_ja'] as List<dynamic>?)
+            ?.map((s) => StoryPlaybackTimeline.fromJson(s))
+            .toList() ??
+        [];
+
+    final enList =
+        (json['story_playback_timeline_en'] as List<dynamic>?)
+            ?.map((s) => StoryPlaybackTimeline.fromJson(s))
+            .toList() ??
+        [];
+
     final sentencesList =
         (json['sentences'] as List<dynamic>?)
             ?.map((s) => FastModeSentence.fromJson(s))
             .toList() ??
         [];
-    return FastModeTimeline(sentences: sentencesList);
+
+    return FastModeTimeline(
+      storyPlaybackTimelineJa: jaList,
+      storyPlaybackTimelineEn: enList,
+      sentences: sentencesList,
+    );
   }
 }
 
@@ -72,7 +119,7 @@ class StoryDetail {
   final List<String> grammarPoints;
   final int sentenceCount;
   final List<Sentence> sentences;
-  final FastModeAudio? fastModeAudio; // 新增
+  final FastModeAudio? fastModeAudio;
 
   StoryDetail({
     required this.storyId,
@@ -83,7 +130,7 @@ class StoryDetail {
     required this.grammarPoints,
     required this.sentenceCount,
     required this.sentences,
-    this.fastModeAudio, // 新增
+    this.fastModeAudio,
   });
 
   factory StoryDetail.fromJson(Map<String, dynamic> json) {
@@ -106,7 +153,7 @@ class StoryDetail {
           [],
       fastModeAudio: json['fast_mode'] != null
           ? FastModeAudio.fromJson(json['fast_mode'])
-          : null, // 新增
+          : null,
     );
   }
 
