@@ -145,8 +145,6 @@ class _PlayerScreenState extends ConsumerState<PlayerScreen> {
                 position: position,
                 duration: duration,
                 audioService: audioService,
-                storyDetail: storyDetail,
-                currentSentenceIndex: currentSentenceIndex,
               ),
             ],
           );
@@ -366,10 +364,8 @@ class _PlayerScreenState extends ConsumerState<PlayerScreen> {
     required Duration position,
     required Duration duration,
     required audioService,
-    required storyDetail,
-    required int currentSentenceIndex,
   }) {
-    final canGoNext = currentSentenceIndex < storyDetail.sentences.length - 1;
+    final canGoNext = audioService.canJumpToNext(position);
 
     return Container(
       padding: const EdgeInsets.all(20.0),

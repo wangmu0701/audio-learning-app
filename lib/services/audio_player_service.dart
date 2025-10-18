@@ -345,6 +345,66 @@ class AudioPlayerService {
     return true;
   }
 
+  /// 判断是否在最后（不能再跳下一句了）
+  bool isAtEnd(Duration position) {
+    if (_fastModeAudio == null || _audioPlayer.duration == null) return true;
+
+    final seconds = position.inMilliseconds / 1000.0;
+    final timeline = _fastModeAudio!.timeline;
+
+    // 如果在详细学习阶段的最后一句，检查是否接近结尾
+    if (timeline.sentences.isNotEmpty) {
+      final lastSentence = timeline.sentences.last;
+      final lastWordEnd = lastSentence.words.isNotEmpty
+          ? lastSentence.words.last.end
+          : lastSentence.sentenceEn.end;
+
+      // 如果已经在最后一句的最后一个单词之后，就是结束了
+      if (seconds >= lastWordEnd) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  /// 判断是否可以跳到下一句
+  bool canJumpToNext(Duration position) {
+    if (_fastModeAudio == null || _audioPlayer.duration == null) return false;
+
+    final seconds = position.inMilliseconds / 1000.0;
+    final timeline = _fastModeAudio!.timeline;
+
+    // 1. 如果在日语 intro，检查是否是最后一句
+    for (int i = 0; i < timeline.storyPlaybackTimelineJa.length; i++) {
+      if (timeline.storyPlaybackTimelineJa[i].contains(seconds)) {
+        // 不是最后一句，或者后面还有英语 intro 或详细学习
+        return i < timeline.storyPlaybackTimelineJa.length - 1 ||
+            timeline.storyPlaybackTimelineEn.isNotEmpty ||
+            timeline.sentences.isNotEmpty;
+      }
+    }
+
+    // 2. 如果在英语 intro，检查是否是最后一句
+    for (int i = 0; i < timeline.storyPlaybackTimelineEn.length; i++) {
+      if (timeline.storyPlaybackTimelineEn[i].contains(seconds)) {
+        // 不是最后一句，或者后面还有详细学习
+        return i < timeline.storyPlaybackTimelineEn.length - 1 ||
+            timeline.sentences.isNotEmpty;
+      }
+    }
+
+    // 3. 如果在详细学习阶段
+    final currentIndex = getCurrentSentenceIndex(position);
+    if (currentIndex >= 0 && currentIndex < timeline.sentences.length) {
+      // 不是最后一句就可以跳
+      return currentIndex < timeline.sentences.length - 1;
+    }
+
+    // 4. 其他情况（比如在两个阶段之间的间隙），默认可以跳
+    return !isAtEnd(position);
+  }
+
   /// 停止播放
   Future<void> stop() async {
     await _audioPlayer.stop();
