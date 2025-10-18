@@ -26,8 +26,127 @@
       "fast_mode_duration_seconds": 326,
       "sentence_count": 10,
       "word_count": 55
+    },
+    {
+      "id": "N5_G0_002",
+      "folder": "stories/N5_G0_002",
+      "title_ja": "迷子のオウム",
+      "title": "The Lost Parrot",
+      "summary": "A young boy's pet parrot flies away from his window. He uses a new neighborhood app to ask for help finding it. Many people join the search, and the parrot is eventually found in a tall tree.",
+      "difficulty": "N5",
+      "grammar_group": 0,
+      "grammar_points": [
+        "いました(imashita)",
+        "います(imasu)",
+        "いませんでした(imasen deshita)",
+        "か(ka)",
+        "で(de)",
+        "でした(deshita)",
+        "ではありませんでした(dewa arimasen deshita)",
+        "に(ni)",
+        "の(no)",
+        "は(wa)",
+        "ました(mashita)",
+        "を(o)"
+      ],
+      "topics": [],
+      "fast_mode_duration_seconds": 302,
+      "sentence_count": 8,
+      "word_count": 49
+    },
+    {
+      "id": "N5_G0_003",
+      "folder": "stories/N5_G0_003",
+      "title_ja": "お菓子作りの夢",
+      "title": "Baking Dreams",
+      "summary": "A young woman loves baking delicious cookies in her small kitchen. She decides to start selling them online to her community. She learns to take beautiful photos of her cookies and package them carefully for delivery.",
+      "difficulty": "N5",
+      "grammar_group": 0,
+      "grammar_points": [
+        "で(de)",
+        "です(desu)",
+        "に(ni)",
+        "の(no)",
+        "は(wa)",
+        "ます(masu)",
+        "を(o)"
+      ],
+      "topics": [],
+      "fast_mode_duration_seconds": 322,
+      "sentence_count": 10,
+      "word_count": 57
+    },
+    {
+      "id": "N5_G0_004",
+      "folder": "stories/N5_G0_004",
+      "title_ja": "公園のヒーローたち",
+      "title": "Park Heroes",
+      "summary": "The local park has become messy with a lot of litter. A group of friends organizes a special cleanup day for the whole neighborhood. Many people come together to help, making the park clean and beautiful again.",
+      "difficulty": "N5",
+      "grammar_group": 0,
+      "grammar_points": [
+        "ありました(arimashita)",
+        "で(de)",
+        "ではありませんでした(dewa arimasen deshita)",
+        "に(ni)",
+        "は(wa)",
+        "ました(mashita)",
+        "ます(masu)",
+        "を(o)"
+      ],
+      "topics": [],
+      "fast_mode_duration_seconds": 260,
+      "sentence_count": 8,
+      "word_count": 44
+    },
+    {
+      "id": "N5_G0_005",
+      "folder": "stories/N5_G0_005",
+      "title_ja": "初めての電車",
+      "title": "First Train Ride",
+      "summary": "A girl takes her very first train ride to visit her grandparents in another town. She sees many new and interesting sights outside the window. She learns how to read her ticket and find her seat on the big train.",
+      "difficulty": "N5",
+      "grammar_group": 0,
+      "grammar_points": [
+        "あります(arimasu)",
+        "います(imasu)",
+        "で(de)",
+        "です(desu)",
+        "に(ni)",
+        "の(no)",
+        "は(wa)",
+        "ます(masu)",
+        "を(o)"
+      ],
+      "topics": [],
+      "fast_mode_duration_seconds": 355,
+      "sentence_count": 10,
+      "word_count": 59
+    },
+    {
+      "id": "N5_G0_006",
+      "folder": "stories/N5_G0_006",
+      "title_ja": "ぐらぐらの棚",
+      "title": "The Wobbly Shelf",
+      "summary": "A man tries to build a new wooden bookshelf for his growing collection of books. He follows the instructions carefully, but the finished shelf is very wobbly. His kind neighbor helps him fix it properly, and they both share a good laugh.",
+      "difficulty": "N5",
+      "grammar_group": 0,
+      "grammar_points": [
+        "あります(arimasu)",
+        "でした(deshita)",
+        "に(ni)",
+        "の(no)",
+        "は(wa)",
+        "ました(mashita)",
+        "ます(masu)",
+        "を(o)"
+      ],
+      "topics": [],
+      "fast_mode_duration_seconds": 244,
+      "sentence_count": 7,
+      "word_count": 41
     }
   ],
-  "last_updated": "2025-10-17T04:13:02.506033Z",
-  "total_stories": 1
+  "last_updated": "2025-10-17T04:50:55.295996Z",
+  "total_stories": 6
 }

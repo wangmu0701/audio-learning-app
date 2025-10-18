@@ -50,6 +50,24 @@ class AudioGenerationStage(PipelineStage):
     def stage_name(self) -> str:
         return "audio_generation"
     
+    # 新增的辅助函数：为TTS准备日文文本
+    # START OF CHANGES ---
+    def _prepare_tts_text_ja(self, text: str) -> str:
+        """
+        为TTS准备日文文本，特别是为单个字符（如助词）添加上下文。
+        这有助于防止生成空音频或错误发音。
+        """
+        # 检查文本是否为单个字符，并且不是汉字或字母数字
+        if len(text) == 1 and not re.search(r'[\u4e00-\u9faf0-9a-zA-Z]', text):
+            # 使用日文引号「」和逗号、为字符添加填充，以提供上下文
+            # 例如，将 "は" 变为 "「は」、"
+            # 这能帮助TTS引擎正确地将其发音为 "wa"，并生成一个更稳定的音频文件
+            padded_text = f"「{text}」、"
+            logger.debug(f"为TTS填充单个字符: '{text}' -> '{padded_text}'")
+            return padded_text
+        return text
+    # --- END OF CHANGES
+
     def process(self, story: Dict) -> Dict:
         """
         Processes stories to generate all audio files.
@@ -107,12 +125,20 @@ class AudioGenerationStage(PipelineStage):
             for j, word in enumerate(sentence.get('words', [])):
                 word_id = f"w{j+1}"
                 word['id'] = word_id
+
+                # 对单个日文字符进行特殊处理
+                # START OF CHANGES ---
+                original_ja_text = word.get('word_ja', '')
+                tts_ja_text = self._prepare_tts_text_ja(original_ja_text) # 调用新函数
+
                 self._synthesize_and_save(
-                    text=word.get('word_ja', ''), config=self.tts_config_ja_slow, 
+                    text=tts_ja_text, config=self.tts_config_ja_slow, # 使用处理后的文本
                     file_path=os.path.join(words_dir, f"{word_id}_ja.mp3"),
                     target_dict=word, key="audio_ja_path",
                     relative_to_path=relative_to_path
                 )
+                # --- END OF CHANGES
+
                 self._synthesize_and_save(
                     text=word.get('word_en', ''), config=self.tts_config_en, 
                     file_path=os.path.join(words_dir, f"{word_id}_en.mp3"),

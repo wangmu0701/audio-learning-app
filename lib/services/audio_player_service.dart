@@ -309,6 +309,42 @@ class AudioPlayerService {
     return newPosition;
   }
 
+  bool isInWordExplanationPhase(Duration position) {
+    if (_fastModeAudio == null) return false;
+
+    final seconds = position.inMilliseconds / 1000.0;
+    final timeline = _fastModeAudio!.timeline;
+
+    // 1. 检查是否在日语 intro 阶段
+    for (var item in timeline.storyPlaybackTimelineJa) {
+      if (item.contains(seconds)) {
+        return false; // Intro 阶段，不显示单词解释
+      }
+    }
+
+    // 2. 检查是否在英语 intro 阶段
+    for (var item in timeline.storyPlaybackTimelineEn) {
+      if (item.contains(seconds)) {
+        return false; // Intro 阶段，不显示单词解释
+      }
+    }
+
+    // 3. 检查是否在详细学习阶段的句子播放部分
+    for (var sentence in timeline.sentences) {
+      // 在日语句子播放阶段
+      if (sentence.sentenceJa.contains(seconds)) {
+        return false;
+      }
+      // 在英语句子播放阶段
+      if (sentence.sentenceEn.contains(seconds)) {
+        return false;
+      }
+    }
+
+    // 4. 如果不在以上任何阶段，可能在单词解释阶段
+    return true;
+  }
+
   /// 停止播放
   Future<void> stop() async {
     await _audioPlayer.stop();

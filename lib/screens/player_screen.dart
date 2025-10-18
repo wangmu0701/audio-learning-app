@@ -104,11 +104,16 @@ class _PlayerScreenState extends ConsumerState<PlayerScreen> {
               ? currentSentence.words[currentWordIndex]
               : null;
 
-          // 更新 lastDisplayedWord：只在有新单词时更新
+          // 更新 lastDisplayedWord 逻辑：
+          // 1. 如果有新单词，更新
+          // 2. 如果不在单词解释阶段，清除
+          final isInWordPhase = audioService.isInWordExplanationPhase(position);
           if (currentWord != null) {
             _lastDisplayedWord = currentWord;
+          } else if (!isInWordPhase) {
+            // 在 intro 或句子播放阶段，清除单词解释
+            _lastDisplayedWord = null;
           }
-          // 不再需要清除逻辑，因为没有单词时会自动显示 "Listening to sentence..."
 
           return Column(
             children: [
