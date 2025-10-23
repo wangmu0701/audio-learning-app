@@ -78,7 +78,6 @@ class AudioPackageStage(PipelineStage):
             audio_segments = []
             timeline_data = {
                 'story_playback_timeline_ja': [],
-                'story_playback_timeline_en': [],
                 'sentences': []
             }
             current_time = 0.0
@@ -108,33 +107,6 @@ class AudioPackageStage(PipelineStage):
                     'end': current_time
                 })
 
-            audio_segments.append(silence_major)
-            current_time += self.gap_major
-
-            # 2. Full Story Translation (stitched from sentences)
-            for sent_idx, sentence in enumerate(sentences):
-                sentence_en_path = sentence.get('sentence_en_audio')
-                if not sentence_en_path: raise ValueError(f"Missing sentence_en_audio for sentence {sent_idx}")
-                full_path = os.path.join(base_path, sentence_en_path)
-                if not os.path.exists(full_path): raise FileNotFoundError(f"File not found: {full_path}")
-
-                audio = AudioSegment.from_mp3(full_path)
-                duration = len(audio) / 1000.0
-                audio_segments.append(audio)
-
-                start_time = current_time
-                current_time += duration
-
-                if sent_idx < len(sentences) - 1:
-                    audio_segments.append(silence_minor)
-                    current_time += self.gap_minor
-
-                timeline_data['story_playback_timeline_en'].append({
-                    'sentence_index': sent_idx,
-                    'start': start_time,
-                    'end': current_time
-                })
-            
             audio_segments.append(silence_major)
             current_time += self.gap_major
 
