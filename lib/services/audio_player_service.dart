@@ -14,14 +14,14 @@ class AudioPlayerService {
   StoryDetail? get currentStory => _currentStory;
   FastModeAudio? get fastModeAudio => _fastModeAudio;
 
-  /// 加载并准备播放故事
+  /// Load and prepare story for playback
   Future<void> loadStory(String storyId) async {
     print('Loading story: $storyId');
 
-    // 停止当前播放
+    // Stop current playback
     await _audioPlayer.stop();
 
-    // 加载故事数据
+    // Load story data
     _currentStory = await _repository.loadStoryDetail(storyId);
     if (_currentStory == null) {
       print('Failed to load story');
@@ -34,7 +34,7 @@ class AudioPlayerService {
       return;
     }
 
-    // 设置音频路径
+    // Set audio path
     final audioPath = _repository.getAudioAssetPath(
       storyId,
       _fastModeAudio!.url,
@@ -44,85 +44,82 @@ class AudioPlayerService {
     try {
       await _audioPlayer.setAsset(audioPath);
       print('Audio loaded successfully, duration: ${_audioPlayer.duration}');
+
+      // Setup auto-replay when playback completes
+      _audioPlayer.playerStateStream.listen((state) {
+        if (state.processingState == ProcessingState.completed) {
+          // Auto-replay from the beginning
+          _audioPlayer.seek(Duration.zero);
+          _audioPlayer.play();
+        }
+      });
     } catch (e) {
       print('Error loading audio: $e');
     }
   }
 
-  /// 开始播放
+  /// Start playback
   Future<void> play() async {
     await _audioPlayer.play();
   }
 
-  /// 暂停播放
+  /// Pause playback
   Future<void> pause() async {
     await _audioPlayer.pause();
   }
 
-  /// 跳转到指定位置
+  /// Seek to position
   Future<void> seek(Duration position) async {
     await _audioPlayer.seek(position);
   }
 
-  /// 根据播放位置获取当前句子索引
-  /// 现在 intro 阶段也返回正确的句子索引
+  /// Get current sentence index based on playback position
+  /// Now handles intro phase and detailed learning phase
   int getCurrentSentenceIndex(Duration position) {
     if (_fastModeAudio == null) return 0;
 
     final seconds = position.inMilliseconds / 1000.0;
     final timeline = _fastModeAudio!.timeline;
 
-    // 1. 检查是否在日语 intro 阶段
+    // 1. Check if in Japanese intro phase
     for (var item in timeline.storyPlaybackTimelineJa) {
       if (item.contains(seconds)) {
         return item.sentenceIndex;
       }
     }
 
-    // 2. 检查是否在英语 intro 阶段
-    for (var item in timeline.storyPlaybackTimelineEn) {
-      if (item.contains(seconds)) {
-        return item.sentenceIndex;
-      }
-    }
-
-    // 3. 检查是否在详细学习阶段
+    // 2. Check if in detailed learning phase
     for (int i = 0; i < timeline.sentences.length; i++) {
       final sentence = timeline.sentences[i];
       final sentenceEnd = sentence.words.isNotEmpty
           ? sentence.words.last.end
-          : sentence.sentenceEn.end;
+          : sentence.sentenceJa.end;
 
       if (seconds >= sentence.sentenceJa.start && seconds <= sentenceEnd) {
         return i;
       }
     }
 
-    // 4. 如果超出所有范围，返回最后一句
+    // 3. If beyond all ranges, return last sentence
     return timeline.sentences.isEmpty ? 0 : timeline.sentences.length - 1;
   }
 
-  /// 根据播放位置和句子索引获取当前单词索引
-  /// 只在详细学习阶段返回单词索引，intro 阶段返回 null
+  /// Get current word index based on playback position and sentence index
+  /// Only returns word index during detailed learning phase, returns null during intro
   int? getCurrentWordIndex(Duration position, int sentenceIndex) {
     if (_fastModeAudio == null) return null;
 
     final seconds = position.inMilliseconds / 1000.0;
     final timeline = _fastModeAudio!.timeline;
 
-    // 检查是否在 intro 阶段（日语或英语）
+    // Check if in intro phase (Japanese)
     for (var item in timeline.storyPlaybackTimelineJa) {
       if (item.contains(seconds)) {
-        return null; // Intro 阶段不返回单词索引
-      }
-    }
-    for (var item in timeline.storyPlaybackTimelineEn) {
-      if (item.contains(seconds)) {
-        return null; // Intro 阶段不返回单词索引
+        return null; // No word index during intro
       }
     }
 
-    // 详细学习阶段才返回单词索引
+    // Detailed learning phase - return word index
     if (sentenceIndex < 0 || sentenceIndex >= timeline.sentences.length) {
       return null;
     }
@@ -139,7 +136,7 @@ class AudioPlayerService {
     return null;
   }
 
-  /// 跳转到下一句
+  /// Jump to next sentence
   Future<Duration?> jumpToNextSentence() async {
     if (_fastModeAudio == null || _audioPlayer.duration == null) return null;
 
@@ -149,34 +146,14 @@ class AudioPlayerService {
 
     Duration? newPosition;
 
-    // 1. 如果在日语 intro 阶段，跳到下一句的日语部分
+    // 1. If in Japanese intro phase, jump to next sentence's Japanese part
     for (int i = 0; i < timeline.storyPlaybackTimelineJa.length; i++) {
       if (timeline.storyPlaybackTimelineJa[i].contains(currentSeconds)) {
         if (i < timeline.storyPlaybackTimelineJa.length - 1) {
           final nextStart = timeline.storyPlaybackTimelineJa[i + 1].start;
           newPosition = Duration(milliseconds: (nextStart * 1000).toInt());
         } else {
-          // 日语 intro 的最后一句，跳到英语 intro 的第一句
-          if (timeline.storyPlaybackTimelineEn.isNotEmpty) {
-            final nextStart = timeline.storyPlaybackTimelineEn[0].start;
-            newPosition = Duration(milliseconds: (nextStart * 1000).toInt());
-          }
-        }
-        if (newPosition != null) {
-          await seek(newPosition);
-        }
-        return newPosition;
-      }
-    }
-
-    // 2. 如果在英语 intro 阶段，跳到下一句的英语部分
-    for (int i = 0; i < timeline.storyPlaybackTimelineEn.length; i++) {
-      if (timeline.storyPlaybackTimelineEn[i].contains(currentSeconds)) {
-        if (i < timeline.storyPlaybackTimelineEn.length - 1) {
-          final nextStart = timeline.storyPlaybackTimelineEn[i + 1].start;
-          newPosition = Duration(milliseconds: (nextStart * 1000).toInt());
-        } else {
-          // 英语 intro 的最后一句，跳到详细学习的第一句
+          // Last sentence in Japanese intro, jump to detailed learning phase
           if (timeline.sentences.isNotEmpty) {
             final nextStart = timeline.sentences[0].sentenceJa.start;
             newPosition = Duration(milliseconds: (nextStart * 1000).toInt());
@@ -189,7 +166,7 @@ class AudioPlayerService {
       }
     }
 
-    // 3. 如果在详细学习阶段，跳到下一句
+    // 2. If in detailed learning phase, jump to next sentence
     if (currentIndex < timeline.sentences.length - 1) {
       final nextStart = timeline.sentences[currentIndex + 1].sentenceJa.start;
       newPosition = Duration(milliseconds: (nextStart * 1000).toInt());
@@ -199,7 +176,7 @@ class AudioPlayerService {
     return newPosition;
   }
 
-  /// 跳转到上一句
+  /// Jump to previous sentence
   Future<Duration?> jumpToPreviousSentence() async {
     if (_fastModeAudio == null || _audioPlayer.duration == null) return null;
 
@@ -208,24 +185,24 @@ class AudioPlayerService {
 
     Duration? newPosition;
 
-    // 1. 如果在日语 intro 阶段
+    // 1. If in Japanese intro phase
     for (int i = 0; i < timeline.storyPlaybackTimelineJa.length; i++) {
       if (timeline.storyPlaybackTimelineJa[i].contains(currentSeconds)) {
-        // 检查是否播放超过 1 秒
+        // Check if played more than 1 second
         if (currentSeconds - timeline.storyPlaybackTimelineJa[i].start > 1.0) {
-          // 跳回当前句开始
+          // Jump back to current sentence start
           newPosition = Duration(
             milliseconds: (timeline.storyPlaybackTimelineJa[i].start * 1000)
                 .toInt(),
           );
         } else if (i > 0) {
-          // 跳到上一句
+          // Jump to previous sentence
           newPosition = Duration(
             milliseconds: (timeline.storyPlaybackTimelineJa[i - 1].start * 1000)
                 .toInt(),
           );
         } else {
-          // 已经是第一句，跳到开头
+          // Already first sentence, jump to beginning
           newPosition = Duration.zero;
         }
         if (newPosition != null) {
@@ -235,64 +212,26 @@ class AudioPlayerService {
       }
     }
 
-    // 2. 如果在英语 intro 阶段
-    for (int i = 0; i < timeline.storyPlaybackTimelineEn.length; i++) {
-      if (timeline.storyPlaybackTimelineEn[i].contains(currentSeconds)) {
-        if (currentSeconds - timeline.storyPlaybackTimelineEn[i].start > 1.0) {
-          // 跳回当前句开始
-          newPosition = Duration(
-            milliseconds: (timeline.storyPlaybackTimelineEn[i].start * 1000)
-                .toInt(),
-          );
-        } else if (i > 0) {
-          // 跳到上一句英语
-          newPosition = Duration(
-            milliseconds: (timeline.storyPlaybackTimelineEn[i - 1].start * 1000)
-                .toInt(),
-          );
-        } else {
-          // 英语的第一句，跳回日语的最后一句
-          if (timeline.storyPlaybackTimelineJa.isNotEmpty) {
-            newPosition = Duration(
-              milliseconds: (timeline.storyPlaybackTimelineJa.last.start * 1000)
-                  .toInt(),
-            );
-          } else {
-            newPosition = Duration.zero;
-          }
-        }
-        if (newPosition != null) {
-          await seek(newPosition);
-        }
-        return newPosition;
-      }
-    }
-
-    // 3. 如果在详细学习阶段
+    // 2. If in detailed learning phase
     final currentIndex = getCurrentSentenceIndex(_audioPlayer.position);
     if (currentIndex >= 0 && currentIndex < timeline.sentences.length) {
       final currentSentence = timeline.sentences[currentIndex];
 
       if (currentSeconds - currentSentence.sentenceJa.start > 1.0) {
-        // 跳回当前句开始
+        // Jump back to current sentence start
         newPosition = Duration(
           milliseconds: (currentSentence.sentenceJa.start * 1000).toInt(),
         );
       } else if (currentIndex > 0) {
-        // 跳到上一句
+        // Jump to previous sentence
         newPosition = Duration(
           milliseconds:
               (timeline.sentences[currentIndex - 1].sentenceJa.start * 1000)
                   .toInt(),
         );
       } else {
-        // 详细学习的第一句，跳回英语 intro 的最后一句
-        if (timeline.storyPlaybackTimelineEn.isNotEmpty) {
-          newPosition = Duration(
-            milliseconds: (timeline.storyPlaybackTimelineEn.last.start * 1000)
-                .toInt(),
-          );
-        } else if (timeline.storyPlaybackTimelineJa.isNotEmpty) {
+        // First sentence in detailed learning, jump back to Japanese intro last sentence
+        if (timeline.storyPlaybackTimelineJa.isNotEmpty) {
           newPosition = Duration(
             milliseconds: (timeline.storyPlaybackTimelineJa.last.start * 1000)
                 .toInt(),
@@ -315,51 +254,40 @@ class AudioPlayerService {
     final seconds = position.inMilliseconds / 1000.0;
     final timeline = _fastModeAudio!.timeline;
 
-    // 1. 检查是否在日语 intro 阶段
+    // 1. Check if in Japanese intro phase
     for (var item in timeline.storyPlaybackTimelineJa) {
       if (item.contains(seconds)) {
-        return false; // Intro 阶段，不显示单词解释
+        return false; // Intro phase, don't show word explanation
       }
     }
 
-    // 2. 检查是否在英语 intro 阶段
-    for (var item in timeline.storyPlaybackTimelineEn) {
-      if (item.contains(seconds)) {
-        return false; // Intro 阶段，不显示单词解释
-      }
-    }
-
-    // 3. 检查是否在详细学习阶段的句子播放部分
+    // 2. Check if in detailed learning phase sentence playback
     for (var sentence in timeline.sentences) {
-      // 在日语句子播放阶段
+      // During Japanese sentence playback
       if (sentence.sentenceJa.contains(seconds)) {
         return false;
       }
-      // 在英语句子播放阶段
-      if (sentence.sentenceEn.contains(seconds)) {
-        return false;
-      }
     }
 
-    // 4. 如果不在以上任何阶段，可能在单词解释阶段
+    // 3. If not in any of the above phases, might be in word explanation phase
     return true;
   }
 
-  /// 判断是否在最后（不能再跳下一句了）
+  /// Check if at the end (can't jump to next sentence)
   bool isAtEnd(Duration position) {
     if (_fastModeAudio == null || _audioPlayer.duration == null) return true;
 
     final seconds = position.inMilliseconds / 1000.0;
     final timeline = _fastModeAudio!.timeline;
 
-    // 如果在详细学习阶段的最后一句，检查是否接近结尾
+    // If in detailed learning phase's last sentence, check if near the end
     if (timeline.sentences.isNotEmpty) {
       final lastSentence = timeline.sentences.last;
       final lastWordEnd = lastSentence.words.isNotEmpty
           ? lastSentence.words.last.end
-          : lastSentence.sentenceEn.end;
+          : lastSentence.sentenceJa.end;
 
-      // 如果已经在最后一句的最后一个单词之后，就是结束了
+      // If already after the last word of the last sentence, it's the end
       if (seconds >= lastWordEnd) {
         return true;
       }
@@ -368,49 +296,39 @@ class AudioPlayerService {
     return false;
   }
 
-  /// 判断是否可以跳到下一句
+  /// Check if can jump to next sentence
   bool canJumpToNext(Duration position) {
     if (_fastModeAudio == null || _audioPlayer.duration == null) return false;
 
     final seconds = position.inMilliseconds / 1000.0;
     final timeline = _fastModeAudio!.timeline;
 
-    // 1. 如果在日语 intro，检查是否是最后一句
+    // 1. If in Japanese intro, check if it's the last sentence
     for (int i = 0; i < timeline.storyPlaybackTimelineJa.length; i++) {
       if (timeline.storyPlaybackTimelineJa[i].contains(seconds)) {
-        // 不是最后一句，或者后面还有英语 intro 或详细学习
+        // Not the last sentence, or there's detailed learning phase after
         return i < timeline.storyPlaybackTimelineJa.length - 1 ||
-            timeline.storyPlaybackTimelineEn.isNotEmpty ||
             timeline.sentences.isNotEmpty;
       }
     }
 
-    // 2. 如果在英语 intro，检查是否是最后一句
-    for (int i = 0; i < timeline.storyPlaybackTimelineEn.length; i++) {
-      if (timeline.storyPlaybackTimelineEn[i].contains(seconds)) {
-        // 不是最后一句，或者后面还有详细学习
-        return i < timeline.storyPlaybackTimelineEn.length - 1 ||
-            timeline.sentences.isNotEmpty;
-      }
-    }
-
-    // 3. 如果在详细学习阶段
+    // 2. If in detailed learning phase
     final currentIndex = getCurrentSentenceIndex(position);
     if (currentIndex >= 0 && currentIndex < timeline.sentences.length) {
-      // 不是最后一句就可以跳
+      // Can jump if not the last sentence
       return currentIndex < timeline.sentences.length - 1;
     }
 
-    // 4. 其他情况（比如在两个阶段之间的间隙），默认可以跳
+    // 3. Other cases (like in the gap between phases), default to can jump
     return !isAtEnd(position);
   }
 
-  /// 停止播放
+  /// Stop playback
   Future<void> stop() async {
     await _audioPlayer.stop();
   }
 
-  /// 释放资源
+  /// Dispose resources
   void dispose() {
     _audioPlayer.dispose();
   }

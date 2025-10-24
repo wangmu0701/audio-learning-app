@@ -1,96 +1,616 @@
 {
-  "title": "The Community Garden",
-  "summary": "A group of neighbors decides to transform an empty lot into a vibrant community garden. They learn to plant vegetables and flowers together. Soon, the garden brings fresh produce and new friendships to the neighborhood.",
+  "title": "The Missing Cat",
+  "summary": "A young girl's beloved cat, Whiskers, goes missing one morning. She feels very sad and puts up 'Lost Cat' posters around her neighborhood. With the help of her friends, she searches everywhere, only to find Whiskers napping peacefully in a delivery box on her own porch.",
   "story_id": "N5_G0_001",
-  "output_path": "output/2025-10-18/R-0000/S-00",
-  "title_ja": "コミュニティガーデン",
+  "output_path": "output/2025-10-22/R-0000/S-00",
+  "title_ja": "迷子の猫",
   "story_breakdown": [
     {
-      "sentence_ja": "近所の人たちは空き地をコミュニティガーデンにしました。",
-      "sentence_en": "The neighbors made the empty lot into a community garden.",
+      "sentence_ja": "私には「ひげ」という名前の猫がいました。",
+      "sentence_en": "I had a cat named Whiskers.",
       "grammar_points": [
-        "Particle は (wa)",
-        "Particle を (o)",
         "Particle に (ni)",
-        "Verb form 〜ました (~mashita)"
+        "Particle の (no)",
+        "Verb いました (imashita)"
       ],
       "grammar_points_short": [
-        "は(wa)",
-        "を(o)",
         "に(ni)",
-        "ました(mashita)"
+        "の(no)",
+        "いました(imashita)"
       ],
       "words": [
         {
-          "word_ja": "近所の人たち",
-          "word_hiragana": "きんじょのひとたち",
-          "word_romaji": "kinjo no hitotachi",
+          "word_ja": "私",
+          "word_hiragana": "わたし",
+          "word_romaji": "watashi",
           "position": 0,
-          "word_en": "neighbors",
-          "explanation": "This first word in our sentence means 'neighbors' or 'the people in the neighborhood'. It tells us who is performing the main action in the story.",
+          "word_en": "I",
+          "explanation": "This first word in our sentence means 'I' or 'me'. It's a common and polite way to refer to yourself in Japanese.",
+          "id": "w1"
+        },
+        {
+          "word_ja": "に",
+          "word_hiragana": "に",
+          "word_romaji": "ni",
+          "position": 1,
+          "word_en": "to / for (indicating possession)",
+          "explanation": "This is a very important particle, and it's one of our focus grammar points! Here, it indicates possession or existence. When you say 'I have something', this particle often follows the person who possesses it, connecting 'me' to the cat in a way that shows the cat belongs to 'me'.",
+          "id": "w2"
+        },
+        {
+          "word_ja": "は",
+          "word_hiragana": "わ",
+          "word_romaji": "wa",
+          "position": 2,
+          "word_en": "topic marker",
+          "explanation": "This particle marks the topic of the sentence. It tells us what the sentence is primarily about. In this case, it highlights that 'I' am the main subject we're talking about. Remember, this particle is pronounced 'wa', even though it's written with the hiragana for 'ha'.",
+          "id": "w3"
+        },
+        {
+          "word_ja": "ひげ",
+          "word_hiragana": "ひげ",
+          "word_romaji": "hige",
+          "position": 4,
+          "word_en": "Whiskers (name)",
+          "explanation": "This noun means 'whiskers' or 'beard'. In our sentence, it's being used as the name of the cat, which is a very cute choice!",
+          "id": "w4"
+        },
+        {
+          "word_ja": "と",
+          "word_hiragana": "と",
+          "word_romaji": "to",
+          "position": 7,
+          "word_en": "quotative particle",
+          "explanation": "This particle has several uses, but here it's acting as a quotative particle. It comes right after the name and indicates that the name is being 'said' or 'called'. Think of it like putting quotation marks around the name.",
+          "id": "w5"
+        },
+        {
+          "word_ja": "いう",
+          "word_hiragana": "いう",
+          "word_romaji": "iu",
+          "position": 8,
+          "word_en": "called / say",
+          "explanation": "This verb means 'to say' or 'to be called'. When combined with the previous particle, it forms a common phrase meaning 'named' or 'called'. So, the cat is 'called' the name that came before this phrase.",
+          "id": "w6"
+        },
+        {
+          "word_ja": "名前",
+          "word_hiragana": "なまえ",
+          "word_romaji": "namae",
+          "position": 10,
+          "word_en": "name",
+          "explanation": "This noun simply means 'name'. It's a straightforward word you'll hear often.",
+          "id": "w7"
+        },
+        {
+          "word_ja": "の",
+          "word_hiragana": "の",
+          "word_romaji": "no",
+          "position": 12,
+          "word_en": "'s / of (possessive particle)",
+          "explanation": "This is another focus grammar point! This particle is a very versatile one. Here, it acts like an apostrophe 's' in English, showing possession or a close relationship. It connects the 'name' to the 'cat', indicating it's the 'cat's name'.",
+          "id": "w8"
+        },
+        {
+          "word_ja": "猫",
+          "word_hiragana": "ねこ",
+          "word_romaji": "neko",
+          "position": 13,
+          "word_en": "cat",
+          "explanation": "This noun means 'cat'. It's a popular pet and a very common word to learn early on.",
+          "id": "w9"
+        },
+        {
+          "word_ja": "が",
+          "word_hiragana": "が",
+          "word_romaji": "ga",
+          "position": 14,
+          "word_en": "subject marker",
+          "explanation": "This particle marks the grammatical subject of the sentence. While the topic was introduced earlier, this particle specifically points out what *is* or *exists*. In this sentence, it tells us that the 'cat' is the one that existed.",
+          "id": "w10"
+        },
+        {
+          "word_ja": "いました",
+          "word_hiragana": "いました",
+          "word_romaji": "imashita",
+          "position": 15,
+          "word_en": "had / was (existed)",
+          "explanation": "This is our final focus grammar point! This verb is the past tense of 'imasu', which means 'to exist' or 'to be present' for animate objects like people and animals. So, in our sentence, it means 'there was' or 'I had' a cat. It's the polite past tense form.",
+          "id": "w11"
+        }
+      ],
+      "sentence_romaji": "Watashi ni wa 'Hige' to iu namae no neko ga imashita.",
+      "id": "s1"
+    },
+    {
+      "sentence_ja": "今朝、「ひげ」がいませんでした。",
+      "sentence_en": "This morning, Whiskers was not there.",
+      "grammar_points": [
+        "Verb いませんでした (imasen deshita)"
+      ],
+      "grammar_points_short": [
+        "いませんでした(imasen deshita)"
+      ],
+      "words": [
+        {
+          "word_ja": "今朝",
+          "word_hiragana": "けさ",
+          "word_romaji": "kesa",
+          "position": 0,
+          "word_en": "this morning",
+          "explanation": "This first word sets the time for our sentence. It means 'this morning'. It tells us exactly when the event in the sentence took place.",
+          "id": "w1"
+        },
+        {
+          "word_ja": "ひげ",
+          "word_hiragana": "ひげ",
+          "word_romaji": "hige",
+          "position": 4,
+          "word_en": "Whiskers (a name)",
+          "explanation": "This word is the name of a character, 'Whiskers'. In our sentence, this is the person or animal we are talking about.",
+          "id": "w2"
+        },
+        {
+          "word_ja": "が",
+          "word_hiragana": "が",
+          "word_romaji": "ga",
+          "position": 7,
+          "word_en": "subject marker",
+          "explanation": "This is a particle that comes right after the subject of the sentence. It tells us that the previous word, 'Whiskers', is the main topic or the one whose state is being described in the sentence.",
+          "id": "w3"
+        },
+        {
+          "word_ja": "いませんでした",
+          "word_hiragana": "いませんでした",
+          "word_romaji": "imasen deshita",
+          "position": 8,
+          "word_en": "was not there",
+          "explanation": "This is our main verb phrase and a focus grammar point! It means 'was not there' or 'was not present'. It's the past negative form of a verb used specifically for living things, like people or animals. So, it tells us that 'Whiskers' was absent this morning.",
+          "id": "w4"
+        }
+      ],
+      "sentence_romaji": "Kesa, \"hige\" ga imasen deshita.",
+      "id": "s2"
+    },
+    {
+      "sentence_ja": "私は元気ではありませんでした。",
+      "sentence_en": "I was not feeling well.",
+      "grammar_points": [
+        "Particle は (wa)",
+        "Copula ではありませんでした (dewa arimasen deshita)"
+      ],
+      "grammar_points_short": [
+        "は(wa)",
+        "ではありませんでした(dewa arimasen deshita)"
+      ],
+      "words": [
+        {
+          "word_ja": "私",
+          "word_hiragana": "わたし",
+          "word_romaji": "watashi",
+          "position": 0,
+          "word_en": "I",
+          "explanation": "This is the first word in the sentence and it means \"I\" or \"me\". It's a common way to refer to yourself in Japanese.",
           "id": "w1"
         },
         {
           "word_ja": "は",
           "word_hiragana": "わ",
           "word_romaji": "wa",
-          "position": 6,
-          "word_en": "(topic particle)",
-          "explanation": "This little sound is a very important particle in Japanese. It marks the topic of the sentence, telling us what the sentence is about. In this case, it highlights that the people from the neighborhood are the topic. This is one of our focus grammar points!",
+          "position": 1,
+          "word_en": "topic particle",
+          "explanation": "This is a very important particle, and it's one of our focus grammar points! It marks the topic of the sentence. Think of it like saying \"As for me...\" or \"Speaking of me...\". It tells us what the sentence is going to be about. Even though it's written with the hiragana for 'ha', it's pronounced 'wa' when used as this particle.",
           "id": "w2"
         },
         {
-          "word_ja": "空き地",
-          "word_hiragana": "あきち",
-          "word_romaji": "akichi",
-          "position": 7,
-          "word_en": "empty lot",
-          "explanation": "This word refers to an 'empty lot' or 'vacant land'. It's the specific place that the neighbors are going to transform in our story.",
+          "word_ja": "元気",
+          "word_hiragana": "げんき",
+          "word_romaji": "genki",
+          "position": 2,
+          "word_en": "well / healthy / energetic",
+          "explanation": "This word describes a state of being well, healthy, or energetic. In our sentence, it's used to talk about someone's physical or mental state.",
           "id": "w3"
+        },
+        {
+          "word_ja": "ではありませんでした",
+          "word_hiragana": "ではありませんでした",
+          "word_romaji": "dewa arimasen deshita",
+          "position": 4,
+          "word_en": "was not",
+          "explanation": "This long phrase is another one of our focus grammar points! It's how you say \"was not\" in a polite past tense form when describing a state or condition. It combines the negative form of the copula, which is like saying \"is not\", with the past tense ending. So, when you put it all together, it means the topic of the sentence \"was not\" in the state described by the previous word.",
+          "id": "w4"
+        }
+      ],
+      "sentence_romaji": "Watashi wa genki dewa arimasen deshita.",
+      "id": "s3"
+    },
+    {
+      "sentence_ja": "私は「迷子の猫」のポスターを書きました。",
+      "sentence_en": "I wrote \"Lost Cat\" posters.",
+      "grammar_points": [
+        "Particle は (wa)",
+        "Particle の (no)",
+        "Particle を (o)",
+        "Verb form 〜ました (~mashita)"
+      ],
+      "grammar_points_short": [
+        "は(wa)",
+        "の(no)",
+        "を(o)",
+        "ました(mashita)"
+      ],
+      "words": [
+        {
+          "word_ja": "私",
+          "word_hiragana": "わたし",
+          "word_romaji": "watashi",
+          "position": 0,
+          "word_en": "I",
+          "explanation": "This first word means 'I' or 'me'. It's a common way to refer to yourself in Japanese.",
+          "id": "w1"
+        },
+        {
+          "word_ja": "は",
+          "word_hiragana": "わ",
+          "word_romaji": "wa",
+          "position": 1,
+          "word_en": "(topic marker)",
+          "explanation": "This is a very important particle, and it's one of our focus grammar points! It marks the topic of the sentence. Think of it like saying 'As for me...' or 'Speaking of me...'. It tells us who or what the sentence is about.",
+          "id": "w2"
+        },
+        {
+          "word_ja": "迷子",
+          "word_hiragana": "まいご",
+          "word_romaji": "maigo",
+          "position": 3,
+          "word_en": "lost child/animal",
+          "explanation": "This noun refers to something or someone who is lost, like a lost child or a lost pet. In our sentence, it's describing the kind of cat that is lost.",
+          "id": "w3"
+        },
+        {
+          "word_ja": "の",
+          "word_hiragana": "の",
+          "word_romaji": "no",
+          "position": 5,
+          "word_en": "'s / of",
+          "explanation": "This is another focus grammar point! This particle connects two nouns, showing possession or description. Here, it connects the previous word, which means 'lost', to the next word, which means 'cat', indicating it's a 'lost cat'.",
+          "id": "w4"
+        },
+        {
+          "word_ja": "猫",
+          "word_hiragana": "ねこ",
+          "word_romaji": "neko",
+          "position": 6,
+          "word_en": "cat",
+          "explanation": "This is the word for 'cat'. It's a very common animal noun.",
+          "id": "w5"
+        },
+        {
+          "word_ja": "の",
+          "word_hiragana": "の",
+          "word_romaji": "no",
+          "position": 8,
+          "word_en": "'s / of",
+          "explanation": "Here's that particle again! Just like before, it connects two nouns. This time, it connects the phrase meaning 'lost cat' to the next word, which means 'poster', showing that the poster is 'of' or 'for' the lost cat.",
+          "id": "w6"
+        },
+        {
+          "word_ja": "ポスター",
+          "word_hiragana": "ぽすたー",
+          "word_romaji": "posutā",
+          "position": 9,
+          "word_en": "poster",
+          "explanation": "This word is a loanword from English, meaning 'poster'. It's written in Katakana, which is often used for foreign words.",
+          "id": "w7"
         },
         {
           "word_ja": "を",
           "word_hiragana": "お",
           "word_romaji": "o",
-          "position": 10,
-          "word_en": "(direct object particle)",
-          "explanation": "This is another important particle. It marks the direct object of the verb, showing what the action is being done *to*. Here, it tells us that the 'empty lot' is the thing being acted upon. This is one of our focus grammar points!",
+          "position": 13,
+          "word_en": "(direct object marker)",
+          "explanation": "This is our third focus grammar point! This particle marks the direct object of the verb. It tells us what the action of the verb is being performed on. In our sentence, it shows that the action of writing is being done to the object meaning 'poster'.",
+          "id": "w8"
+        },
+        {
+          "word_ja": "書きました",
+          "word_hiragana": "かきました",
+          "word_romaji": "kakimashita",
+          "position": 14,
+          "word_en": "wrote",
+          "explanation": "This is a verb, and it's our final focus grammar point! It means 'wrote' or 'did write'. The ending part of the verb, which sounds like 'mashita', indicates that the action happened in the past and is a polite way to say it. The base verb means 'to write'.",
+          "id": "w9"
+        }
+      ],
+      "sentence_romaji": "Watashi wa 'maigo no neko' no posutā o kakimashita.",
+      "id": "s4"
+    },
+    {
+      "sentence_ja": "私は公園で猫を見ました。",
+      "sentence_en": "I looked for the cat in the park.",
+      "grammar_points": [
+        "Particle は (wa)",
+        "Particle で (de)",
+        "Particle を (o)",
+        "Verb form 〜ました (~mashita)"
+      ],
+      "grammar_points_short": [
+        "は(wa)",
+        "で(de)",
+        "を(o)",
+        "ました(mashita)"
+      ],
+      "words": [
+        {
+          "word_ja": "私",
+          "word_hiragana": "わたし",
+          "word_romaji": "watashi",
+          "position": 0,
+          "word_en": "I",
+          "explanation": "This is the very first word in our sentence. It's a common way to refer to yourself, meaning \"I\" or \"me\".",
+          "id": "w1"
+        },
+        {
+          "word_ja": "は",
+          "word_hiragana": "わ",
+          "word_romaji": "wa",
+          "position": 1,
+          "word_en": "(topic marker)",
+          "explanation": "This is a very important particle, and it's one of our focus grammar points! It marks the topic of the sentence. Think of it as saying \"as for me...\" or \"speaking of me...\". It tells us who or what the sentence is mainly about.",
+          "id": "w2"
+        },
+        {
+          "word_ja": "公園",
+          "word_hiragana": "こうえん",
+          "word_romaji": "kōen",
+          "position": 2,
+          "word_en": "park",
+          "explanation": "This word means \"park\". It's the place where the action in our sentence happened.",
+          "id": "w3"
+        },
+        {
+          "word_ja": "で",
+          "word_hiragana": "で",
+          "word_romaji": "de",
+          "position": 4,
+          "word_en": "in / at (location of action)",
+          "explanation": "Here's another key particle, and it's a focus grammar point! This particle tells us the location where an action takes place. So, the action of seeing happened \"in\" or \"at\" the place mentioned just before it.",
           "id": "w4"
         },
         {
-          "word_ja": "コミュニティガーデン",
-          "word_hiragana": "こみゅにてぃがーでん",
-          "word_romaji": "komyuniti gāden",
-          "position": 11,
-          "word_en": "community garden",
-          "explanation": "This word is a loanword from English, and it means 'community garden'. It's what the empty lot is being turned into by the neighbors.",
+          "word_ja": "猫",
+          "word_hiragana": "ねこ",
+          "word_romaji": "neko",
+          "position": 5,
+          "word_en": "cat",
+          "explanation": "This word means \"cat\". It's the animal that was seen in the park.",
           "id": "w5"
+        },
+        {
+          "word_ja": "を",
+          "word_hiragana": "お",
+          "word_romaji": "o",
+          "position": 6,
+          "word_en": "(direct object marker)",
+          "explanation": "This is our third focus grammar point particle! It marks the direct object of the verb. In our sentence, it tells us *what* was seen. It connects the verb to the thing that received the action.",
+          "id": "w6"
+        },
+        {
+          "word_ja": "見ました",
+          "word_hiragana": "みました",
+          "word_romaji": "mimashita",
+          "position": 7,
+          "word_en": "saw / looked for",
+          "explanation": "This is the verb at the end of the sentence, and it's our final focus grammar point! It means \"saw\" or \"looked for\". The ending of this verb is very important because it makes it polite and puts it in the past tense. So, the action of seeing happened in the past.",
+          "id": "w7"
+        }
+      ],
+      "sentence_romaji": "Watashi wa kōen de neko o mimashita.",
+      "id": "s5"
+    },
+    {
+      "sentence_ja": "でも、猫は私の家の前にいました。",
+      "sentence_en": "But, the cat was in front of my house.",
+      "grammar_points": [
+        "Particle は (wa)",
+        "Particle の (no)",
+        "Particle に (ni)",
+        "Verb いました (imashita)"
+      ],
+      "grammar_points_short": [
+        "は(wa)",
+        "の(no)",
+        "に(ni)",
+        "いました(imashita)"
+      ],
+      "words": [
+        {
+          "word_ja": "でも",
+          "word_hiragana": "でも",
+          "word_romaji": "demo",
+          "position": 0,
+          "word_en": "But",
+          "explanation": "This first word acts like 'but' or 'however' in English. It's used to connect two ideas where the second one is a contrast or a different point from what was just said. It sets up the sentence to tell us something unexpected.",
+          "id": "w1"
+        },
+        {
+          "word_ja": "猫",
+          "word_hiragana": "ねこ",
+          "word_romaji": "neko",
+          "position": 3,
+          "word_en": "cat",
+          "explanation": "This is the noun for the animal we're talking about. It refers to the furry creature that was in front of the house.",
+          "id": "w2"
+        },
+        {
+          "word_ja": "は",
+          "word_hiragana": "わ",
+          "word_romaji": "wa",
+          "position": 4,
+          "word_en": "(topic marker)",
+          "explanation": "This is a very important particle, and it's one of our focus grammar points! It marks the topic of the sentence. Think of it as saying 'as for the cat...' It tells us what the sentence is mainly about. Even though it's written with the hiragana for 'ha', it's pronounced 'wa' when used as a topic marker.",
+          "id": "w3"
+        },
+        {
+          "word_ja": "私",
+          "word_hiragana": "わたし",
+          "word_romaji": "watashi",
+          "position": 5,
+          "word_en": "I / my",
+          "explanation": "This word means 'I' or 'me'. In this sentence, because it's followed by another particle, it indicates possession, so it refers to 'my' house.",
+          "id": "w4"
+        },
+        {
+          "word_ja": "の",
+          "word_hiragana": "の",
+          "word_romaji": "no",
+          "position": 6,
+          "word_en": "'s / of",
+          "explanation": "This is another key particle and a focus grammar point! This particle shows possession or a relationship between two nouns. Here, it connects the previous word meaning 'I' with the following word meaning 'house,' making it 'my house'.",
+          "id": "w5"
+        },
+        {
+          "word_ja": "家",
+          "word_hiragana": "いえ",
+          "word_romaji": "ie",
+          "position": 7,
+          "word_en": "house",
+          "explanation": "This noun means 'house' or 'home.' It's the place where the speaker lives.",
+          "id": "w6"
+        },
+        {
+          "word_ja": "の",
+          "word_hiragana": "の",
+          "word_romaji": "no",
+          "position": 8,
+          "word_en": "'s / of",
+          "explanation": "This is the same particle we just discussed, showing possession or relationship. Here, it connects the word for 'house' with the word for 'front,' indicating 'the front of the house'.",
+          "id": "w7"
+        },
+        {
+          "word_ja": "前",
+          "word_hiragana": "まえ",
+          "word_romaji": "mae",
+          "position": 9,
+          "word_en": "front",
+          "explanation": "This word means 'front' or 'in front of.' It's a location word, telling us where the cat was relative to the house.",
+          "id": "w8"
         },
         {
           "word_ja": "に",
           "word_hiragana": "に",
           "word_romaji": "ni",
-          "position": 21,
-          "word_en": "into / to",
-          "explanation": "Here we have another particle. In this sentence, it indicates the result or destination of the action, meaning 'into' or 'to'. It shows that the empty lot is being changed *into* the community garden. This is one of our focus grammar points!",
+          "position": 10,
+          "word_en": "in / at / on (location marker)",
+          "explanation": "This is our third focus grammar point particle! This particle marks the specific location where something or someone exists. In this sentence, it tells us that the cat was at or in the front of the house. It pinpoints the exact spot.",
+          "id": "w9"
+        },
+        {
+          "word_ja": "いました",
+          "word_hiragana": "いました",
+          "word_romaji": "imashita",
+          "position": 11,
+          "word_en": "was (existed, for animate beings)",
+          "explanation": "This is our final focus grammar point! This word is the past tense of a verb meaning 'to be' or 'to exist,' specifically for animate things like people or animals. Since we're talking about a cat, this is the correct verb to use, and the 'mashita' ending tells us it happened in the past. It means the cat 'was' there.",
+          "id": "w10"
+        }
+      ],
+      "sentence_romaji": "Demo, neko wa watashi no ie no mae ni imashita.",
+      "id": "s6"
+    },
+    {
+      "sentence_ja": "猫は小さな箱の中にいました。",
+      "sentence_en": "The cat was inside a small box.",
+      "grammar_points": [
+        "Particle の (no)",
+        "Particle に (ni)",
+        "Verb いました (imashita)"
+      ],
+      "grammar_points_short": [
+        "の(no)",
+        "に(ni)",
+        "いました(imashita)"
+      ],
+      "words": [
+        {
+          "word_ja": "猫",
+          "word_hiragana": "ねこ",
+          "word_romaji": "neko",
+          "position": 0,
+          "word_en": "cat",
+          "explanation": "This is the first word in our sentence, and it means 'cat'. It's the main subject we're talking about.",
+          "id": "w1"
+        },
+        {
+          "word_ja": "は",
+          "word_hiragana": "わ",
+          "word_romaji": "wa",
+          "position": 1,
+          "word_en": "(topic particle)",
+          "explanation": "This small particle comes after the subject of our sentence. It marks the topic, telling us that 'the cat' is what the sentence is about. Think of it like saying 'As for the cat...'",
+          "id": "w2"
+        },
+        {
+          "word_ja": "小さな",
+          "word_hiragana": "ちいさな",
+          "word_romaji": "chiisana",
+          "position": 2,
+          "word_en": "small",
+          "explanation": "This word describes the size of something. Here, it tells us that the box is 'small'. It's an adjective that comes directly before the noun it modifies.",
+          "id": "w3"
+        },
+        {
+          "word_ja": "箱",
+          "word_hiragana": "はこ",
+          "word_romaji": "hako",
+          "position": 5,
+          "word_en": "box",
+          "explanation": "This word refers to the container. In our sentence, it's the 'box' where the cat was.",
+          "id": "w4"
+        },
+        {
+          "word_ja": "の",
+          "word_hiragana": "の",
+          "word_romaji": "no",
+          "position": 6,
+          "word_en": "'s / of (possessive/linking particle)",
+          "explanation": "This is one of our focus grammar points! This particle connects two nouns. Here, it links the 'box' with the 'inside', showing a relationship of belonging or location. It helps specify *which* inside we're talking about – the inside *of the box*.",
+          "id": "w5"
+        },
+        {
+          "word_ja": "中",
+          "word_hiragana": "なか",
+          "word_romaji": "naka",
+          "position": 7,
+          "word_en": "inside / middle",
+          "explanation": "This word means 'inside' or 'middle'. When combined with the previous particle, it clearly indicates the location: 'inside the box'.",
           "id": "w6"
         },
         {
-          "word_ja": "しました",
-          "word_hiragana": "しました",
-          "word_romaji": "shimashita",
-          "position": 22,
-          "word_en": "made / did",
-          "explanation": "This is the verb at the end of our sentence. It's the past tense of the verb 'to do' or 'to make'. The ending sound indicates that the action happened in the past, and it's also a polite way to say it. This is one of our focus grammar points, specifically the `~mashita` verb form!",
+          "word_ja": "に",
+          "word_hiragana": "に",
+          "word_romaji": "ni",
+          "position": 8,
+          "word_en": "in / at (location particle)",
+          "explanation": "This is another focus grammar point! This particle marks the exact location where something or someone is. In our sentence, it tells us that the cat was 'in' the specified location, which is 'inside the small box'.",
           "id": "w7"
+        },
+        {
+          "word_ja": "いました",
+          "word_hiragana": "いました",
+          "word_romaji": "imashita",
+          "position": 9,
+          "word_en": "was (animate existence verb)",
+          "explanation": "This is our final focus grammar point! This verb means 'was' or 'existed', specifically for living things like the cat. It's the past tense of the verb for animate existence, telling us that the cat *was* there.",
+          "id": "w8"
         }
       ],
-      "sentence_romaji": "Kinjo no hitotachi wa akichi o komyuniti gāden ni shimashita.",
-      "id": "s1"
+      "sentence_romaji": "Neko wa chiisana hako no naka ni imashita.",
+      "id": "s7"
     },
     {
-      "sentence_ja": "そこはとても広い場所でした。",
-      "sentence_en": "It was a very wide place.",
+      "sentence_ja": "猫は静かでした。",
+      "sentence_en": "The cat was quiet.",
       "grammar_points": [
         "Particle は (wa)",
         "Copula でした (deshita)"
@@ -101,1006 +621,583 @@
       ],
       "words": [
         {
-          "word_ja": "そこ",
-          "word_hiragana": "そこ",
-          "word_romaji": "soko",
+          "word_ja": "猫",
+          "word_hiragana": "ねこ",
+          "word_romaji": "neko",
           "position": 0,
-          "word_en": "there / it",
-          "explanation": "This first word refers to a place, like saying 'there' or 'that place'. In our English translation, it's rendered as 'it' because we're talking about a specific location that was previously mentioned or understood in context.",
+          "word_en": "cat",
+          "explanation": "This is the first word in our sentence. It's a noun and refers to the animal, a 'cat'. It's the subject of our sentence, the one that was quiet.",
           "id": "w1"
         },
         {
           "word_ja": "は",
           "word_hiragana": "わ",
           "word_romaji": "wa",
+          "position": 1,
+          "word_en": "(topic marker)",
+          "explanation": "This is a very important particle, and it's one of our focus grammar points! It marks the topic of the sentence. Think of it like saying 'as for the cat...' in English. It tells us what the sentence is going to be about. Even though it's written with the hiragana character for 'ha', when used as a topic particle, it's pronounced 'wa'.",
+          "id": "w2"
+        },
+        {
+          "word_ja": "静か",
+          "word_hiragana": "しずか",
+          "word_romaji": "shizuka",
           "position": 2,
-          "word_en": "topic marker",
-          "explanation": "This little particle is super important! It's pronounced 'wa' and it marks the topic of the sentence. Think of it like saying 'as for...' or 'speaking of...' It tells us what the sentence is mainly about. This is one of our focus grammar points.",
+          "word_en": "quiet",
+          "explanation": "This word describes the cat. It means 'quiet' or 'calm'. It's an adjective that tells us about the state of the topic in the sentence.",
+          "id": "w3"
+        },
+        {
+          "word_ja": "でした",
+          "word_hiragana": "でした",
+          "word_romaji": "deshita",
+          "position": 4,
+          "word_en": "was (polite past copula)",
+          "explanation": "This is another focus grammar point! This word is the polite past form of the copula, which is like the verb 'to be' in English. It means 'was' or 'were'. It connects the topic, the cat, with its description, 'quiet', and tells us that this state happened in the past. It makes the whole sentence polite.",
+          "id": "w4"
+        }
+      ],
+      "sentence_romaji": "Neko wa shizuka deshita.",
+      "id": "s8"
+    },
+    {
+      "sentence_ja": "私はとても元気でした。",
+      "sentence_en": "I was very well.",
+      "grammar_points": [
+        "Particle は (wa)",
+        "Copula でした (deshita)"
+      ],
+      "grammar_points_short": [
+        "は(wa)",
+        "でした(deshita)"
+      ],
+      "words": [
+        {
+          "word_ja": "私",
+          "word_hiragana": "わたし",
+          "word_romaji": "watashi",
+          "position": 0,
+          "word_en": "I",
+          "explanation": "This first word is a common way to say 'I' or 'me' in Japanese. It's a personal pronoun used to refer to oneself in a general, polite context.",
+          "id": "w1"
+        },
+        {
+          "word_ja": "は",
+          "word_hiragana": "わ",
+          "word_romaji": "wa",
+          "position": 1,
+          "word_en": "(topic particle)",
+          "explanation": "This small but mighty particle is one of our focus grammar points! It marks the topic of the sentence, telling us what or who the sentence is primarily about. Think of it as highlighting the subject, saying 'As for this thing...' or 'Regarding this person...'. In our sentence, it tells us that the sentence is about the speaker.",
           "id": "w2"
         },
         {
           "word_ja": "とても",
           "word_hiragana": "とても",
           "word_romaji": "totemo",
-          "position": 3,
+          "position": 2,
           "word_en": "very",
-          "explanation": "This word means 'very' or 'extremely'. It's an adverb that makes the adjective that comes after it stronger, emphasizing how wide the place was.",
+          "explanation": "This word is an adverb that means 'very' or 'extremely'. It's used to intensify the meaning of the word that comes after it, making it stronger. Here, it emphasizes how well the speaker was feeling.",
           "id": "w3"
         },
         {
-          "word_ja": "広い場所",
-          "word_hiragana": "ひろいばしょ",
-          "word_romaji": "hiroibasho",
-          "position": 6,
-          "word_en": "wide place",
-          "explanation": "This phrase describes the kind of place we're talking about. The first part means 'wide' or 'spacious,' and the second part means 'place' or 'location.' So together, it means 'a wide place.'",
+          "word_ja": "元気",
+          "word_hiragana": "げんき",
+          "word_romaji": "genki",
+          "position": 5,
+          "word_en": "well / healthy / energetic",
+          "explanation": "This word is an adjective that describes a state of being 'well', 'healthy', or 'energetic'. It's a very common and useful word, often used to ask or state how someone is feeling. In this sentence, it describes the speaker's condition.",
           "id": "w4"
         },
         {
           "word_ja": "でした",
           "word_hiragana": "でした",
           "word_romaji": "deshita",
-          "position": 10,
-          "word_en": "was",
-          "explanation": "This is the ending of our sentence and it's a very useful word! It's the past tense of the polite copula, which is like saying 'to be.' So, this word means 'was' or 'were,' telling us that the sentence is describing something that happened in the past. This is one of our focus grammar points.",
-          "id": "w5"
-        }
-      ],
-      "sentence_romaji": "Soko wa totemo hiroi basho deshita.",
-      "id": "s2"
-    },
-    {
-      "sentence_ja": "みんなで野菜を植えました。",
-      "sentence_en": "Everyone planted vegetables together.",
-      "grammar_points": [
-        "Particle で (de)",
-        "Particle を (o)",
-        "Verb form 〜ました (~mashita)"
-      ],
-      "grammar_points_short": [
-        "で(de)",
-        "を(o)",
-        "ました(mashita)"
-      ],
-      "words": [
-        {
-          "word_ja": "みんな",
-          "word_hiragana": "みんな",
-          "word_romaji": "minna",
-          "position": 0,
-          "word_en": "everyone",
-          "explanation": "This first word means 'everyone' or 'all'. It's a friendly way to talk about a group of people. In our sentence, it tells us that the action was performed by the entire group.",
-          "id": "w1"
-        },
-        {
-          "word_ja": "で",
-          "word_hiragana": "で",
-          "word_romaji": "de",
-          "position": 3,
-          "word_en": "by / with (indicating group action)",
-          "explanation": "This is a particle, and it's one of our focus grammar points! In this sentence, the particle after the word for 'everyone' indicates that the action was performed 'by' or 'with' that group, emphasizing the collective effort. It's like saying 'everyone together' did something.",
-          "id": "w2"
-        },
-        {
-          "word_ja": "野菜",
-          "word_hiragana": "やさい",
-          "word_romaji": "yasai",
-          "position": 4,
-          "word_en": "vegetables",
-          "explanation": "This word refers to 'vegetables'. It's the noun in our sentence that describes what was planted. Think of yummy carrots or leafy greens!",
-          "id": "w3"
-        },
-        {
-          "word_ja": "を",
-          "word_hiragana": "お",
-          "word_romaji": "o",
-          "position": 6,
-          "word_en": "(direct object marker)",
-          "explanation": "This is another important particle, and it's one of our focus grammar points! This particle comes right after the word for 'vegetables'. It marks the direct object of the verb, telling us *what* was planted. So, the thing before this particle is the thing that the action is happening *to*.",
-          "id": "w4"
-        },
-        {
-          "word_ja": "植えました",
-          "word_hiragana": "うえました",
-          "word_romaji": "uemashita",
           "position": 7,
-          "word_en": "planted",
-          "explanation": "This is the verb of our sentence, meaning 'planted'. It's also a focus grammar point because it ends with the '~mashita' form. This ending tells us two things: first, that the action happened in the past, and second, that it's a polite way to say it. So, the action of planting is complete, and it's expressed politely.",
+          "word_en": "was (polite past copula)",
+          "explanation": "This word is another one of our focus grammar points! It's the polite past form of the verb 'to be' or 'is'. It tells us that the state described by the previous word was true in the past. So, the speaker 'was' in the state of being well.",
           "id": "w5"
         }
       ],
-      "sentence_romaji": "Minna de yasai o uemashita.",
-      "id": "s3"
-    },
-    {
-      "sentence_ja": "きれいな花も植えました。",
-      "sentence_en": "They also planted beautiful flowers.",
-      "grammar_points": [
-        "Particle を (o)",
-        "Verb form 〜ました (~mashita)"
-      ],
-      "grammar_points_short": [
-        "を(o)",
-        "ました(mashita)"
-      ],
-      "words": [
-        {
-          "word_ja": "きれいな",
-          "word_hiragana": "きれいな",
-          "word_romaji": "kireina",
-          "position": 0,
-          "word_en": "beautiful",
-          "explanation": "This word describes something as 'beautiful' or 'clean'. It's an adjective that modifies the noun that comes right after it, telling us more about the kind of thing being discussed.",
-          "id": "w1"
-        },
-        {
-          "word_ja": "花",
-          "word_hiragana": "はな",
-          "word_romaji": "hana",
-          "position": 4,
-          "word_en": "flowers",
-          "explanation": "This noun refers to 'flowers'. In our sentence, it's the beautiful thing that was planted.",
-          "id": "w2"
-        },
-        {
-          "word_ja": "も",
-          "word_hiragana": "も",
-          "word_romaji": "mo",
-          "position": 5,
-          "word_en": "also / too",
-          "explanation": "This is a particle that means 'also' or 'too'. It's like saying 'in addition to something else'. In this sentence, it tells us that the noun it's attached to was planted *in addition* to something else that might have been mentioned previously.",
-          "id": "w3"
-        },
-        {
-          "word_ja": "植えました",
-          "word_hiragana": "うえました",
-          "word_romaji": "uemashita",
-          "position": 6,
-          "word_en": "planted",
-          "explanation": "This is the verb of the sentence, meaning 'planted'. It's in the past tense, indicating that the action of planting has already happened. This form, ending in the sound that indicates past tense, is one of our focus grammar points. It's a polite way to say that the action was completed.",
-          "id": "w4"
-        }
-      ],
-      "sentence_romaji": "Kireina hana mo uemashita.",
-      "id": "s4"
-    },
-    {
-      "sentence_ja": "みんなは一緒に植物を習いました。",
-      "sentence_en": "Everyone learned about plants together.",
-      "grammar_points": [
-        "Particle は (wa)",
-        "Particle を (o)",
-        "Verb form 〜ました (~mashita)"
-      ],
-      "grammar_points_short": [
-        "は(wa)",
-        "を(o)",
-        "ました(mashita)"
-      ],
-      "words": [
-        {
-          "word_ja": "みんな",
-          "word_hiragana": "みんな",
-          "word_romaji": "minna",
-          "position": 0,
-          "word_en": "everyone",
-          "explanation": "This first word means 'everyone' or 'all'. It refers to the entire group of people performing the action in the sentence.",
-          "id": "w1"
-        },
-        {
-          "word_ja": "は",
-          "word_hiragana": "わ",
-          "word_romaji": "wa",
-          "position": 3,
-          "word_en": "(topic particle)",
-          "explanation": "This is a very important particle, one of our focus grammar points! It marks the topic of the sentence. Think of it as saying 'as for everyone...' or 'speaking of everyone...'. It tells us who or what the sentence is mainly about.",
-          "id": "w2"
-        },
-        {
-          "word_ja": "一緒に",
-          "word_hiragana": "いっしょに",
-          "word_romaji": "issho ni",
-          "position": 4,
-          "word_en": "together",
-          "explanation": "This word means 'together'. It tells us that the action described in the sentence was performed by everyone as a group, not individually.",
-          "id": "w3"
-        },
-        {
-          "word_ja": "植物",
-          "word_hiragana": "しょくぶつ",
-          "word_romaji": "shokubutsu",
-          "position": 7,
-          "word_en": "plants",
-          "explanation": "This noun means 'plants'. In our sentence, this is the specific thing that everyone was learning about.",
-          "id": "w4"
-        },
-        {
-          "word_ja": "を",
-          "word_hiragana": "お",
-          "word_romaji": "o",
-          "position": 9,
-          "word_en": "(direct object particle)",
-          "explanation": "Here's another key particle, a focus grammar point! This particle marks the direct object of the verb. It tells us what noun the action is being done *to*. In this sentence, the action of learning is being done *to* the noun that comes right before this particle.",
-          "id": "w5"
-        },
-        {
-          "word_ja": "習いました",
-          "word_hiragana": "ならいました",
-          "word_romaji": "naraimashita",
-          "position": 10,
-          "word_en": "learned",
-          "explanation": "This is the verb of the sentence, meaning 'learned'. It's in the past tense, which is indicated by the '~mashita' ending, another focus grammar point! This polite form tells us that the action of learning has already been completed.",
-          "id": "w6"
-        }
-      ],
-      "sentence_romaji": "Minna wa issho ni shokubutsu o naraimashita.",
-      "id": "s5"
-    },
-    {
-      "sentence_ja": "今、ガーデンには新鮮な野菜がたくさんあります。",
-      "sentence_en": "Now, there are many fresh vegetables in the garden.",
-      "grammar_points": [
-        "Particle に (ni)",
-        "Particle は (wa)",
-        "Verb あります (arimasu)"
-      ],
-      "grammar_points_short": [
-        "に(ni)",
-        "は(wa)",
-        "あります(arimasu)"
-      ],
-      "words": [
-        {
-          "word_ja": "今",
-          "word_hiragana": "いま",
-          "word_romaji": "ima",
-          "position": 0,
-          "word_en": "Now",
-          "explanation": "This first word sets the time for our sentence. It means 'now' or 'currently'. It tells us that what follows is happening right at this moment.",
-          "id": "w1"
-        },
-        {
-          "word_ja": "ガーデン",
-          "word_hiragana": "がーでん",
-          "word_romaji": "gāden",
-          "position": 2,
-          "word_en": "garden",
-          "explanation": "This word is a loanword from English, and it means 'garden'. It's the place where the vegetables are in our sentence.",
-          "id": "w2"
-        },
-        {
-          "word_ja": "に",
-          "word_hiragana": "に",
-          "word_romaji": "ni",
-          "position": 6,
-          "word_en": "in / at",
-          "explanation": "This is a very important particle, and it's one of our focus grammar points! Here, it marks the location where something exists. So, it tells us that the vegetables are 'in' the garden. Think of it like the English prepositions 'in' or 'at'.",
-          "id": "w3"
-        },
-        {
-          "word_ja": "は",
-          "word_hiragana": "わ",
-          "word_romaji": "wa",
-          "position": 7,
-          "word_en": "(topic marker)",
-          "explanation": "This is another focus grammar point! This particle marks the topic of the sentence. It tells us what the sentence is primarily about. In this case, it highlights the garden as the main topic we're discussing. It doesn't have a direct English translation but is crucial for sentence structure.",
-          "id": "w4"
-        },
-        {
-          "word_ja": "新鮮な",
-          "word_hiragana": "しんせんな",
-          "word_romaji": "shinsenna",
-          "position": 8,
-          "word_en": "fresh",
-          "explanation": "This word describes the quality of the vegetables. It means 'fresh'. The small particle attached to it is often used when a descriptive word like this modifies a noun, making it an adjective.",
-          "id": "w5"
-        },
-        {
-          "word_ja": "野菜",
-          "word_hiragana": "やさい",
-          "word_romaji": "yasai",
-          "position": 11,
-          "word_en": "vegetables",
-          "explanation": "This word refers to the delicious plants we eat. It means 'vegetables'. In our sentence, it's the noun that is being described as 'fresh'.",
-          "id": "w6"
-        },
-        {
-          "word_ja": "が",
-          "word_hiragana": "が",
-          "word_romaji": "ga",
-          "position": 13,
-          "word_en": "(subject marker)",
-          "explanation": "This is another particle. While the 'wa' particle marks the topic, this particle marks the subject of the verb. Here, it tells us that the 'fresh vegetables' are what 'exist' or 'are present' in the garden.",
-          "id": "w7"
-        },
-        {
-          "word_ja": "たくさん",
-          "word_hiragana": "たくさん",
-          "word_romaji": "takusan",
-          "position": 14,
-          "word_en": "many / a lot",
-          "explanation": "This word tells us about the quantity of the vegetables. It means 'many' or 'a lot'. So, there aren't just a few, but a large amount of them!",
-          "id": "w8"
-        },
-        {
-          "word_ja": "あります",
-          "word_hiragana": "あります",
-          "word_romaji": "arimasu",
-          "position": 18,
-          "word_en": "there are / exist",
-          "explanation": "This is our final focus grammar point, a very common verb! It means 'there is' or 'there are', indicating the existence of inanimate objects. Since we're talking about vegetables, which are inanimate in this context, this is the correct verb to use to say they 'exist' or 'are present' in the garden.",
-          "id": "w9"
-        }
-      ],
-      "sentence_romaji": "Ima, gāden ni wa shinsenna yasai ga takusan arimasu.",
-      "id": "s6"
-    },
-    {
-      "sentence_ja": "そして、きれいな花もあります。",
-      "sentence_en": "And there are also beautiful flowers.",
-      "grammar_points": [
-        "Verb あります (arimasu)"
-      ],
-      "grammar_points_short": [
-        "あります(arimasu)"
-      ],
-      "words": [
-        {
-          "word_ja": "そして",
-          "word_hiragana": "そして",
-          "word_romaji": "soshite",
-          "position": 0,
-          "word_en": "And",
-          "explanation": "This first word connects sentences or clauses, meaning \"and\" or \"then\". It shows that what follows is an addition or a sequence to what was just said. In our sentence, it introduces a new piece of information about what exists.",
-          "id": "w1"
-        },
-        {
-          "word_ja": "きれいな",
-          "word_hiragana": "きれいな",
-          "word_romaji": "kireina",
-          "position": 4,
-          "word_en": "beautiful",
-          "explanation": "This word is an adjective describing something as \"beautiful\" or \"clean\". It's a 'na-adjective', which means it needs the particle 'na' when it directly modifies a noun, like the noun that comes right after it in our sentence.",
-          "id": "w2"
-        },
-        {
-          "word_ja": "花",
-          "word_hiragana": "はな",
-          "word_romaji": "hana",
-          "position": 8,
-          "word_en": "flowers",
-          "explanation": "This word means \"flowers\". It's the noun being described as beautiful in our sentence.",
-          "id": "w3"
-        },
-        {
-          "word_ja": "も",
-          "word_hiragana": "も",
-          "word_romaji": "mo",
-          "position": 9,
-          "word_en": "also / too",
-          "explanation": "This is a particle that means \"also\" or \"too\". It indicates that the item it's attached to is an addition to something already mentioned. In this sentence, it suggests that besides other things, these beautiful items also exist.",
-          "id": "w4"
-        },
-        {
-          "word_ja": "あります",
-          "word_hiragana": "あります",
-          "word_romaji": "arimasu",
-          "position": 10,
-          "word_en": "there are / exist",
-          "explanation": "This is a very important verb, and it's one of our focus grammar points! It means \"there is\" or \"there are\" and is used for inanimate objects or plants. It tells us that the beautiful items mentioned earlier simply exist. Remember, for living things like animals or people, you'd use a different verb.",
-          "id": "w5"
-        }
-      ],
-      "sentence_romaji": "Soshite, kireina hana mo arimasu.",
-      "id": "s7"
-    },
-    {
-      "sentence_ja": "ガーデンは新しい友達を作りました。",
-      "sentence_en": "The garden created new friendships.",
-      "grammar_points": [
-        "Particle は (wa)",
-        "Particle を (o)",
-        "Verb form 〜ました (~mashita)"
-      ],
-      "grammar_points_short": [
-        "は(wa)",
-        "を(o)",
-        "ました(mashita)"
-      ],
-      "words": [
-        {
-          "word_ja": "ガーデン",
-          "word_hiragana": "がーでん",
-          "word_romaji": "gāden",
-          "position": 0,
-          "word_en": "garden",
-          "explanation": "This first word is a noun, a loanword from English, meaning 'garden'. In our sentence, it's the subject, the thing that performed the action.",
-          "id": "w1"
-        },
-        {
-          "word_ja": "は",
-          "word_hiragana": "わ",
-          "word_romaji": "wa",
-          "position": 4,
-          "word_en": "(topic marker)",
-          "explanation": "This is a very important particle, and a focus grammar point! It marks the topic of the sentence. Think of it as saying 'as for the garden...' or 'speaking of the garden...'. It tells us what the sentence is primarily about.",
-          "id": "w2"
-        },
-        {
-          "word_ja": "新しい",
-          "word_hiragana": "あたらしい",
-          "word_romaji": "atarashii",
-          "position": 5,
-          "word_en": "new",
-          "explanation": "This word is an adjective meaning 'new'. It describes the kind of friendships that were made. It comes right before the noun it modifies.",
-          "id": "w3"
-        },
-        {
-          "word_ja": "友達",
-          "word_hiragana": "ともだち",
-          "word_romaji": "tomodachi",
-          "position": 8,
-          "word_en": "friends / friendships",
-          "explanation": "This noun means 'friends'. In this sentence, it's referring to the 'friendships' that were created. It's the thing that the garden brought into being.",
-          "id": "w4"
-        },
-        {
-          "word_ja": "を",
-          "word_hiragana": "お",
-          "word_romaji": "o",
-          "position": 10,
-          "word_en": "(direct object marker)",
-          "explanation": "Here's another key particle, and a focus grammar point! This particle marks the direct object of the verb. It tells us what the verb's action is directly affecting. In our sentence, it shows that the 'new friendships' are what were created.",
-          "id": "w5"
-        },
-        {
-          "word_ja": "作りました",
-          "word_hiragana": "つくりました",
-          "word_romaji": "tsukurimashita",
-          "position": 11,
-          "word_en": "created / made",
-          "explanation": "This is the verb of our sentence, meaning 'created' or 'made'. It's also a focus grammar point because it ends with '~mashita'. This ending makes the verb polite and indicates that the action happened in the past. So, the garden 'created' something in the past.",
-          "id": "w6"
-        }
-      ],
-      "sentence_romaji": "Gāden wa atarashii tomodachi o tsukurimashita.",
-      "id": "s8"
-    },
-    {
-      "sentence_ja": "近所の人たちは皆、とても楽しいです。",
-      "sentence_en": "All the neighbors are very happy.",
-      "grammar_points": [
-        "Particle は (wa)",
-        "Copula です (desu)"
-      ],
-      "grammar_points_short": [
-        "は(wa)",
-        "です(desu)"
-      ],
-      "words": [
-        {
-          "word_ja": "近所の人たち",
-          "word_hiragana": "きんじょのひとたち",
-          "word_romaji": "kinjo no hitotachi",
-          "position": 0,
-          "word_en": "neighbors",
-          "explanation": "This phrase refers to the 'neighbors' or 'people in the neighborhood'. It's a way to describe the group of people living nearby. The last part of this phrase is a pluralizer, making it 'people' instead of just 'person'.",
-          "id": "w1"
-        },
-        {
-          "word_ja": "は",
-          "word_hiragana": "わ",
-          "word_romaji": "wa",
-          "position": 6,
-          "word_en": "topic particle",
-          "explanation": "This is a very important particle, and it's one of our focus grammar points! It marks the topic of the sentence. Think of it like saying 'As for the neighbors...' in English. It tells us what the sentence is going to be about.",
-          "id": "w2"
-        },
-        {
-          "word_ja": "皆",
-          "word_hiragana": "みんな",
-          "word_romaji": "minna",
-          "position": 7,
-          "word_en": "all / everyone",
-          "explanation": "This word means 'all' or 'everyone'. It emphasizes that every single person in the group of neighbors is included.",
-          "id": "w3"
-        },
-        {
-          "word_ja": "とても",
-          "word_hiragana": "とても",
-          "word_romaji": "totemo",
-          "position": 9,
-          "word_en": "very",
-          "explanation": "This word is an adverb that means 'very' or 'extremely'. It adds emphasis to the adjective that follows it, making the feeling even stronger.",
-          "id": "w4"
-        },
-        {
-          "word_ja": "楽しいです",
-          "word_hiragana": "たのしいです",
-          "word_romaji": "tanoshii desu",
-          "position": 12,
-          "word_en": "are happy",
-          "explanation": "This is the predicate of our sentence. The first part describes a state of being 'happy' or 'fun'. The second part is a polite copula, and it's our other focus grammar point! It makes the sentence polite and acts like the verb 'to be' in English, completing the thought that the neighbors 'are' happy.",
-          "id": "w5"
-        }
-      ],
-      "sentence_romaji": "Kinjo no hitotachi wa minna totemo tanoshii desu.",
+      "sentence_romaji": "Watashi wa totemo genki deshita.",
       "id": "s9"
     }
   ],
   "fast_mode": {
     "audio_url": "audio/packed/fast_mode.mp3",
-    "duration": 322.45200000000017,
+    "duration": 341.9079999999999,
     "timeline": {
       "story_playback_timeline_ja": [
         {
           "sentence_index": 0,
           "start": 0.0,
-          "end": 4.724
+          "end": 4.364
         },
         {
           "sentence_index": 1,
-          "start": 4.724,
-          "end": 8.152000000000001
+          "start": 4.364,
+          "end": 7.5280000000000005
         },
         {
           "sentence_index": 2,
-          "start": 8.152000000000001,
-          "end": 11.340000000000002
+          "start": 7.5280000000000005,
+          "end": 10.452
         },
         {
           "sentence_index": 3,
-          "start": 11.340000000000002,
-          "end": 13.904000000000002
+          "start": 10.452,
+          "end": 14.96
         },
         {
           "sentence_index": 4,
-          "start": 13.904000000000002,
-          "end": 18.052000000000003
+          "start": 14.96,
+          "end": 18.844
         },
         {
           "sentence_index": 5,
-          "start": 18.052000000000003,
-          "end": 23.088
+          "start": 18.844,
+          "end": 23.832
         },
         {
           "sentence_index": 6,
-          "start": 23.088,
-          "end": 26.276
+          "start": 23.832,
+          "end": 27.788
         },
         {
           "sentence_index": 7,
-          "start": 26.276,
-          "end": 30.352
+          "start": 27.788,
+          "end": 30.544
         },
         {
           "sentence_index": 8,
-          "start": 30.352,
-          "end": 33.88
-        }
-      ],
-      "story_playback_timeline_en": [
-        {
-          "sentence_index": 0,
-          "start": 34.88,
-          "end": 38.404
-        },
-        {
-          "sentence_index": 1,
-          "start": 38.404,
-          "end": 40.992000000000004
-        },
-        {
-          "sentence_index": 2,
-          "start": 40.992000000000004,
-          "end": 43.46000000000001
-        },
-        {
-          "sentence_index": 3,
-          "start": 43.46000000000001,
-          "end": 46.144000000000005
-        },
-        {
-          "sentence_index": 4,
-          "start": 46.144000000000005,
-          "end": 48.540000000000006
-        },
-        {
-          "sentence_index": 5,
-          "start": 48.540000000000006,
-          "end": 51.416000000000004
-        },
-        {
-          "sentence_index": 6,
-          "start": 51.416000000000004,
-          "end": 54.364000000000004
-        },
-        {
-          "sentence_index": 7,
-          "start": 54.364000000000004,
-          "end": 57.00000000000001
-        },
-        {
-          "sentence_index": 8,
-          "start": 57.00000000000001,
-          "end": 59.184000000000005
+          "start": 30.544,
+          "end": 32.728
         }
       ],
       "sentences": [
         {
           "sentence_index": 0,
           "sentence_ja": {
-            "start": 60.184000000000005,
-            "end": 64.908
+            "start": 33.728,
+            "end": 38.092
           },
           "sentence_en": {
-            "start": 64.908,
-            "end": 68.932
+            "start": 38.092,
+            "end": 40.58
           },
           "words": [
             {
               "word_index": 0,
-              "start": 68.932,
-              "end": 72.85600000000001
+              "start": 40.58,
+              "end": 44.071999999999996
             },
             {
               "word_index": 1,
-              "start": 72.85600000000001,
-              "end": 77.26000000000002
+              "start": 44.071999999999996,
+              "end": 48.40399999999999
             },
             {
               "word_index": 2,
-              "start": 77.26000000000002,
-              "end": 80.58400000000002
+              "start": 48.40399999999999,
+              "end": 52.35199999999999
             },
             {
               "word_index": 3,
-              "start": 80.58400000000002,
-              "end": 84.12400000000002
+              "start": 52.35199999999999,
+              "end": 56.347999999999985
             },
             {
               "word_index": 4,
-              "start": 84.12400000000002,
-              "end": 88.16800000000002
+              "start": 56.347999999999985,
+              "end": 60.12799999999998
             },
             {
               "word_index": 5,
-              "start": 88.16800000000002,
-              "end": 91.78000000000002
+              "start": 60.12799999999998,
+              "end": 63.88399999999998
             },
             {
               "word_index": 6,
-              "start": 91.78000000000002,
-              "end": 96.64000000000001
+              "start": 63.88399999999998,
+              "end": 67.47199999999998
+            },
+            {
+              "word_index": 7,
+              "start": 67.47199999999998,
+              "end": 72.21199999999999
+            },
+            {
+              "word_index": 8,
+              "start": 72.21199999999999,
+              "end": 75.056
+            },
+            {
+              "word_index": 9,
+              "start": 75.056,
+              "end": 79.076
+            },
+            {
+              "word_index": 10,
+              "start": 79.076,
+              "end": 83.79199999999999
             }
           ]
         },
         {
           "sentence_index": 1,
           "sentence_ja": {
-            "start": 96.64000000000001,
-            "end": 100.06800000000001
+            "start": 83.79199999999999,
+            "end": 86.95599999999999
           },
           "sentence_en": {
-            "start": 100.06800000000001,
-            "end": 103.156
+            "start": 86.95599999999999,
+            "end": 90.38
           },
           "words": [
             {
               "word_index": 0,
-              "start": 103.156,
-              "end": 108.328
+              "start": 90.38,
+              "end": 94.232
             },
             {
               "word_index": 1,
-              "start": 108.328,
-              "end": 111.82
+              "start": 94.232,
+              "end": 98.804
             },
             {
               "word_index": 2,
-              "start": 111.82,
-              "end": 115.14399999999999
+              "start": 98.804,
+              "end": 102.488
             },
             {
               "word_index": 3,
-              "start": 115.14399999999999,
-              "end": 119.11599999999999
-            },
-            {
-              "word_index": 4,
-              "start": 119.11599999999999,
-              "end": 122.53599999999997
+              "start": 102.488,
+              "end": 106.7
             }
           ]
         },
         {
           "sentence_index": 2,
           "sentence_ja": {
-            "start": 122.53599999999997,
-            "end": 125.72399999999998
+            "start": 106.7,
+            "end": 109.62400000000001
           },
           "sentence_en": {
-            "start": 125.72399999999998,
-            "end": 128.69199999999998
+            "start": 109.62400000000001,
+            "end": 111.968
           },
           "words": [
             {
               "word_index": 0,
-              "start": 128.69199999999998,
-              "end": 132.016
+              "start": 111.968,
+              "end": 115.46000000000001
             },
             {
               "word_index": 1,
-              "start": 132.016,
-              "end": 137.116
+              "start": 115.46000000000001,
+              "end": 119.69600000000001
             },
             {
               "word_index": 2,
-              "start": 137.116,
-              "end": 141.16000000000003
+              "start": 119.69600000000001,
+              "end": 125.75600000000001
             },
             {
               "word_index": 3,
-              "start": 141.16000000000003,
-              "end": 144.89200000000002
-            },
-            {
-              "word_index": 4,
-              "start": 144.89200000000002,
-              "end": 148.336
+              "start": 125.75600000000001,
+              "end": 130.568
             }
           ]
         },
         {
           "sentence_index": 3,
           "sentence_ja": {
-            "start": 148.336,
-            "end": 150.9
+            "start": 130.568,
+            "end": 135.07600000000002
           },
           "sentence_en": {
-            "start": 150.9,
-            "end": 154.084
+            "start": 135.07600000000002,
+            "end": 137.90000000000003
           },
           "words": [
             {
               "word_index": 0,
-              "start": 154.084,
-              "end": 157.912
+              "start": 137.90000000000003,
+              "end": 141.94400000000005
             },
             {
               "word_index": 1,
-              "start": 157.912,
-              "end": 161.116
+              "start": 141.94400000000005,
+              "end": 145.96400000000006
             },
             {
               "word_index": 2,
-              "start": 161.116,
-              "end": 165.16000000000003
+              "start": 145.96400000000006,
+              "end": 150.29600000000008
             },
             {
               "word_index": 3,
-              "start": 165.16000000000003,
-              "end": 168.79600000000002
+              "start": 150.29600000000008,
+              "end": 154.02800000000008
+            },
+            {
+              "word_index": 4,
+              "start": 154.02800000000008,
+              "end": 157.73600000000008
+            },
+            {
+              "word_index": 5,
+              "start": 157.73600000000008,
+              "end": 161.61200000000008
+            },
+            {
+              "word_index": 6,
+              "start": 161.61200000000008,
+              "end": 165.46400000000008
+            },
+            {
+              "word_index": 7,
+              "start": 165.46400000000008,
+              "end": 169.14800000000008
+            },
+            {
+              "word_index": 8,
+              "start": 169.14800000000008,
+              "end": 173.00000000000009
             }
           ]
         },
         {
           "sentence_index": 4,
           "sentence_ja": {
-            "start": 168.79600000000002,
-            "end": 172.94400000000002
+            "start": 173.00000000000009,
+            "end": 176.88400000000007
           },
           "sentence_en": {
-            "start": 172.94400000000002,
-            "end": 175.84
+            "start": 176.88400000000007,
+            "end": 179.37200000000007
           },
           "words": [
             {
               "word_index": 0,
-              "start": 175.84,
-              "end": 179.044
+              "start": 179.37200000000007,
+              "end": 182.93600000000006
             },
             {
               "word_index": 1,
-              "start": 179.044,
-              "end": 183.136
+              "start": 182.93600000000006,
+              "end": 186.62000000000006
             },
             {
               "word_index": 2,
-              "start": 183.136,
-              "end": 186.46
+              "start": 186.62000000000006,
+              "end": 190.59200000000007
             },
             {
               "word_index": 3,
-              "start": 186.46,
-              "end": 190.552
+              "start": 190.59200000000007,
+              "end": 195.88400000000007
             },
             {
               "word_index": 4,
-              "start": 190.552,
-              "end": 193.92399999999998
+              "start": 195.88400000000007,
+              "end": 199.08800000000005
             },
             {
               "word_index": 5,
-              "start": 193.92399999999998,
-              "end": 197.53599999999997
+              "start": 199.08800000000005,
+              "end": 202.84400000000005
+            },
+            {
+              "word_index": 6,
+              "start": 202.84400000000005,
+              "end": 207.39200000000005
             }
           ]
         },
         {
           "sentence_index": 5,
           "sentence_ja": {
-            "start": 197.53599999999997,
-            "end": 202.57199999999997
+            "start": 207.39200000000005,
+            "end": 212.38000000000005
           },
           "sentence_en": {
-            "start": 202.57199999999997,
-            "end": 205.94799999999998
+            "start": 212.38000000000005,
+            "end": 216.06800000000004
           },
           "words": [
             {
               "word_index": 0,
-              "start": 205.94799999999998,
-              "end": 209.176
+              "start": 216.06800000000004,
+              "end": 219.53600000000003
             },
             {
               "word_index": 1,
-              "start": 209.176,
-              "end": 212.98
+              "start": 219.53600000000003,
+              "end": 222.38000000000002
             },
             {
               "word_index": 2,
-              "start": 212.98,
-              "end": 216.664
+              "start": 222.38000000000002,
+              "end": 225.72800000000004
             },
             {
               "word_index": 3,
-              "start": 216.664,
-              "end": 220.708
+              "start": 225.72800000000004,
+              "end": 229.82000000000002
             },
             {
               "word_index": 4,
-              "start": 220.708,
-              "end": 224.84799999999998
+              "start": 229.82000000000002,
+              "end": 233.84000000000003
             },
             {
               "word_index": 5,
-              "start": 224.84799999999998,
-              "end": 228.36399999999998
+              "start": 233.84000000000003,
+              "end": 236.90000000000003
             },
             {
               "word_index": 6,
-              "start": 228.36399999999998,
-              "end": 231.904
+              "start": 236.90000000000003,
+              "end": 240.63200000000003
             },
             {
               "word_index": 7,
-              "start": 231.904,
-              "end": 235.948
+              "start": 240.63200000000003,
+              "end": 244.36400000000003
             },
             {
               "word_index": 8,
-              "start": 235.948,
-              "end": 240.544
+              "start": 244.36400000000003,
+              "end": 249.32000000000002
+            },
+            {
+              "word_index": 9,
+              "start": 249.32000000000002,
+              "end": 254.972
             }
           ]
         },
         {
           "sentence_index": 6,
           "sentence_ja": {
-            "start": 240.544,
-            "end": 243.732
+            "start": 254.972,
+            "end": 258.928
           },
           "sentence_en": {
-            "start": 243.732,
-            "end": 247.18
+            "start": 258.928,
+            "end": 261.992
           },
           "words": [
             {
               "word_index": 0,
-              "start": 247.18,
-              "end": 250.36
+              "start": 261.992,
+              "end": 265.076
             },
             {
               "word_index": 1,
-              "start": 250.36,
-              "end": 253.85200000000003
+              "start": 265.076,
+              "end": 268.88
             },
             {
               "word_index": 2,
-              "start": 253.85200000000003,
-              "end": 257.15200000000004
+              "start": 268.88,
+              "end": 273.068
             },
             {
               "word_index": 3,
-              "start": 257.15200000000004,
-              "end": 260.69200000000006
+              "start": 273.068,
+              "end": 276.79999999999995
             },
             {
               "word_index": 4,
-              "start": 260.69200000000006,
-              "end": 265.4320000000001
+              "start": 276.79999999999995,
+              "end": 282.73999999999995
+            },
+            {
+              "word_index": 5,
+              "start": 282.73999999999995,
+              "end": 286.73599999999993
+            },
+            {
+              "word_index": 6,
+              "start": 286.73599999999993,
+              "end": 290.68399999999997
+            },
+            {
+              "word_index": 7,
+              "start": 290.68399999999997,
+              "end": 295.73599999999993
             }
           ]
         },
         {
           "sentence_index": 7,
           "sentence_ja": {
-            "start": 265.4320000000001,
-            "end": 269.5080000000001
+            "start": 295.73599999999993,
+            "end": 298.4919999999999
           },
           "sentence_en": {
-            "start": 269.5080000000001,
-            "end": 272.6440000000001
+            "start": 298.4919999999999,
+            "end": 300.5959999999999
           },
           "words": [
             {
               "word_index": 0,
-              "start": 272.6440000000001,
-              "end": 276.44800000000015
+              "start": 300.5959999999999,
+              "end": 303.4159999999999
             },
             {
               "word_index": 1,
-              "start": 276.44800000000015,
-              "end": 280.3480000000001
+              "start": 303.4159999999999,
+              "end": 306.97999999999985
             },
             {
               "word_index": 2,
-              "start": 280.3480000000001,
-              "end": 283.72000000000014
+              "start": 306.97999999999985,
+              "end": 310.7119999999999
             },
             {
               "word_index": 3,
-              "start": 283.72000000000014,
-              "end": 289.0600000000002
-            },
-            {
-              "word_index": 4,
-              "start": 289.0600000000002,
-              "end": 292.4320000000002
-            },
-            {
-              "word_index": 5,
-              "start": 292.4320000000002,
-              "end": 296.7640000000002
+              "start": 310.7119999999999,
+              "end": 315.04399999999987
             }
           ]
         },
         {
           "sentence_index": 8,
           "sentence_ja": {
-            "start": 296.7640000000002,
-            "end": 300.7920000000002
+            "start": 315.04399999999987,
+            "end": 317.7279999999999
           },
           "sentence_en": {
-            "start": 300.7920000000002,
-            "end": 303.9760000000002
+            "start": 317.7279999999999,
+            "end": 319.6159999999999
           },
           "words": [
             {
               "word_index": 0,
-              "start": 303.9760000000002,
-              "end": 308.66800000000023
+              "start": 319.6159999999999,
+              "end": 323.1079999999999
             },
             {
               "word_index": 1,
-              "start": 308.66800000000023,
-              "end": 312.5200000000002
+              "start": 323.1079999999999,
+              "end": 327.03199999999987
             },
             {
               "word_index": 2,
-              "start": 312.5200000000002,
-              "end": 316.6600000000002
+              "start": 327.03199999999987,
+              "end": 330.8839999999999
             },
             {
               "word_index": 3,
-              "start": 316.6600000000002,
-              "end": 319.7920000000002
+              "start": 330.8839999999999,
+              "end": 337.4239999999999
             },
             {
               "word_index": 4,
-              "start": 319.7920000000002,
-              "end": 322.45200000000017
+              "start": 337.4239999999999,
+              "end": 341.9079999999999
             }
           ]
         }
@@ -1108,18 +1205,20 @@
     }
   },
   "grammar_points": [
-    "あります(arimasu)",
+    "いました(imashita)",
+    "いませんでした(imasen deshita)",
     "で(de)",
     "でした(deshita)",
-    "です(desu)",
+    "ではありませんでした(dewa arimasen deshita)",
     "に(ni)",
+    "の(no)",
     "は(wa)",
     "ました(mashita)",
     "を(o)"
   ],
-  "duration_fast_mode_seconds": 322,
+  "duration_fast_mode_seconds": 342,
   "sentence_count": 9,
-  "word_count": 52,
+  "word_count": 62,
   "difficulty": "N5",
   "grammar_group": 0
 }

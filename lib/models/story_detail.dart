@@ -47,24 +47,16 @@ class FastModeAudio {
 
 class FastModeTimeline {
   final List<StoryPlaybackTimeline> storyPlaybackTimelineJa;
-  final List<StoryPlaybackTimeline> storyPlaybackTimelineEn;
   final List<FastModeSentence> sentences;
 
   FastModeTimeline({
     required this.storyPlaybackTimelineJa,
-    required this.storyPlaybackTimelineEn,
     required this.sentences,
   });
 
   factory FastModeTimeline.fromJson(Map<String, dynamic> json) {
     final jaList =
         (json['story_playback_timeline_ja'] as List<dynamic>?)
-            ?.map((s) => StoryPlaybackTimeline.fromJson(s))
-            .toList() ??
-        [];
-
-    final enList =
-        (json['story_playback_timeline_en'] as List<dynamic>?)
             ?.map((s) => StoryPlaybackTimeline.fromJson(s))
             .toList() ??
         [];
@@ -77,7 +69,6 @@ class FastModeTimeline {
 
     return FastModeTimeline(
       storyPlaybackTimelineJa: jaList,
-      storyPlaybackTimelineEn: enList,
       sentences: sentencesList,
     );
   }
@@ -86,13 +77,11 @@ class FastModeTimeline {
 class FastModeSentence {
   final int sentenceIndex;
   final TimeRange sentenceJa;
-  final TimeRange sentenceEn;
   final List<WordTimeRange> words;
 
   FastModeSentence({
     required this.sentenceIndex,
     required this.sentenceJa,
-    required this.sentenceEn,
     required this.words,
   });
 
@@ -100,7 +89,6 @@ class FastModeSentence {
     return FastModeSentence(
       sentenceIndex: json['sentence_index'] ?? 0,
       sentenceJa: TimeRange.fromJson(json['sentence_ja'] ?? {}),
-      sentenceEn: TimeRange.fromJson(json['sentence_en'] ?? {}),
       words:
           (json['words'] as List<dynamic>?)
               ?.map((w) => WordTimeRange.fromJson(w))
