@@ -171,6 +171,10 @@ class AudioPlayerService {
       final nextStart = timeline.sentences[currentIndex + 1].sentenceJa.start;
       newPosition = Duration(milliseconds: (nextStart * 1000).toInt());
       await seek(newPosition);
+    } else {
+      // At the last sentence, jump back to the beginning
+      newPosition = Duration.zero;
+      await seek(newPosition);
     }
 
     return newPosition;
@@ -300,27 +304,9 @@ class AudioPlayerService {
   bool canJumpToNext(Duration position) {
     if (_fastModeAudio == null || _audioPlayer.duration == null) return false;
 
-    final seconds = position.inMilliseconds / 1000.0;
-    final timeline = _fastModeAudio!.timeline;
-
-    // 1. If in Japanese intro, check if it's the last sentence
-    for (int i = 0; i < timeline.storyPlaybackTimelineJa.length; i++) {
-      if (timeline.storyPlaybackTimelineJa[i].contains(seconds)) {
-        // Not the last sentence, or there's detailed learning phase after
-        return i < timeline.storyPlaybackTimelineJa.length - 1 ||
-            timeline.sentences.isNotEmpty;
-      }
-    }
-
-    // 2. If in detailed learning phase
-    final currentIndex = getCurrentSentenceIndex(position);
-    if (currentIndex >= 0 && currentIndex < timeline.sentences.length) {
-      // Can jump if not the last sentence
-      return currentIndex < timeline.sentences.length - 1;
-    }
-
-    // 3. Other cases (like in the gap between phases), default to can jump
-    return !isAtEnd(position);
+    // Next button is always enabled now
+    // At the last sentence, it will jump back to the beginning
+    return true;
   }
 
   /// Stop playback
