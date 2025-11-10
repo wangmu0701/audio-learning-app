@@ -1,10 +1,12 @@
 import 'package:just_audio/just_audio.dart';
+import 'package:audio_session/audio_session.dart';
 import '../models/story_detail.dart';
 import 'story_repository.dart';
 
 class AudioPlayerService {
   final AudioPlayer _audioPlayer = AudioPlayer();
   final StoryRepository _repository = StoryRepository();
+  bool _audioSessionConfigured = false;
 
   StoryDetail? _currentStory;
   FastModeAudio? _fastModeAudio;
@@ -17,6 +19,12 @@ class AudioPlayerService {
   /// Load and prepare story for playback
   Future<void> loadStory(String storyId) async {
     print('Loading story: $storyId');
+
+    // Configure audio session for background playback (only once)
+    if (!_audioSessionConfigured) {
+      await _configureAudioSession();
+      _audioSessionConfigured = true;
+    }
 
     // Stop current playback
     await _audioPlayer.stop();
@@ -55,6 +63,35 @@ class AudioPlayerService {
       });
     } catch (e) {
       print('Error loading audio: $e');
+    }
+  }
+
+  /// Configure audio session for background playback and lock screen controls
+  Future<void> _configureAudioSession() async {
+    try {
+      final session = await AudioSession.instance;
+      await session.configure(
+        const AudioSessionConfiguration(
+          avAudioSessionCategory: AVAudioSessionCategory.playback,
+          avAudioSessionCategoryOptions:
+              AVAudioSessionCategoryOptions.duckOthers,
+          avAudioSessionMode: AVAudioSessionMode.spokenAudio,
+          avAudioSessionRouteSharingPolicy:
+              AVAudioSessionRouteSharingPolicy.defaultPolicy,
+          avAudioSessionSetActiveOptions: AVAudioSessionSetActiveOptions.none,
+          androidAudioAttributes: AndroidAudioAttributes(
+            contentType: AndroidAudioContentType.speech,
+            flags: AndroidAudioFlags.none,
+            usage: AndroidAudioUsage.media,
+          ),
+          androidAudioFocusGainType: AndroidAudioFocusGainType.gain,
+          androidWillPauseWhenDucked: true,
+        ),
+      );
+
+      print('Audio session configured for background playback');
+    } catch (e) {
+      print('Error configuring audio session: $e');
     }
   }
 
